@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 2016-1-7 15:26:24 by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+    <class name="com.qiangu.keyu.po.AreasCoding" table="tbl_areas">
+        <id name="id" type="java.lang.Integer">
+            <column name="id" />
+            <generator class="assigned" />
+        </id>
+        <property name="area" type="java.lang.String">
+            <column name="area" />
+        </property>
+        <property name="areaId" type="java.lang.String">
+            <column name="areaId" />
+        </property>
+        <property name="cityId" type="java.lang.String">
+            <column name="cityId" />
+        </property>
+    </class>
+</hibernate-mapping>

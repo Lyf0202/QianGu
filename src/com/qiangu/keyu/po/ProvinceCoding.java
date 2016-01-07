@@ -17,6 +17,7 @@ public class ProvinceCoding {
 	private String provinceId;
 	//省份名称
 	private String province;
+	
 	public Integer getId() {
 		return id;
 	}
