@@ -8,6 +8,7 @@ import com.qiangu.keyu.po.CitiesCoding;
 import com.qiangu.keyu.po.ProvinceCoding;
 import com.qiangu.keyu.po.SchoolCoding;
 import com.qiangu.keyu.po.SchoolTypeCoding;
+import com.qiangu.keyu.po.UserPo;
 import com.qiangu.keyu.service.TestService;
 
 @Service
@@ -54,6 +55,12 @@ public class TestServiceImpl implements TestService {
 	public void addSchoolType(SchoolTypeCoding schoolTypeCoding) {
 		// TODO Auto-generated method stub
 		testdao.addSchoolType(schoolTypeCoding);
+	}
+
+	@Override
+	public void addUser(UserPo userPo) {
+		// TODO Auto-generated method stub
+		testdao.addUser(userPo);
 	}
 
 }

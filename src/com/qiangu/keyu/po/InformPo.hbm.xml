@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 2016-1-8 10:07:53 by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+    <class name="com.qiangu.keyu.po.InformPo" table="tbl_inform">
+        <id name="id" type="java.lang.Integer">
+            <column name="id" />
+            <generator class="native" />
+        </id>
+        <property name="informUserId" type="java.lang.Integer">
+            <column name="informUserId" />
+        </property>
+        <property name="informedUserId" type="java.lang.Integer">
+            <column name="informedUserId" />
+        </property>
+        <property name="message" type="java.lang.String">
+            <column name="message" />
+        </property>
+        <property name="informTime" type="java.util.Date">
+            <column name="informTime" />
+        </property>
+        <property name="informResult" type="java.lang.Integer">
+            <column name="informResult" />
+        </property>
+    </class>
+</hibernate-mapping>

@@ -7,6 +7,7 @@ import com.qiangu.keyu.po.CitiesCoding;
 import com.qiangu.keyu.po.ProvinceCoding;
 import com.qiangu.keyu.po.SchoolCoding;
 import com.qiangu.keyu.po.SchoolTypeCoding;
+import com.qiangu.keyu.po.UserPo;
 
 @Repository
 public class TestDaoImpl extends BaseDaoImpl implements TestDao {
@@ -46,6 +47,12 @@ public class TestDaoImpl extends BaseDaoImpl implements TestDao {
 	public void addSchoolType(SchoolTypeCoding schoolTypeCoding) {
 		// TODO Auto-generated method stub
 		getSession().save(schoolTypeCoding);
+	}
+
+	@Override
+	public void addUser(UserPo userPo) {
+		// TODO Auto-generated method stub
+		getSession().save(userPo);
 	}
 	
 	

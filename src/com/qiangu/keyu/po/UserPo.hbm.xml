@@ -1,0 +1,78 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 2016-1-8 9:38:16 by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+    <class name="com.qiangu.keyu.po.UserPo" table="tbl_user">
+        <id name="id" type="java.lang.Integer">
+            <column name="id" />
+            <generator class="native" />
+        </id>
+        <property name="userId" type="java.lang.Integer">
+            <column name="userId" />
+        </property>
+        <property name="telephone" type="java.lang.String" length="18">
+            <column name="telephone" />
+        </property>
+        <property name="password" type="java.lang.String">
+            <column name="password" />
+        </property>
+        <property name="sex" type="java.lang.Integer">
+            <column name="sex" />
+        </property>
+        <property name="avatarId" type="java.lang.Integer">
+            <column name="avatarId" />
+        </property>
+        <property name="beauty" type="java.lang.Integer">
+            <column name="beauty" />
+        </property>
+        <property name="name" type="java.lang.String" length="40">
+            <column name="name" />
+        </property>
+        <property name="education" type="java.lang.String" length="20">
+            <column name="education" />
+        </property>
+        <property name="enterTime" type="java.lang.Integer">
+            <column name="enterTime" />
+        </property>
+        <property name="schoolId" type="java.lang.Integer">
+            <column name="schoolId" />
+        </property>
+        <property name="majorId" type="java.lang.Integer">
+            <column name="majorId" />
+        </property>
+        <property name="IDVerifyPicId" type="java.lang.Integer">
+            <column name="IDVerifyPicId" />
+        </property>
+        <property name="verifyType" type="java.lang.Integer">
+            <column name="verifyType" />
+        </property>
+        <property name="loveManifestoId" type="java.lang.Integer">
+            <column name="loveManifestoId" />
+        </property>
+        <property name="height" type="java.lang.Double">
+            <column name="height" />
+        </property>
+        <property name="weight" type="java.lang.Double">
+            <column name="weight" />
+        </property>
+        <property name="birthday" type="java.util.Date">
+            <column name="birthday" />
+        </property>
+        <property name="talkId" type="java.lang.String">
+            <column name="talkId" />
+        </property>
+        <property name="talkPassword" type="java.lang.String">
+            <column name="talkPassword" />
+        </property>
+        <property name="registerTime" type="java.util.Date">
+            <column name="registerTime" />
+        </property>
+        <property name="countyId" type="java.lang.Integer">
+            <column name="countyId" />
+        </property>
+        <property name="lastOnlineTime" type="java.util.Date">
+            <column name="lastOnlineTime" />
+        </property>
+    </class>
+</hibernate-mapping>

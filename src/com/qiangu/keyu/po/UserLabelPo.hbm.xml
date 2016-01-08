@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 2016-1-8 9:57:51 by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+    <class name="com.qiangu.keyu.po.UserLabelPo" table="tbl_userLabel">
+        <id name="id" type="java.lang.Integer">
+            <column name="id" />
+            <generator class="native" />
+        </id>
+        <property name="userId" type="java.lang.Integer">
+            <column name="userId" />
+        </property>
+        <property name="labelId" type="java.lang.Integer">
+            <column name="labelId" />
+        </property>
+        <property name="isNow" type="java.lang.Integer">
+            <column name="isNow" />
+        </property>
+    </class>
+</hibernate-mapping>

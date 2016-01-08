@@ -14,6 +14,7 @@ import com.qiangu.keyu.dao.BaseDao;
 import com.qiangu.keyu.po.CitiesCoding;
 import com.qiangu.keyu.po.ProvinceCoding;
 import com.qiangu.keyu.po.SchoolTypeCoding;
+import com.qiangu.keyu.po.UserPo;
 import com.qiangu.keyu.service.TestService;
 
 
@@ -43,6 +44,15 @@ public class HibernateTest {
 		schoolTypeCoding.setSchoolTypeName("杭师");
 		testService.addSchoolType(schoolTypeCoding);
 		System.out.println("add successly");
+	}
+	
+	@Test
+	public void test2(){
+		UserPo userPo = new UserPo();
+		userPo.setSex(1);
+		userPo.setName("科比");
+		testService.addUser(userPo);
+		System.out.println("successly!");
 	}
 
 	@After

@@ -4,6 +4,7 @@ import com.qiangu.keyu.po.CitiesCoding;
 import com.qiangu.keyu.po.ProvinceCoding;
 import com.qiangu.keyu.po.SchoolCoding;
 import com.qiangu.keyu.po.SchoolTypeCoding;
+import com.qiangu.keyu.po.UserPo;
 
 public interface TestDao {
 
@@ -18,4 +19,6 @@ public interface TestDao {
 	public SchoolTypeCoding getSchoolType(Integer id);
 	
 	public void addSchoolType(SchoolTypeCoding schoolTypeCoding);
+	
+	public void addUser(UserPo userPo);
 }
