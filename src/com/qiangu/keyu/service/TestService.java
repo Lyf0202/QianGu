@@ -21,4 +21,8 @@ public interface TestService {
 	public void addSchoolType(SchoolTypeCoding schoolTypeCoding);
 	
 	public void addUser(UserPo userPo);
+	
+	public void testXml();
+	
+
 }

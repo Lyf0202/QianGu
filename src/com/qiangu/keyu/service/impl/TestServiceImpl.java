@@ -3,6 +3,8 @@ package com.qiangu.keyu.service.impl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.qiangu.keyu.api.BaiduMapApi;
+import com.qiangu.keyu.api.ReadXmlApi;
 import com.qiangu.keyu.dao.TestDao;
 import com.qiangu.keyu.po.CitiesCoding;
 import com.qiangu.keyu.po.ProvinceCoding;
@@ -17,10 +19,17 @@ public class TestServiceImpl implements TestService {
 	@Autowired
 	private TestDao testdao;
 	
+	@Autowired
+	private ReadXmlApi readXmlApi;
+	
+	
 	public void setTestdao(TestDao testdao) {
 		this.testdao = testdao;
 	}
 	
+	public void setReadXmlApi(ReadXmlApi readXmlApi) {
+		this.readXmlApi = readXmlApi;
+	}
 	@Override
 	public void addProvince(ProvinceCoding provinceCoding) {
 		// TODO Auto-generated method stub
@@ -62,5 +71,11 @@ public class TestServiceImpl implements TestService {
 		// TODO Auto-generated method stub
 		testdao.addUser(userPo);
 	}
+	@Override
+	public void testXml(){
+		readXmlApi.getBaiduMapAk();
+	}
+
+	
 
 }

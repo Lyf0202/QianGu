@@ -10,6 +10,7 @@ import org.junit.Test;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
+import com.qiangu.keyu.api.BaiduMapApi;
 import com.qiangu.keyu.dao.BaseDao;
 import com.qiangu.keyu.po.CitiesCoding;
 import com.qiangu.keyu.po.ProvinceCoding;
@@ -22,10 +23,13 @@ public class HibernateTest {
 
 	private TestService testService;
 	
+	
+	
 	@Before
 	public void before(){
 		ApplicationContext ac = new ClassPathXmlApplicationContext("beans.xml");
 		testService = (TestService) ac.getBean("testServiceImpl");
+		
 	}
 	
 	@Test
@@ -53,6 +57,11 @@ public class HibernateTest {
 		userPo.setName("科比");
 		testService.addUser(userPo);
 		System.out.println("successly!");
+	}
+	
+	@Test
+	public void test3(){
+		testService.testXml();
 	}
 
 	@After

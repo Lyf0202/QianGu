@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<QianGu>  
+    <BaiduMap>  
+        <ak>sRbo8w7ugGgV5ZE3xehkfpSs</ak>  
+    </BaiduMap>
+    <yunpianwang>
+    	<messages>
+    		<APIKEY>372624f0bbbc80db26e470655e3f86e7</APIKEY>
+    		<text>【千骨科技】亲爱的用户，您的验证码是#code#。有效期为15分钟，请尽快验证</text>
+    	</messages>
+    </yunpianwang>
+    <app>
+    	<version>
+    		<num>0100</num>
+    	</version>
+    </app>
+    <qiniu>
+    	<ACCESS_KEY>IGCzPkRT-ERu-Bwg2IrwjTju2niD4coWpT8TUNti</ACCESS_KEY>
+    	<SECRET_KEY>mrHSKt6277WmJmEwYUHVZc3tOHZWT4-EuWYKHNY9</SECRET_KEY>
+    	<bucket>bucket</bucket>
+	<url>http://7tsxtm.com1.z0.glb.clouddn.com/</url>
+    	<photoSize>imageView2/1/w/200/h/200</photoSize>
+    </qiniu>
+</QianGu>  
