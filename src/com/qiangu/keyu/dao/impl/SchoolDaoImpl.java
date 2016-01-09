@@ -20,6 +20,7 @@ public class SchoolDaoImpl extends BaseDaoImpl implements SchoolDao {
 	public List<String> getSchool(String province) {
 		// TODO Auto-generated method stub
 		Query query = getSession().createQuery(getSchoolHql);
+		query.setCacheable(true);
 		query.setString("province", province);
 		return query.list();
 	}

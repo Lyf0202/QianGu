@@ -36,6 +36,8 @@ public class HibernateTest {
 	public void test() {
 		System.out.println("table create successly");
 		System.out.println(testService.getSchool(1));
+		
+		System.out.println(testService.getSchool(1));
 	}
 	
 	@Test
@@ -52,6 +54,11 @@ public class HibernateTest {
 		map.put("lng","121.380412");
 		List<String> s = schoolService.getLocationSchool(map);
 		for(String school : s){
+			System.out.println(school);
+		}
+		
+		List<String> s1 = schoolService.getLocationSchool(map);
+		for(String school : s1){
 			System.out.println(school);
 		}
 	}
