@@ -15,7 +15,9 @@
 	
 	<bean id="readXmlApi" class="com.qiangu.keyu.api.ReadXmlApi"></bean>
 	<bean id="baiduMapApi" class="com.qiangu.keyu.api.BaiduMapApi"></bean>
+	<bean id="utilsApi" class="com.qiangu.keyu.api.UtilsApi"></bean>
 	
+	<bean id="parametersValues" class="com.qiangu.keyu.controller.ParametersValues"></bean>
 	
 	<!-- 导入资源文件 -->
 	<context:property-placeholder location="classpath:db.properties"/>

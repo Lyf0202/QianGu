@@ -31,7 +31,7 @@ public class ReadXmlApi {
 	public ReadXmlApi() {
 		// TODO Auto-generated constructor stub
 		reader = new SAXReader();
-		file = new File("qiangu.xml");
+		file = new File("E:/qiangu.xml");
 		try {
 			document = reader.read(file);
 		} catch (DocumentException e) {

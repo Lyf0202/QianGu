@@ -13,6 +13,10 @@ import net.sf.json.JSONObject;
 
 public class BaiduMapApi {
 
+	public final String results = "results";
+	public final String status = "status";
+	public final String message = "message";
+	
 	private String ak;
 	private HttpClient client;
 	private String fullURL;
