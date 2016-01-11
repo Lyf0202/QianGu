@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.httpclient.HttpClient;
+import org.apache.commons.httpclient.HttpException;
 import org.apache.commons.httpclient.methods.PostMethod;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -37,8 +38,10 @@ public class BaiduMapApi {
 	 * @param coordsFrom
 	 * @param coordsTo
 	 * @return
+	 * @throws IOException 
+	 * @throws HttpException 
 	 */
-	public Map<String, String> changeLatAndLon(String lat, String lon, String coordsFrom, String coordsTo) {
+	public Map<String, String> changeLatAndLon(String lat, String lon, String coordsFrom, String coordsTo) throws HttpException, IOException {
 		ak = readXmlApi.getBaiduMapAk().get(readXmlApi.BaiduAk);
 		String url = "http://api.map.baidu.com/geoconv/v1/";
 		fullURL = url + "?coords=" + lat + "," + lon + "&from=" + coordsFrom + "&to=" + coordsTo + "&ak=" + ak;
@@ -55,8 +58,10 @@ public class BaiduMapApi {
 	 * @param lat
 	 * @param lng
 	 * @return
+	 * @throws IOException 
+	 * @throws HttpException 
 	 */
-	public String getProvince(String lat, String lng){
+	public String getProvince(String lat, String lng) throws HttpException, IOException{
 		Map<String , String> baiduLatAndLon = changeLatAndLon(lat, lng,"3","5");
 		lat = baiduLatAndLon.get("lat");
 		lng = baiduLatAndLon.get("lon");
@@ -77,8 +82,10 @@ public class BaiduMapApi {
 	 * @param lat
 	 * @param lng
 	 * @return
+	 * @throws IOException 
+	 * @throws HttpException 
 	 */
-	public JSONObject getBaiduSchool(String lat, String lng){
+	public JSONObject getBaiduSchool(String lat, String lng) throws HttpException, IOException{
 		Map<String , String> baiduLatAndLon = changeLatAndLon(lat, lng,"3","5");
 		lat = baiduLatAndLon.get("lat");
 		lng = baiduLatAndLon.get("lon");
@@ -96,26 +103,20 @@ public class BaiduMapApi {
 	 * 
 	 * @param url
 	 * @return
+	 * @throws IOException 
+	 * @throws HttpException 
 	 */
-	public JSONObject getBaiduResult(String url){
+	public JSONObject getBaiduResult(String url) throws HttpException, IOException{
 		ak = readXmlApi.getBaiduMapAk().get(readXmlApi.BaiduAk);
 		PostMethod post = new PostMethod(url);
-		try {
-			client.executeMethod(post);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		client.executeMethod(post);
 		String response = "";
-		try {
-			response = post.getResponseBodyAsString();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		response = post.getResponseBodyAsString();
 		JSONObject jsonObject = JSONObject.fromObject(response);
 		return jsonObject;
 	}
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws HttpException, IOException {
 		BaiduMapApi baiduMapApi  = new BaiduMapApi();
 		System.out.println(baiduMapApi.getProvince("31.700452", "118.876993"));
 	}

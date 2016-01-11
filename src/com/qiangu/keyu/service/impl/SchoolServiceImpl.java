@@ -1,9 +1,11 @@
 package com.qiangu.keyu.service.impl;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.httpclient.HttpException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -26,9 +28,10 @@ public class SchoolServiceImpl implements SchoolService {
 	
 	/**
 	 * 根据经纬度定位大学
+	 * @throws IOException 
 	 */
 	@Override
-	public List<String> getLocationSchool(Map<String, String> parameters) {
+	public List<String> getLocationSchool(Map<String, String> parameters) throws IOException {
 		String lat = parameters.get(parametersValues.lat);
 		String lng = parameters.get(parametersValues.lng);
 		//根据经纬度获取用户所在省份

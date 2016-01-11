@@ -2,10 +2,12 @@ package hibernateTest;
 
 import static org.junit.Assert.*;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.httpclient.HttpException;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -49,7 +51,7 @@ public class HibernateTest {
 	}
 	
 	@Test
-	public void test2(){
+	public void test2() throws HttpException, IOException{
 		map.put("lat", "28.653412");
 		map.put("lng","121.380412");
 		List<String> s = schoolService.getLocationSchool(map);

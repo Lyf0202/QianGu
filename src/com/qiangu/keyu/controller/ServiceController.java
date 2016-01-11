@@ -13,12 +13,16 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.qiangu.keyu.api.UtilsApi;
+import com.qiangu.keyu.result.Result;
 
 @Controller
 public class ServiceController {
 
 	@Autowired
 	private UtilsApi utilsApi;
+	
+	@Autowired
+	private Result result;
 
 	@RequestMapping("/infoService.do")
 	public void infoService(HttpServletRequest request, HttpServletResponse response) {
@@ -26,16 +30,16 @@ public class ServiceController {
 		Map<String, String[]> map = request.getParameterMap();
 		for (String keySet : map.keySet()) {
 			System.out.println("\n请求时间  : " + utilsApi.getCurrentTime());
-			System.out.println("request key = -" + keySet + "---value = -" + request.getParameter(keySet) + "-");
+			System.out.println("request key = " + keySet + "   value = " + request.getParameter(keySet));
 			parameters.put(keySet, request.getParameter(keySet));
 		}
 
-		String result = "123456";
+		String resultStr = result.getResult(parameters);
 		OutputStreamWriter dos = null;
 		try {
-			System.out.println("result : " + result);
+			System.out.println("result : " + resultStr);
 			dos = new java.io.OutputStreamWriter(response.getOutputStream());
-			dos.write(result);
+			dos.write(resultStr);
 			dos.flush();
 			dos.close();
 			dos = null;

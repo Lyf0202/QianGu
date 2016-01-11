@@ -16,8 +16,12 @@
 	<bean id="readXmlApi" class="com.qiangu.keyu.api.ReadXmlApi"></bean>
 	<bean id="baiduMapApi" class="com.qiangu.keyu.api.BaiduMapApi"></bean>
 	<bean id="utilsApi" class="com.qiangu.keyu.api.UtilsApi"></bean>
+	<bean id="yunPianWangApi" class="com.qiangu.keyu.api.YunPianWangApi"></bean>
 	
 	<bean id="parametersValues" class="com.qiangu.keyu.controller.ParametersValues"></bean>
+	
+	<bean id="result" class="com.qiangu.keyu.result.Result"></bean>
+	<bean id="schoolServiceInfoToJSON" class="com.qiangu.keyu.infoToJSON.SchoolServiceInfoToJSON"></bean>
 	
 	<!-- 导入资源文件 -->
 	<context:property-placeholder location="classpath:db.properties"/>
