@@ -1,19 +1,30 @@
 package com.qiangu.keyu.controller;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
+import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
+import org.apache.commons.fileupload.FileItem;
+import org.apache.commons.fileupload.FileUploadException;
+import org.apache.commons.fileupload.disk.DiskFileItemFactory;
+import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.qiangu.keyu.api.UtilsApi;
 import com.qiangu.keyu.result.Result;
+
+
+
 
 @Controller
 public class ServiceController {
@@ -24,27 +35,78 @@ public class ServiceController {
 	@Autowired
 	private Result result;
 
-	@RequestMapping("/infoService.do")
-	public void infoService(HttpServletRequest request, HttpServletResponse response) {
-		Map<String, String> parameters = new HashMap<String, String>();
-		Map<String, String[]> map = request.getParameterMap();
-		for (String keySet : map.keySet()) {
-			System.out.println("\n请求时间  : " + utilsApi.getCurrentTime());
-			System.out.println("request key = " + keySet + "   value = " + request.getParameter(keySet));
-			parameters.put(keySet, request.getParameter(keySet));
+	@RequestMapping("/keYuService.do")
+	public void keYuService(HttpServletRequest request, HttpServletResponse response){
+		System.out.println("\n keYuService.do " + utilsApi.getCurrentTime()
+		+ " *****************");
+		try {
+			request.setCharacterEncoding("utf-8");
+		} catch (UnsupportedEncodingException e2) {
+			// TODO Auto-generated catch block
+			e2.printStackTrace();
 		}
-
-		String resultStr = result.getResult(parameters);
+		String contentType = request.getContentType();
+		System.out.println("ContentType = "+ contentType);
+		Map<String,String> parameters = new HashMap<>();
+		
+		if(contentType.equals("application/x-www-form-urlencoded")){
+			Map<String, String[]> map = request.getParameterMap();
+			for (String keySet : map.keySet()) {
+				parameters.put(keySet, request.getParameter(keySet));
+			}
+		}else{
+			DiskFileItemFactory factory = new DiskFileItemFactory();
+			ServletFileUpload upload = new ServletFileUpload(factory);
+			upload.setHeaderEncoding("UTF-8");
+			List items = null;
+			try {
+				items = upload.parseRequest(request);
+			} catch (FileUploadException e1) {
+				e1.printStackTrace();
+			}
+			for (Object object : items) {
+				FileItem fileItem = (FileItem) object;
+				if (fileItem.isFormField()) {
+					String key = fileItem.getFieldName();
+					String value = null;
+					try {
+						value = fileItem.getString("utf-8");
+					} catch (UnsupportedEncodingException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					parameters.put(key, value);// 如果你页面编码是utf-8的
+					
+				} else {
+					//找出要上传的文件的名字
+					String fileName = fileItem.getName();
+					fileName = fileName+"." + fileItem.getContentType().split("/")[1];
+					parameters.put(fileItem.getFieldName(), fileName);
+					//上传
+					try {
+						fileItem.write(new File("F:/"
+								+ fileName));
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+				}
+			}
+		}
+		for (Map.Entry<String, String> entry : parameters.entrySet()) {  		  
+		    System.out.println("Key = " + entry.getKey() + ", Value = " + entry.getValue());    
+		}  
+		String resultStr = "123456789";
+		System.out.println("resultStr ========= " + resultStr);
+		java.io.ObjectOutputStream ot = null;
 		OutputStreamWriter dos = null;
 		try {
-			System.out.println("result : " + resultStr);
 			dos = new java.io.OutputStreamWriter(response.getOutputStream());
 			dos.write(resultStr);
 			dos.flush();
 			dos.close();
 			dos = null;
+
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} finally {
 			try {
@@ -53,9 +115,12 @@ public class ServiceController {
 					dos = null;
 				}
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
+		
 	}
+	
+	
+	
 }

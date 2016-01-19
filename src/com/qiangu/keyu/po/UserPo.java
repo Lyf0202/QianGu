@@ -58,7 +58,17 @@ public class UserPo {
 	private Integer countyId;
 	//上次登录时间
 	private Date lastOnlineTime;
+	//
+	private String sk;
+	//
+	private String identifyCode;
 	
+	public String getIdentifyCode() {
+		return identifyCode;
+	}
+	public void setIdentifyCode(String identifyCode) {
+		this.identifyCode = identifyCode;
+	}
 	public Integer getId() {
 		return id;
 	}

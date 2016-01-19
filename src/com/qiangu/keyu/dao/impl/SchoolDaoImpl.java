@@ -24,5 +24,29 @@ public class SchoolDaoImpl extends BaseDaoImpl implements SchoolDao {
 		query.setString("province", province);
 		return query.list();
 	}
+	
+	/**
+	 * 
+	 */
+	@Override
+	public SchoolCoding getSchoolById(Integer id) {
+		// TODO Auto-generated method stub
+		return (SchoolCoding) getSession().get(SchoolCoding.class, id);
+	}
+	
+	/**
+	 * 
+	 */
+	final String getSchoolByProvinceIdHql = "from SchoolCoding as S where "
+			+ "S.school_pro_id = :school_pro_id and S.lng != null and "
+			+ "S.lat != null";
+	@Override
+	public List<SchoolCoding> getSchoolByProvinceId(Integer provinceId) {
+		// TODO Auto-generated method stub
+		Query query = getSession().createQuery(getSchoolByProvinceIdHql);
+		query.setCacheable(true);
+		query.setInteger("school_pro_id",provinceId);
+		return query.list();
+	}
 
 }

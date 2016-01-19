@@ -14,7 +14,9 @@ import org.junit.Test;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
+import com.qiangu.keyu.po.SchoolCoding;
 import com.qiangu.keyu.po.SchoolTypeCoding;
+import com.qiangu.keyu.po.UserPo;
 import com.qiangu.keyu.service.SchoolService;
 import com.qiangu.keyu.service.TestService;
 
@@ -36,10 +38,12 @@ public class HibernateTest {
 	
 	@Test
 	public void test() {
-		System.out.println("table create successly");
-		System.out.println(testService.getSchool(1));
 		
-		System.out.println(testService.getSchool(1));
+		List<SchoolCoding> l = schoolService.getDistanceSchool(929);
+		System.out.println("------------------"+l.size());
+		for(SchoolCoding s :l){
+			System.out.println(s);
+		}
 	}
 	
 	@Test
@@ -52,8 +56,8 @@ public class HibernateTest {
 	
 	@Test
 	public void test2() throws HttpException, IOException{
-		map.put("lat", "28.653412");
-		map.put("lng","121.380412");
+		map.put("lat", "30.290539");
+		map.put("lng","120.006685");
 		List<String> s = schoolService.getLocationSchool(map);
 		for(String school : s){
 			System.out.println(school);

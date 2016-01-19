@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
-<!-- Generated 2016-1-8 9:38:16 by Hibernate Tools 3.4.0.CR1 -->
+<!-- Generated 2016-1-14 20:21:52 by Hibernate Tools 3.4.0.CR1 -->
 <hibernate-mapping>
     <class name="com.qiangu.keyu.po.UserPo" table="tbl_user">
         <id name="id" type="java.lang.Integer">
@@ -11,7 +11,7 @@
         <property name="userId" type="java.lang.Integer">
             <column name="userId" />
         </property>
-        <property name="telephone" type="java.lang.String" length="18">
+        <property name="telephone" type="java.lang.String">
             <column name="telephone" />
         </property>
         <property name="password" type="java.lang.String">
@@ -26,10 +26,10 @@
         <property name="beauty" type="java.lang.Integer">
             <column name="beauty" />
         </property>
-        <property name="name" type="java.lang.String" length="40">
+        <property name="name" type="java.lang.String">
             <column name="name" />
         </property>
-        <property name="education" type="java.lang.String" length="20">
+        <property name="education" type="java.lang.String">
             <column name="education" />
         </property>
         <property name="enterTime" type="java.lang.Integer">
@@ -73,6 +73,12 @@
         </property>
         <property name="lastOnlineTime" type="java.util.Date">
             <column name="lastOnlineTime" />
+        </property>
+        <property name="sk" type="java.lang.String" access="field">
+            <column name="sk" />
+        </property>
+        <property name="identifyCode" type="java.lang.String">
+            <column name="identifyCode" />
         </property>
     </class>
 </hibernate-mapping>

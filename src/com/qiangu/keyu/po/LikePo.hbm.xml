@@ -3,7 +3,7 @@
 "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 <!-- Generated 2016-1-14 20:21:52 by Hibernate Tools 3.4.0.CR1 -->
 <hibernate-mapping>
-    <class name="com.qiangu.keyu.po.UserPhotoPo" table="tbl_userphoto">
+    <class name="com.qiangu.keyu.po.LikePo" table="tbl_like">
         <id name="id" type="java.lang.Integer">
             <column name="id" />
             <generator class="native" />
@@ -11,14 +11,11 @@
         <property name="userId" type="java.lang.Integer">
             <column name="userId" />
         </property>
-        <property name="pictureId" type="java.lang.Integer">
-            <column name="pictureId" />
+        <property name="likeUserId" type="java.lang.Integer">
+            <column name="likeUserId" />
         </property>
-        <property name="updateTime" type="java.util.Date">
-            <column name="updateTime" />
-        </property>
-        <property name="isNow" type="java.lang.Integer">
-            <column name="isNow" />
+        <property name="likeTime" type="java.util.Date">
+            <column name="likeTime" />
         </property>
     </class>
 </hibernate-mapping>

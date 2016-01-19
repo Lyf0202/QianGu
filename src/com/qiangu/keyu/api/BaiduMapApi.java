@@ -92,10 +92,13 @@ public class BaiduMapApi {
 		ak = readXmlApi.getBaiduMapAk().get(readXmlApi.BaiduAk);
 		String url = "http://api.map.baidu.com/place/v2/search?";
 		String output = "json";
-		String school = "%E9%AB%98%E6%A0%A1";
+//		String school = "%E9%AB%98%E6%A0%A1";
+		String school = "%E6%95%99%E8%82%B2";
 		fullURL = url + "query=" + school+"&location="+lat+","
 				+ lng+"&radius=2000&output=json&ak=" + ak;
+		
 		JSONObject jsonObject = getBaiduResult(fullURL);
+		System.out.println(jsonObject);
 		return jsonObject;
 	}
 	

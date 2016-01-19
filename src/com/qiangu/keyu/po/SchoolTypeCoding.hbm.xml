@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
-<!-- Generated 2016-1-7 20:29:29 by Hibernate Tools 3.4.0.CR1 -->
+<!-- Generated 2016-1-14 20:21:52 by Hibernate Tools 3.4.0.CR1 -->
 <hibernate-mapping>
     <class name="com.qiangu.keyu.po.SchoolTypeCoding" table="tbl_schooltype">
         <id name="id" type="java.lang.Integer">
@@ -9,7 +9,7 @@
             <generator class="native" />
         </id>
         <property name="schoolTypeName" type="java.lang.String">
-            <column name="schooltype_name" />
+            <column name="schoolTypeName" />
         </property>
     </class>
 </hibernate-mapping>
