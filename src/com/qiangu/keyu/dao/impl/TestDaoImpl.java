@@ -10,7 +10,7 @@ import com.qiangu.keyu.po.SchoolTypeCoding;
 import com.qiangu.keyu.po.UserPo;
 
 @Repository
-public class TestDaoImpl extends BaseDaoImpl implements TestDao {
+public class TestDaoImpl extends BaseDaoImpl<UserPo> implements TestDao {
 
 
 	@Override

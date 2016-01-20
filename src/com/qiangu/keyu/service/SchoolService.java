@@ -14,4 +14,5 @@ public interface SchoolService {
 	
 	
 	public List<SchoolCoding> getDistanceSchool(Integer schoolId);
+	
 }

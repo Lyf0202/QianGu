@@ -1,5 +1,8 @@
 package com.qiangu.keyu.service.impl;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -74,6 +77,22 @@ public class TestServiceImpl implements TestService {
 	@Override
 	public void testXml(){
 		readXmlApi.getBaiduMapAk();
+	}
+
+	@Override
+	public void addTestBaseDao() {
+		// TODO Auto-generated method stub
+//		System.out.println(testdao.getT(UserPo.class, 2).getName());
+//		System.out.println(testdao.getSession());
+//		System.out.println(testdao.getCity(10));
+//		UserPo user = new UserPo();
+//		user.setName("王宝强");
+//		testdao.save(user);
+		String hql = "update UserPo set password = :password where sex = :sex";
+		Map<String,Object> params = new HashMap<>();
+		params.put("password","123456");
+		params.put("sex", 0);
+		System.out.println(testdao.update(hql, params));
 	}
 
 	

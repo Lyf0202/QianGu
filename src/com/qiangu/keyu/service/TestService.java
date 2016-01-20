@@ -24,5 +24,7 @@ public interface TestService {
 	
 	public void testXml();
 	
+	public void addTestBaseDao();
+	
 
 }

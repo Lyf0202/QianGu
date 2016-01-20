@@ -61,6 +61,8 @@
 			<tx:method name="ad*" propagation="REQUIRED"/>
 			<tx:method name="updat*" propagation="REQUIRED"/>
 			<tx:method name="del*" propagation="REQUIRED"/>
+			<tx:method name="fin*" propagation="REQUIRED"/>
+			<tx:method name="sav*" propagation="REQUIRED"/>
 		</tx:attributes>
 	</tx:advice>
 	

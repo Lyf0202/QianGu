@@ -44,14 +44,16 @@ public class HibernateTest {
 		for(SchoolCoding s :l){
 			System.out.println(s);
 		}
+		
 	}
 	
 	@Test
 	public void test1(){
 		SchoolTypeCoding schoolTypeCoding = new SchoolTypeCoding();
 		schoolTypeCoding.setSchoolTypeName("杭师");
-		testService.addSchoolType(schoolTypeCoding);
-		System.out.println("add successly");
+		testService.addTestBaseDao();
+		
+		System.out.println("------------------------");
 	}
 	
 	@Test

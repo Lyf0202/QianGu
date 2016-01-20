@@ -9,7 +9,7 @@ import com.qiangu.keyu.dao.SchoolDao;
 import com.qiangu.keyu.po.SchoolCoding;
 
 @Repository
-public class SchoolDaoImpl extends BaseDaoImpl implements SchoolDao {
+public class SchoolDaoImpl extends BaseDaoImpl<SchoolCoding> implements SchoolDao {
 
 	/**
 	 * 根据省份查询学校
@@ -48,5 +48,6 @@ public class SchoolDaoImpl extends BaseDaoImpl implements SchoolDao {
 		query.setInteger("school_pro_id",provinceId);
 		return query.list();
 	}
+
 
 }

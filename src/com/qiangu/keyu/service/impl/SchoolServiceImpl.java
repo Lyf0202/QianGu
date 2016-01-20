@@ -77,6 +77,7 @@ public class SchoolServiceImpl implements SchoolService {
 		List<SchoolCoding> schools = schoolDao.getSchoolByProvinceId(school.getSchool_pro_id());
 		
 		return sortSchoolByDistance(school, schools);
+
 	}
 
 	/**
@@ -109,6 +110,8 @@ public class SchoolServiceImpl implements SchoolService {
 		schoolAfterSort.remove(schoolAfterSort.size() - 1);
 		return schoolAfterSort;
 	}
+
+	
 	 
 
 }

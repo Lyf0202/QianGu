@@ -6,7 +6,7 @@ import com.qiangu.keyu.po.SchoolCoding;
 import com.qiangu.keyu.po.SchoolTypeCoding;
 import com.qiangu.keyu.po.UserPo;
 
-public interface TestDao {
+public interface TestDao extends BaseDao<UserPo>{
 
 	public void addProvince(ProvinceCoding provinceCoding);
 	
