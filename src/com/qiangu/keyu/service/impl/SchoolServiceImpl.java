@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 
 import com.qiangu.keyu.api.BaiduMapApi;
 import com.qiangu.keyu.api.UtilsApi;
-import com.qiangu.keyu.controller.ParametersValues;
+import com.qiangu.keyu.controller.Keys;
 import com.qiangu.keyu.dao.SchoolDao;
 import com.qiangu.keyu.po.SchoolCoding;
 import com.qiangu.keyu.service.SchoolService;
@@ -26,7 +26,7 @@ public class SchoolServiceImpl implements SchoolService {
 	@Autowired
 	private BaiduMapApi baiduMapApi;
 	@Autowired
-	private ParametersValues parametersValues;
+	private Keys parametersValues;
 	@Autowired
 	private UtilsApi utilsApi;
 	

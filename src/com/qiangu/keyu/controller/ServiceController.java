@@ -20,7 +20,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.qiangu.keyu.api.QiNiuYunApi;
 import com.qiangu.keyu.api.UtilsApi;
+import com.qiangu.keyu.api.YunPianWangApi;
 import com.qiangu.keyu.result.Result;
 
 
@@ -30,11 +32,17 @@ import com.qiangu.keyu.result.Result;
 public class ServiceController {
 
 	@Autowired
+	private YunPianWangApi yunpianwang;
+	
+	@Autowired
 	private UtilsApi utilsApi;
 	
 	@Autowired
 	private Result result;
 
+	@Autowired
+	private QiNiuYunApi qiniu; 
+	
 	@RequestMapping("/keYuService.do")
 	public void keYuService(HttpServletRequest request, HttpServletResponse response){
 		System.out.println("\n keYuService.do " + utilsApi.getCurrentTime()
@@ -82,6 +90,7 @@ public class ServiceController {
 					String fileName = fileItem.getName();
 					fileName = fileName+"." + fileItem.getContentType().split("/")[1];
 					parameters.put(fileItem.getFieldName(), fileName);
+					qiniu.pictureUpload(fileName, fileItem.get());
 					//上传
 					try {
 						fileItem.write(new File("F:/"
@@ -94,7 +103,8 @@ public class ServiceController {
 		}
 		for (Map.Entry<String, String> entry : parameters.entrySet()) {  		  
 		    System.out.println("Key = " + entry.getKey() + ", Value = " + entry.getValue());    
-		}  
+		}
+//		yunpianwang.sendSms("123987", "18857117310");
 		String resultStr = "123456789";
 		System.out.println("resultStr ========= " + resultStr);
 		java.io.ObjectOutputStream ot = null;

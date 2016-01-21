@@ -2,6 +2,7 @@ package hibernateTest;
 
 import static org.junit.Assert.*;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
@@ -14,6 +15,7 @@ import org.junit.Test;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
+import com.qiangu.keyu.api.QiNiuYunApi;
 import com.qiangu.keyu.po.SchoolCoding;
 import com.qiangu.keyu.po.SchoolTypeCoding;
 import com.qiangu.keyu.po.UserPo;
@@ -28,12 +30,14 @@ public class HibernateTest {
 	private SchoolService schoolService;
 	private Map<String,String> map;
 	
+	private QiNiuYunApi qiniu;
 	@Before
 	public void before(){
 		ApplicationContext ac = new ClassPathXmlApplicationContext("beans.xml");
 		testService = (TestService) ac.getBean("testServiceImpl");
 		schoolService = (SchoolService) ac.getBean("schoolServiceImpl");
 		map = new HashMap<String,String>();
+		qiniu = (QiNiuYunApi) ac.getBean("qiNiuYunApi");
 	}
 	
 	@Test
@@ -73,7 +77,10 @@ public class HibernateTest {
 	
 	@Test
 	public void test3(){
-		
+//		File file = new File("F:/cacu.jpeg");
+//		System.out.println(qiniu.pictureUpload("cacu.jpeg", file));
+		File file1 = new File("F:/123.jpg");
+		System.out.println();
 	}
 
 	@After

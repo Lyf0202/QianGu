@@ -17,11 +17,14 @@
 	<bean id="baiduMapApi" class="com.qiangu.keyu.api.BaiduMapApi"></bean>
 	<bean id="utilsApi" class="com.qiangu.keyu.api.UtilsApi"></bean>
 	<bean id="yunPianWangApi" class="com.qiangu.keyu.api.YunPianWangApi"></bean>
+	<bean id="qiNiuYunApi" class="com.qiangu.keyu.api.QiNiuYunApi"></bean>
 	
-	<bean id="parametersValues" class="com.qiangu.keyu.controller.ParametersValues"></bean>
+	<bean id="parametersValues" class="com.qiangu.keyu.controller.Keys"></bean>
 	
 	<bean id="result" class="com.qiangu.keyu.result.Result"></bean>
+	<bean id="updateResult" class="com.qiangu.keyu.result.UpdateResult"></bean>
 	<bean id="schoolServiceInfoToJSON" class="com.qiangu.keyu.infoToJSON.SchoolServiceInfoToJSON"></bean>
+	<bean id="updateInfoToJSON" class="com.qiangu.keyu.infoToJSON.UpdateInfoToJSON"></bean>
 	
 	<!-- 导入资源文件 -->
 	<context:property-placeholder location="classpath:db.properties"/>
