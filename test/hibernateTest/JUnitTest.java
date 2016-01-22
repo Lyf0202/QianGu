@@ -8,6 +8,9 @@ import java.util.List;
 import org.apache.catalina.util.URLEncoder;
 import org.junit.Test;
 
+import net.sf.json.JSON;
+import net.sf.json.JSONObject;
+
 public class JUnitTest {
 
 	@Test
@@ -33,6 +36,18 @@ public class JUnitTest {
 			System.out.println(i);
 	}
 
+	@Test
+	public void test3(){
+		Object o = getObject();
+		System.out.println(o instanceof JSONObject);
+	}
+	
+	public Object getObject(){
+		JSONObject j = new JSONObject();
+		j.accumulate("4132", "4545");
+		return "";
+	}
+	
 	public static double getDistance(double long1, double lat1, double long2, double lat2) {
 		double a, b, R;
 		R = 6378137; // 地球半径

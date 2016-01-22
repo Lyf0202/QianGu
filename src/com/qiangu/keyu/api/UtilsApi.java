@@ -1,16 +1,29 @@
 package com.qiangu.keyu.api;
 
+import java.io.File;
+import java.io.UnsupportedEncodingException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Random;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import javax.servlet.http.HttpServletRequest;
+
+import org.apache.commons.fileupload.FileItem;
+import org.apache.commons.fileupload.FileUploadException;
+import org.apache.commons.fileupload.disk.DiskFileItemFactory;
+import org.apache.commons.fileupload.servlet.ServletFileUpload;
+import org.springframework.beans.factory.annotation.Autowired;
+
 import com.qiangu.keyu.controller.Values;
 import com.qiangu.keyu.controller.Keys;
 
+import net.sf.json.JSON;
 import net.sf.json.JSONObject;
 
 public class UtilsApi {
@@ -56,7 +69,10 @@ public class UtilsApi {
 			}
 			System.out.println();
 		}
-		return false;
+		if (parameters.size() == 0)
+			return true;
+		else
+			return false;
 
 	}
 
@@ -92,5 +108,79 @@ public class UtilsApi {
 			returnJSON.put(Keys.status, statusJSON);
 		}
 		return returnJSON;
+	}
+
+	public boolean uploadParameterIsHasNull(Map<String, String> parameters) {
+		for (String keySet : parameters.keySet()) {
+			if (parameters.get(keySet) == null || parameters.get(keySet).equals("")) {
+				return true;
+			}
+			System.out.print(keySet + " : " + parameters.get(keySet));
+		}
+		if (parameters.size() == 0) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	public JSONObject parametersIsValid(Map<String, String> parameters) {
+		JSONObject resultJSON = null;
+		if(uploadParameterIsHasNull(parameters)){
+			JSONObject statusJSON = new JSONObject();
+			statusJSON.accumulate(Keys.status, Values.statusOfNullParameter);
+			statusJSON.accumulate(Keys.message, Values.messageOfNullParameters);
+			resultJSON = new JSONObject();
+			resultJSON.put(Keys.status, statusJSON);
+		}
+		return resultJSON;
+	}
+
+	public Object getUploadParameters(HttpServletRequest request) {
+		Map<String, String> parameters = new HashMap<>();
+		boolean isMultipartContent = ServletFileUpload.isMultipartContent(request);
+		if (isMultipartContent) {
+			DiskFileItemFactory factory = new DiskFileItemFactory();
+			ServletFileUpload upload = new ServletFileUpload(factory);
+			upload.setHeaderEncoding("UTF-8");
+			List items = null;
+			try {
+				items = upload.parseRequest(request);
+			} catch (FileUploadException e1) {
+				e1.printStackTrace();
+			}
+			for (Object object : items) {
+				FileItem fileItem = (FileItem) object;
+				if (fileItem.isFormField()) {
+					String key = fileItem.getFieldName();
+					String value = null;
+					try {
+						value = fileItem.getString("utf-8");
+					} catch (UnsupportedEncodingException e) {
+						e.printStackTrace();
+					}
+					parameters.put(key, value);// 如果你页面编码是utf-8的
+				} else {
+					// 找出要上传的文件的名字
+					String fileName = fileItem.getName();
+					fileName = fileName + "." + fileItem.getContentType().split("/")[1];
+					parameters.put(fileItem.getFieldName(), fileName);
+					//
+				}
+			}
+			JSONObject resultJSON = parametersIsValid(parameters);
+			if(resultJSON != null){
+				return resultJSON;
+			}
+		} else {
+			JSONObject resultJSON = new JSONObject();
+			JSONObject statusJSON = new JSONObject();
+			statusJSON.accumulate(Keys.status, Values.statusOfInvalidRequest);
+			statusJSON.accumulate(Keys.message, Values.messageOfInvalidRequest);
+			resultJSON.put(Keys.status, statusJSON);
+			return resultJSON;
+		}
+
+		return parameters;
 	}
 }

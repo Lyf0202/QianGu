@@ -25,6 +25,8 @@ import com.qiangu.keyu.api.UtilsApi;
 import com.qiangu.keyu.api.YunPianWangApi;
 import com.qiangu.keyu.result.Result;
 
+import net.sf.json.JSONObject;
+
 
 
 
@@ -56,6 +58,8 @@ public class ServiceController {
 		String contentType = request.getContentType();
 		System.out.println("ContentType = "+ contentType);
 		Map<String,String> parameters = new HashMap<>();
+		
+		System.out.println(ServletFileUpload.isMultipartContent(request));
 		
 		if(contentType.equals("application/x-www-form-urlencoded")){
 			Map<String, String[]> map = request.getParameterMap();
@@ -90,7 +94,7 @@ public class ServiceController {
 					String fileName = fileItem.getName();
 					fileName = fileName+"." + fileItem.getContentType().split("/")[1];
 					parameters.put(fileItem.getFieldName(), fileName);
-					qiniu.pictureUpload(fileName, fileItem.get());
+//					qiniu.pictureUpload(fileName, fileItem.get());
 					//上传
 					try {
 						fileItem.write(new File("F:/"
@@ -105,7 +109,9 @@ public class ServiceController {
 		    System.out.println("Key = " + entry.getKey() + ", Value = " + entry.getValue());    
 		}
 //		yunpianwang.sendSms("123987", "18857117310");
-		String resultStr = "123456789";
+		JSONObject object = new JSONObject();
+		object.accumulate("123", "你好吗nihao");
+		String resultStr =object.toString() ;
 		System.out.println("resultStr ========= " + resultStr);
 		java.io.ObjectOutputStream ot = null;
 		OutputStreamWriter dos = null;

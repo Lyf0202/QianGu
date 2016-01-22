@@ -1,12 +1,18 @@
 package com.qiangu.keyu.controller;
 
+import java.io.File;
 import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.fileupload.FileItem;
+import org.apache.commons.fileupload.FileUploadException;
+import org.apache.commons.fileupload.disk.DiskFileItemFactory;
+import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,27 +30,42 @@ public class UpdateController {
 	private UtilsApi utilsApi;
 	@Autowired
 	private UpdateResult updateResult;
-	
-	@RequestMapping("updateUserinfoService.do")
+
+	@RequestMapping(value="updateUserinfoService.do",produces="text/json;charset=UTF-8")
 	@ResponseBody
-	public String updateUserInfoController(HttpServletRequest request, HttpServletResponse response){
+	public String updateUserInfoController(HttpServletRequest request, HttpServletResponse response) {
 		System.out.println("\n updateUserinfoService.do " + utilsApi.getCurrentTime());
-		try {
-			request.setCharacterEncoding("utf-8");
-		} catch (UnsupportedEncodingException e2) {	
-			e2.printStackTrace();
-		}
 		String contentType = request.getContentType();
-		System.out.println("ContentType = "+ contentType);
+		System.out.println("ContentType = " + contentType);
 		Map<String, String[]> parameters = request.getParameterMap();
 		String resultStr = "123456789";
 		JSONObject resultJSON = utilsApi.parametersIsValid(contentType, parameters);
-		if(resultJSON == null){
+		if (resultJSON == null) {
 			resultJSON = updateResult.getResult(parameters);
 		}
 		resultStr = resultJSON.toString();
 		System.out.println("resultStr ========= " + resultStr);
-		
+
+		return resultStr;
+	}
+
+	@RequestMapping(value="updatePicInfoService.do",produces="text/json;charset=UTF-8")
+	@ResponseBody
+	public String updatePicInfoController(HttpServletRequest request, HttpServletResponse response) {
+		System.out.println("\n updatePicInfoService.do " + utilsApi.getCurrentTime() + " *****************");
+		Map<String,String> parameters = null;
+		JSONObject resultJSON = null;
+		Object object = utilsApi.getUploadParameters(request);
+		if(object instanceof JSONObject){
+			resultJSON = (JSONObject) object;
+		}else{
+			parameters = (Map<String, String>) object;
+			resultJSON = new JSONObject();
+			resultJSON.accumulate("kobe", "Yes");
+		}
+		String resultStr = resultJSON.toString();
+		System.out.println();
+		System.out.println(resultStr);
 		return resultStr;
 	}
 }
