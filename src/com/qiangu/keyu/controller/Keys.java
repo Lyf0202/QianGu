@@ -12,8 +12,20 @@ public class Keys {
 	public static final String lng = "lng";
 	public static final String method = "method";
 	
+	
 	/**
-	 * 
+	 * 返回参数名
+	 */
+	
+	//返回状态
+	public static final String status = "status";
+	//
+	public static final String message = "message";
+	//返回结果
+	public static final String result = "result";
+	
+	/**
+	 * 用户基本信息key
 	 */
 	public static final String id = "id";
 	public static final String name = "name";
@@ -26,7 +38,6 @@ public class Keys {
 	public static final String school = "school";
 	public static final String education = "education";
 	public static final String labels = "labels";
-	public static final String isLike = "isLike";
 	public static final String height = "height";
 	public static final String weight = "weight";
 	public static final String province = "province";
@@ -35,13 +46,21 @@ public class Keys {
 	public static final String birthday = "birthday";
 	
 	/**
-	 * 返回参数名
+	 * 匹配用户的额外属性
 	 */
+	public static final String isLike = "isLike";
 	
-	//返回状态
-	public static final String status = "status";
-	//
-	public static final String message = "message";
-	//返回结果
-	public static final String result = "result";
+	/**
+	 * 聊天用户的额外属性
+	 */
+	public static final String startChatDate = "startChatDate";
+	public static final String intimacy = "intimacy";
+	public static final String chatId = "chatId";
+	public static final String relation = "relation";
+	public static final String hasChat = "hasChat";
+	
+	/**
+	 * 登录用户的额外属性
+	 */
+	public static final String chatPassword = "chatPassword";
 }

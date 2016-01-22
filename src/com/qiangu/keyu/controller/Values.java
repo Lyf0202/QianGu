@@ -29,16 +29,52 @@ public class Values {
 	//
 	public static final String messageOfServiceError = "服务器内部错误";
 	
-	//
+	//请求方法不存在
 	public static final Integer statusOfNoMethod = 4;
 	//
 	public static final String messageOfNoMethod = "无效method";
 	
 	/**
+	 * 基本参数值
+	 */
+	//女性
+	public static final Integer male = 0;
+	//男性
+	public static final Integer female = 1;
+	//用户未认证
+	public static final Integer notVerify = 0;
+	//用户已认证
+	public static final Integer verifyed = 1;
+	//不喜欢
+	public static final Integer notLike = 0;
+	//喜欢
+	public static final Integer liked = 1;
+	//聊天被删除
+	public static final Integer relationDeleted = 0;
+	//聊天未删除
+	public static final Integer relationNotDelete = 1;
+	
+	/**
 	 * 请求参数值
 	 */
-	//
+	//更新昵称
 	public static final String methodOfUpdateName = "updateName";
+	//更新身高
 	public static final String methodOfUpdateHeight = "updateHeight";
+	//更新头像
+	public static final String methodOfUpdateAvatar = "updateAvatar";
+	//更新个人描述
+	public static final String methodOfUpdateMotto = "updateMotto";
+	//更新家乡
+	public static final String methodOfUpdateCity = "updateCity";
+	//更新生日
+	public static final String methodOfUpdateBirthday = "updateBirthday";
+	//更新体重
+	public static final String methodOfUpdateWeight = "updateWeight";
+	//更新学院
+	public static final String methodOfUpdateDepartment = "updateDepartment";
+	//更新标签
+	public static final String methodOfUpdateLabel = "updateLabel";
+	
 	
 }
