@@ -138,6 +138,7 @@ public class UtilsApi {
 
 	public Object getUploadParameters(HttpServletRequest request) {
 		Map<String, String> parameters = new HashMap<>();
+		Map<String, byte[]> fileContents = new HashMap<>(); 
 		boolean isMultipartContent = ServletFileUpload.isMultipartContent(request);
 		if (isMultipartContent) {
 			DiskFileItemFactory factory = new DiskFileItemFactory();
@@ -165,6 +166,7 @@ public class UtilsApi {
 					String fileName = fileItem.getName();
 					fileName = fileName + "." + fileItem.getContentType().split("/")[1];
 					parameters.put(fileItem.getFieldName(), fileName);
+					fileContents.put(fileItem.getFieldName(), fileItem.get());
 					//
 				}
 			}

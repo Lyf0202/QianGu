@@ -27,6 +27,7 @@ public class Keys {
 	/**
 	 * 用户基本信息key
 	 */
+	public static final String userId = "userId";
 	public static final String id = "id";
 	public static final String name = "name";
 	public static final String avatar = "avatar";

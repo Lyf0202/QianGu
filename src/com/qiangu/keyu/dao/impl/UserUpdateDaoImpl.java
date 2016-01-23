@@ -20,4 +20,13 @@ public class UserUpdateDaoImpl extends BaseDaoImpl<UserPo> implements UserUpdate
 		return update(hqlUpdateName, params);
 	}
 	
+	String hqlUpdateAvatarId = "update UserPo set avatarId = :avatarId where id = :id";
+	@Override
+	public Integer updateAvatarId(Integer avatarId, Integer id) {
+		Map<String,Object> params = new HashMap<>();
+		params.put("avatarId", avatarId);
+		params.put("id", id);
+		return update(hqlUpdateAvatarId, params);
+	}
+	
 }

@@ -11,4 +11,12 @@ public interface UserUpdateDao extends BaseDao<UserPo> {
 	 * @return
 	 */
 	public Integer updateName(String name,Integer id);
+	
+	/**
+	 * 更新用户头像id
+	 * @param avatarId
+	 * @param id
+	 * @return
+	 */
+	public Integer updateAvatarId(Integer avatarId,Integer id);
 }
