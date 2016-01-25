@@ -23,9 +23,10 @@
 	
 	<bean id="result" class="com.qiangu.keyu.result.Result"></bean>
 	<bean id="updateResult" class="com.qiangu.keyu.result.UpdateResult"></bean>
+	<bean id="loginAndRegisterResult" class="com.qiangu.keyu.result.LoginAndRegisterResult"></bean>
 	<bean id="schoolServiceInfoToJSON" class="com.qiangu.keyu.infoToJSON.SchoolServiceInfoToJSON"></bean>
 	<bean id="updateInfoToJSON" class="com.qiangu.keyu.infoToJSON.UpdateInfoToJSON"></bean>
-	
+	<bean id="sendMessageInfoToJSON" class="com.qiangu.keyu.infoToJSON.LoginAndRegisterInfoToJSON"></bean>
 	<!-- 导入资源文件 -->
 	<context:property-placeholder location="classpath:db.properties"/>
 

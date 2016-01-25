@@ -64,4 +64,11 @@ public class Keys {
 	 * 登录用户的额外属性
 	 */
 	public static final String chatPassword = "chatPassword";
+	public static final String telephone = "telephone";
+	
+	/**
+	 * 
+	 */
+	public static final String verificationCode = "verificationCode";
+	public static final String verificationCodeTime = "verificationCodeTime";
 }

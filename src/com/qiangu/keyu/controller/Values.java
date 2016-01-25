@@ -34,6 +34,11 @@ public class Values {
 	//
 	public static final String messageOfNoMethod = "无效method";
 	
+	//发送验证码失败
+	public static final Integer statusOfSendMessageFailed = 5;
+	//
+	public static final String messageOfSenfMessageFailed = "发送验证码失败";
+	
 	/**
 	 * 基本参数值
 	 */
@@ -53,6 +58,8 @@ public class Values {
 	public static final Integer relationDeleted = 0;
 	//聊天未删除
 	public static final Integer relationNotDelete = 1;
+	//验证码长度
+	public static final Integer verificationCodeLength = 4;
 	
 	/**
 	 * 请求参数值
@@ -75,6 +82,8 @@ public class Values {
 	public static final String methodOfUpdateDepartment = "updateDepartment";
 	//更新标签
 	public static final String methodOfUpdateLabel = "updateLabel";
+	//发送验证码
+	public static final String methodOfSendMessage = "sendMessage";
 	
 	
 }

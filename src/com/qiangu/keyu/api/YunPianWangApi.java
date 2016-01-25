@@ -21,6 +21,21 @@ import net.sf.json.JSONObject;
 
 public class YunPianWangApi {
 
+	public static final String okResult = "0";
+	public static final String okMessage = "发送验证码成功";
+	//同一手机号30秒内重复提交相同的内容
+	public static final String limit_30_seconds = "8";
+	public static final String limit_30_seconds_message = "同一手机号30秒内重复提交相同的内容";
+	//同一手机号5分钟内重复提交相同的内容超过3次
+	public static final String limit_5_minites = "9";
+	public static final String limit_5_minites_message = "同一手机号5分钟内重复提交相同的内容超过3次";
+	//24小时内同一手机号发送次数超过限制
+	public static final String limit_24_hours = "17";
+	public static final String limit_24_hours_message = "24小时内同一手机号发送次数超过限制";
+	//不支持的国家地区
+	public static final String limit_areas = "20";
+	public static final String limit_areas_message = "不支持的国家地区";
+	
 	@Autowired
 	private ReadXmlApi readXmlApi;
 	
