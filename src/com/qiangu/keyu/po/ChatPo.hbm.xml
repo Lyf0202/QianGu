@@ -26,5 +26,11 @@
         <property name="deleteUserId" type="java.lang.Integer">
             <column name="deleteUserId" />
         </property>
+        <property name="intimacyA" type="java.lang.Double">
+        	<column name="intimacyA"></column>
+        </property>
+        <property name="intimacyB" type="java.lang.Double">
+        	<column name="intimacyB"></column>
+        </property>
     </class>
 </hibernate-mapping>

@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.qiangu.keyu.api.YunPianWangApi;
 import com.qiangu.keyu.controller.Keys;
 import com.qiangu.keyu.controller.Values;
+import com.qiangu.keyu.po.UserPo;
+import com.qiangu.keyu.service.UserService;
 
 import net.sf.json.JSONObject;
 
@@ -14,6 +16,9 @@ public class LoginAndRegisterInfoToJSON {
 
 	@Autowired
 	private YunPianWangApi yunPianWangApi;
+	
+	@Autowired
+	private UserService userService;
 
 	public JSONObject sendMessageInfoToJSON(Map<String, String[]> parameters) {
 		JSONObject returnJSON = new JSONObject();
@@ -44,5 +49,17 @@ public class LoginAndRegisterInfoToJSON {
 		}
 		returnJSON.put(Keys.status, statusJSON);
 		return returnJSON;
+	}
+	
+	public JSONObject loginOrRegisterInfoToJSON(Map<String ,String[]> parameters){
+		JSONObject returnJSON = new JSONObject();
+		JSONObject statusJSON = new JSONObject();
+		UserPo user = userService.getLoginOrRegisterUserInfo(parameters);
+		if(user != null){
+			
+		}else{
+			
+		}
+		return null;
 	}
 }

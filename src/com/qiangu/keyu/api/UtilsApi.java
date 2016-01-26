@@ -13,11 +13,13 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
+import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.qiangu.keyu.controller.Values;
@@ -28,6 +30,13 @@ import net.sf.json.JSONObject;
 
 public class UtilsApi {
 
+	/**
+	 * 根据正则表达式判断str是否符合
+	 * 
+	 * @param str
+	 * @param regEx
+	 * @return
+	 */
 	public boolean isValid(String str, String regEx) {
 		// 编译正则表达式
 		Pattern pattern = Pattern.compile(regEx);
@@ -39,6 +48,11 @@ public class UtilsApi {
 		return rs;
 	}
 
+	/**
+	 * 获取当前时间，以yyyy-MM-dd HH:mm:ss形式
+	 * 
+	 * @return
+	 */
 	public String getCurrentTime() {
 		Date dt = new Date();
 		DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -47,6 +61,12 @@ public class UtilsApi {
 		return nowTime;
 	}
 
+	/**
+	 * 获取num位随机数
+	 * 
+	 * @param num
+	 * @return
+	 */
 	public String getRandomNum(int num) {
 		String str = "";
 		for (int i = 0; i < num; i++) {
@@ -56,6 +76,12 @@ public class UtilsApi {
 		return str;
 	}
 
+	/**
+	 * 判断一般接口参数中是否有空值
+	 * 
+	 * @param parameters
+	 * @return 有空值返回 true 否则返回false
+	 */
 	public boolean isHasNull(Map<String, String[]> parameters) {
 
 		for (String keySet : parameters.keySet()) {
@@ -76,6 +102,15 @@ public class UtilsApi {
 
 	}
 
+	/**
+	 * 根据两个经纬度求两个经纬度之间的距离
+	 * 
+	 * @param long1
+	 * @param lat1
+	 * @param long2
+	 * @param lat2
+	 * @return
+	 */
 	public double getDistance(double long1, double lat1, double long2, double lat2) {
 		double a, b, R;
 		R = 6378137; // 地球半径
@@ -91,6 +126,56 @@ public class UtilsApi {
 		return d;
 	}
 
+//	public JSONObject uploadRequestIsLegal(HttpServletRequest request, Map<String, String> parameters){
+//		Map<String,String[]> params = new HashMap<>();
+//		for (String keySet : parameters.keySet()) {
+//			String[] strs = {parameters.get(keySet)};
+//			params.put(keySet, strs);
+//		}
+//		return requestIsLegal(request, params);
+//	}
+	/**
+	 * 判断验证码是否正确
+	 * @param request
+	 * @param parameters
+	 * @return
+	 */
+	public JSONObject requestIsLegal(HttpServletRequest request, Map<String, String[]> parameters) {
+		JSONObject returnJSON = new JSONObject();
+		JSONObject statusJSON = new JSONObject();
+		String verificationCode = parameters.get(Keys.verificationCode)[0];
+		HttpSession session = request.getSession();
+		Object sendVerificationCodeTime = session.getAttribute(Keys.verificationCodeTime);
+		Object verificationCodeService = session.getAttribute(Keys.verificationCode);
+		if (verificationCodeService != null && sendVerificationCodeTime != null) {
+			long startTime = Long.valueOf((String) sendVerificationCodeTime);
+			long nowTime = System.currentTimeMillis();
+			if ((nowTime - startTime) <= Values.verificationCodeTime) {
+				if (verificationCodeService.equals(verificationCode)) {
+					return null;
+				} else {
+					statusJSON.accumulate(Keys.status, Values.statusOfWrongVerificationCode);
+					statusJSON.accumulate(Keys.message, Values.messageOfWrongVerificationCode);
+				}
+			}else{
+				statusJSON.accumulate(Keys.status, Values.statusOfInvalidVerificationCode);
+				statusJSON.accumulate(Keys.message, Values.messageOfInvalidVerificationCode);
+			}
+		} else {
+			statusJSON.accumulate(Keys.status, Values.statusOfServiceError);
+			statusJSON.accumulate(Keys.message, Values.messageOfServiceError);
+		}
+		returnJSON.put(Keys.status, statusJSON);
+		return returnJSON;
+	}
+
+	/**
+	 * 判断contentType是否正确或客户端传入参数是否有空值
+	 * 
+	 * @param contentType
+	 * @param parameters
+	 * @return 若参数正确无误，则返回null ，否则 返回对应的json
+	 */
 	public JSONObject parametersIsValid(String contentType, Map<String, String[]> parameters) {
 		JSONObject returnJSON = null;
 		JSONObject statusJSON = new JSONObject();
@@ -110,6 +195,12 @@ public class UtilsApi {
 		return returnJSON;
 	}
 
+	/**
+	 * 判断上传图片时的参数中是否有空值
+	 * 
+	 * @param parameters
+	 * @return 有返回 true 否则返回false
+	 */
 	public boolean uploadParameterIsHasNull(Map<String, String> parameters) {
 		for (String keySet : parameters.keySet()) {
 			if (parameters.get(keySet) == null || parameters.get(keySet).equals("")) {
@@ -124,9 +215,15 @@ public class UtilsApi {
 		}
 	}
 
+	/**
+	 * 判断上传图片时的参数是否有效
+	 * 
+	 * @param parameters
+	 * @return 参数正确无误 返回null ，否则返回对应的json
+	 */
 	public JSONObject parametersIsValid(Map<String, String> parameters) {
 		JSONObject resultJSON = null;
-		if(uploadParameterIsHasNull(parameters)){
+		if (uploadParameterIsHasNull(parameters)) {
 			JSONObject statusJSON = new JSONObject();
 			statusJSON.accumulate(Keys.status, Values.statusOfNullParameter);
 			statusJSON.accumulate(Keys.message, Values.messageOfNullParameters);
@@ -136,9 +233,15 @@ public class UtilsApi {
 		return resultJSON;
 	}
 
+	/**
+	 * 获取上传图片时的参数
+	 * 
+	 * @param request
+	 * @return
+	 */
 	public Object getUploadParameters(HttpServletRequest request) {
 		Map<String, String> parameters = new HashMap<>();
-		Map<String, byte[]> fileContents = new HashMap<>(); 
+		Map<String, byte[]> fileContents = new HashMap<>();
 		boolean isMultipartContent = ServletFileUpload.isMultipartContent(request);
 		if (isMultipartContent) {
 			DiskFileItemFactory factory = new DiskFileItemFactory();
@@ -171,7 +274,7 @@ public class UtilsApi {
 				}
 			}
 			JSONObject resultJSON = parametersIsValid(parameters);
-			if(resultJSON != null){
+			if (resultJSON != null) {
 				return resultJSON;
 			}
 		} else {

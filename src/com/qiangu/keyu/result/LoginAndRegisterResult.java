@@ -14,11 +14,13 @@ public class LoginAndRegisterResult {
 
 	@Autowired
 	private LoginAndRegisterInfoToJSON loginAndRegisterInfoToJSON;
-	
+
 	public JSONObject getResult(Map<String,String[]> parameters){
 		JSONObject result ;
 		if(parameters.get(Keys.method).equals(Values.methodOfSendMessage)){
 			result = loginAndRegisterInfoToJSON.sendMessageInfoToJSON(parameters);
+		}else if(parameters.get(Keys.method).equals(Values.methodOfLoginOrRegister)){
+			
 		}else{
 			result = new JSONObject();
 			JSONObject statusJSON = new JSONObject();

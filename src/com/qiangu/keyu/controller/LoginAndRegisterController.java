@@ -13,14 +13,20 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.qiangu.keyu.api.UtilsApi;
 import com.qiangu.keyu.api.YunPianWangApi;
+import com.qiangu.keyu.result.LoginAndRegisterResult;
 
 import net.sf.json.JSONObject;
 
 @Controller
 public class LoginAndRegisterController {
 
+	
+	
 	@Autowired
 	private UtilsApi utilsApi;
+	
+	@Autowired
+	private LoginAndRegisterResult loginAndRegisterResult;
 	
 	@RequestMapping(value="sendMessageService.do",produces="text/json;charset=UTF-8")
 	@ResponseBody
@@ -38,11 +44,31 @@ public class LoginAndRegisterController {
 			session.setAttribute(Keys.verificationCodeTime, System.currentTimeMillis());
 			String[] verificationCodes = {verificationCode}; 
 			parameters.put(Keys.verificationCode,verificationCodes);
+			resultJSON = loginAndRegisterResult.getResult(parameters);
 		}
 		resultStr = resultJSON.toString();
 		System.out.println("resultStr ========= " + resultStr);
 
 		return resultStr;
-		
+	}
+	
+	@RequestMapping(value="loginOrRegisterService.do",produces="text/json;charset=UTF-8")
+	@ResponseBody
+	public String loginOrRegisterController(HttpServletRequest request, HttpServletResponse response){
+		System.out.println("\n sendMessageService.do " + utilsApi.getCurrentTime());
+		String contentType = request.getContentType();
+		System.out.println("ContentType = " + contentType);
+		Map<String, String[]> parameters = request.getParameterMap();
+		String resultStr = "123456789";
+		JSONObject resultJSON = utilsApi.parametersIsValid(contentType, parameters);
+		if(resultJSON == null){
+			resultJSON = utilsApi.requestIsLegal(request, parameters);
+			if(resultJSON == null){
+				
+			}
+		}
+		resultStr = resultJSON.toString();
+		System.out.println("resultStr ========= " + resultStr);
+		return null;
 	}
 }

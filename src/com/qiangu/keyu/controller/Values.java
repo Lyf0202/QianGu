@@ -39,6 +39,25 @@ public class Values {
 	//
 	public static final String messageOfSenfMessageFailed = "发送验证码失败";
 	
+	//验证码错误
+	public static final Integer statusOfWrongVerificationCode = 6;
+	//
+	public static final String messageOfWrongVerificationCode = "验证码错误";
+	
+	//验证码失效
+	public static final Integer statusOfInvalidVerificationCode = 7;
+	//
+	public static final String messageOfInvalidVerificationCode = "验证码失效";
+	
+	//用户不存在
+	public static final Integer statusOfUserNotExist = 8;
+	//
+	public static final String messageOfUserNotExist = "该用户不存在";
+	
+	//
+//	public static final Integer status
+	
+	
 	/**
 	 * 基本参数值
 	 */
@@ -60,6 +79,8 @@ public class Values {
 	public static final Integer relationNotDelete = 1;
 	//验证码长度
 	public static final Integer verificationCodeLength = 4;
+	//
+	public static final Long verificationCodeTime = (long) (15 * 60 * 60 * 1000) ;
 	
 	/**
 	 * 请求参数值
@@ -84,6 +105,8 @@ public class Values {
 	public static final String methodOfUpdateLabel = "updateLabel";
 	//发送验证码
 	public static final String methodOfSendMessage = "sendMessage";
+	//登录或注册
+	public static final String methodOfLoginOrRegister = "loginOrRegister";
 	
 	
 }
