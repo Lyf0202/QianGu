@@ -79,9 +79,10 @@ public class Values {
 	public static final Integer relationNotDelete = 1;
 	//验证码长度
 	public static final Integer verificationCodeLength = 4;
-	//
+	//验证码有效期
 	public static final Long verificationCodeTime = (long) (15 * 60 * 60 * 1000) ;
-	
+	//同时能够聊天的人数
+	public static final Integer chatNum = 3;
 	/**
 	 * 请求参数值
 	 */

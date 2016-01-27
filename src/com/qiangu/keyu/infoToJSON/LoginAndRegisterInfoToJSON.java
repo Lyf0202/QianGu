@@ -7,7 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.qiangu.keyu.api.YunPianWangApi;
 import com.qiangu.keyu.controller.Keys;
 import com.qiangu.keyu.controller.Values;
+import com.qiangu.keyu.po.SchoolCoding;
 import com.qiangu.keyu.po.UserPo;
+import com.qiangu.keyu.service.SchoolService;
 import com.qiangu.keyu.service.UserService;
 
 import net.sf.json.JSONObject;
@@ -19,6 +21,9 @@ public class LoginAndRegisterInfoToJSON {
 	
 	@Autowired
 	private UserService userService;
+	
+	@Autowired
+	private SchoolService schoolService;
 
 	public JSONObject sendMessageInfoToJSON(Map<String, String[]> parameters) {
 		JSONObject returnJSON = new JSONObject();
@@ -56,10 +61,34 @@ public class LoginAndRegisterInfoToJSON {
 		JSONObject statusJSON = new JSONObject();
 		UserPo user = userService.getLoginOrRegisterUserInfo(parameters);
 		if(user != null){
-			
+			statusJSON.accumulate(Keys.status, Values.statusOfUserNotExist);
+			statusJSON.accumulate(Keys.message, Values.messageOfUserNotExist);
 		}else{
+			statusJSON.accumulate(Keys.status, Values.statusOfSuccess);
 			
 		}
+		return null;
+	}
+	
+	public JSONObject userPoToJSON(UserPo user){
+		JSONObject json = new JSONObject();
+		json.accumulate(Keys.userId, user.getId());
+		json.accumulate(Keys.sex, user.getSex());
+		json.accumulate(Keys.name, user.getName());
+		json.accumulate(Keys.birthday, user.getBirthday());
+		json.accumulate(Keys.chatId, user.getTalkId());
+		json.accumulate(Keys.lastLoginTime,user.getLastOnlineTime());
+		json.accumulate(Keys.education, user.getEducation());
+		json.accumulate(Keys.weight, user.getWeight());
+		json.accumulate(Keys.height, user.getHeight());
+		json.accumulate(Keys.motto, user.getLoveManifestoId());
+		SchoolCoding school = schoolService.getSchoolById(user.getSchoolId());
+		
+		return null;
+	}
+	
+	public JSONObject chatInfoToJSON(Map m){
+	
 		return null;
 	}
 }

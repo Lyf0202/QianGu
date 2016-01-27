@@ -1,5 +1,8 @@
 package com.qiangu.keyu.dao;
 
+import java.util.List;
+
+import com.qiangu.keyu.model.ChatUserModel;
 import com.qiangu.keyu.po.CitiesCoding;
 import com.qiangu.keyu.po.ProvinceCoding;
 import com.qiangu.keyu.po.SchoolCoding;
@@ -21,4 +24,6 @@ public interface TestDao extends BaseDao<UserPo>{
 	public void addSchoolType(SchoolTypeCoding schoolTypeCoding);
 	
 	public void addUser(UserPo userPo);
+	
+	public List<ChatUserModel> getChatUser();
 }

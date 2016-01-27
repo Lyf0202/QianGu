@@ -26,5 +26,7 @@ public interface TestService {
 	
 	public void addTestBaseDao();
 	
+	public void getChatUserModel();
+	
 
 }

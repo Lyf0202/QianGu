@@ -35,9 +35,9 @@ public class SchoolServiceImpl implements SchoolService {
 	 * @throws IOException 
 	 */
 	@Override
-	public List<String> getLocationSchool(Map<String, String> parameters) throws IOException {
-		String lat = parameters.get(parametersValues.lat);
-		String lng = parameters.get(parametersValues.lng);
+	public List<String> getLocationSchool(Map<String, String[]> parameters) throws IOException {
+		String lat = parameters.get(parametersValues.lat)[0];
+		String lng = parameters.get(parametersValues.lng)[0];
 		//根据经纬度获取用户所在省份
 		String province = baiduMapApi.getProvince(lat, lng);
 		//获取该省份所有的大学
@@ -109,6 +109,12 @@ public class SchoolServiceImpl implements SchoolService {
 		}
 		schoolAfterSort.remove(schoolAfterSort.size() - 1);
 		return schoolAfterSort;
+	}
+
+	@Override
+	public SchoolCoding getSchoolById(Integer id) {
+		
+		return schoolDao.getSchoolById(id);
 	}
 
 	

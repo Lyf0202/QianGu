@@ -95,6 +95,12 @@ public class TestServiceImpl implements TestService {
 		System.out.println(testdao.update(hql, params));
 	}
 
+	@Override
+	public void getChatUserModel() {
+		// TODO Auto-generated method stub
+		testdao.getChatUser();
+	}
+
 	
 
 }

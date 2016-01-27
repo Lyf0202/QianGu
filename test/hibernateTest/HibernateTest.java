@@ -28,7 +28,7 @@ public class HibernateTest {
 	private TestService testService;
 	
 	private SchoolService schoolService;
-	private Map<String,String> map;
+	private Map<String,String[]> map;
 	
 	private QiNiuYunApi qiniu;
 	@Before
@@ -36,7 +36,7 @@ public class HibernateTest {
 		ApplicationContext ac = new ClassPathXmlApplicationContext("beans.xml");
 		testService = (TestService) ac.getBean("testServiceImpl");
 		schoolService = (SchoolService) ac.getBean("schoolServiceImpl");
-		map = new HashMap<String,String>();
+		map = new HashMap<String,String[]>();
 		qiniu = (QiNiuYunApi) ac.getBean("qiNiuYunApi");
 	}
 	
@@ -62,8 +62,10 @@ public class HibernateTest {
 	
 	@Test
 	public void test2() throws HttpException, IOException{
-		map.put("lat", "30.290539");
-		map.put("lng","120.006685");
+		String[] str1 = {"30.290539"};
+		String[] str2 = {"120.006685"};
+		map.put("lat", str1);
+		map.put("lng", str2);
 		List<String> s = schoolService.getLocationSchool(map);
 		for(String school : s){
 			System.out.println(school);
@@ -77,10 +79,7 @@ public class HibernateTest {
 	
 	@Test
 	public void test3(){
-//		File file = new File("F:/cacu.jpeg");
-//		System.out.println(qiniu.pictureUpload("cacu.jpeg", file));
-		File file1 = new File("F:/123.jpg");
-		System.out.println();
+		testService.getChatUserModel();
 	}
 
 	@After

@@ -23,6 +23,16 @@ public class Keys {
 	public static final String message = "message";
 	//返回结果
 	public static final String result = "result";
+	//
+	public static final String me = "me";
+	//
+	public static final String chatUser1 = "chatUser1";
+	//
+	public static final String chatUser2 = "chatUser2";
+	//
+	public static final String chatUser3 = "chatUser3";
+	//
+	public static final String chatInfo = "chatInfo";
 	
 	/**
 	 * 用户基本信息key
@@ -45,6 +55,7 @@ public class Keys {
 	public static final String city = "city";
 	public static final String department = "department";
 	public static final String birthday = "birthday";
+	public static final String sex = "sex";
 	
 	/**
 	 * 匹配用户的额外属性
@@ -59,6 +70,8 @@ public class Keys {
 	public static final String chatId = "chatId";
 	public static final String relation = "relation";
 	public static final String hasChat = "hasChat";
+	public static final String endTime = "endTime";
+	public static final String deleteUserId = "deleteUserId";
 	
 	/**
 	 * 登录用户的额外属性
