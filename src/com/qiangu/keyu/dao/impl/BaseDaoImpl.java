@@ -28,7 +28,7 @@ public class BaseDaoImpl<T> implements BaseDao<T> {
 
 	@Override
 	public T getT(Class<T> c, Serializable id) {
-		// TODO Auto-generated method stub
+		
 		Session session = getSession();
 		System.out.println("session = "+session);
 		return (T) session.get(c,id);

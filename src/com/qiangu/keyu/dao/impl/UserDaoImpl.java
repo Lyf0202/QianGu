@@ -12,7 +12,7 @@ import com.qiangu.keyu.po.UserPo;
 @Repository
 public class UserDaoImpl extends BaseDaoImpl<UserPo> implements UserDao{
 
-	String getUserByTelephoneHql = "select UserPo from UserPo where UserPo.telephone = :telephone";
+	String getUserByTelephoneHql = "from UserPo as U where U.telephone = :telephone";
 	@Override
 	public UserPo getUserByTelephone(String telephone) {
 		Map<String , Object> params =  new HashMap<>();
@@ -30,6 +30,12 @@ public class UserDaoImpl extends BaseDaoImpl<UserPo> implements UserDao{
 		}
 		
 		return findTs(getChatUsersByIdsHql, params);
+	}
+	
+	@Override
+	public UserPo getUserByUserId(Integer userId) {
+		
+		return getT(UserPo.class, userId);
 	}
 
 }

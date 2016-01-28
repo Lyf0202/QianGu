@@ -7,50 +7,50 @@ public class Values {
 	 * 返回状态值
 	 */
 	//
-	public static final Integer statusOfSuccess = 100;
+	public static final Integer statusOfSuccess = 1;
 	
 	//无效ContentType
-	public static final Integer statusOfInvalidRequest = 0;
+	public static final Integer statusOfInvalidRequest = 100;
 	//
 	public static final String messageOfInvalidRequest = "无效请求";
 	
 	//请求参数有空值
-	public static final Integer statusOfNullParameter = 1;
+	public static final Integer statusOfNullParameter = 101;
 	//
 	public static final String messageOfNullParameters = "请求参数有空值";
 	
 	//请求验证失败
-	public static final Integer statusOfInvalidToken = 2;
+	public static final Integer statusOfInvalidToken = 102;
 	//
 	public static final String messageOfInvalidToken = "请求验证失败";
 	
 	//服务器内部错误
-	public static final Integer statusOfServiceError = 3;
+	public static final Integer statusOfServiceError = 103;
 	//
 	public static final String messageOfServiceError = "服务器内部错误";
 	
 	//请求方法不存在
-	public static final Integer statusOfNoMethod = 4;
+	public static final Integer statusOfNoMethod = 104;
 	//
 	public static final String messageOfNoMethod = "无效method";
 	
 	//发送验证码失败
-	public static final Integer statusOfSendMessageFailed = 5;
+	public static final Integer statusOfSendMessageFailed = 105;
 	//
 	public static final String messageOfSenfMessageFailed = "发送验证码失败";
 	
 	//验证码错误
-	public static final Integer statusOfWrongVerificationCode = 6;
+	public static final Integer statusOfWrongVerificationCode = 106;
 	//
 	public static final String messageOfWrongVerificationCode = "验证码错误";
 	
 	//验证码失效
-	public static final Integer statusOfInvalidVerificationCode = 7;
+	public static final Integer statusOfInvalidVerificationCode = 107;
 	//
 	public static final String messageOfInvalidVerificationCode = "验证码失效";
 	
 	//用户不存在
-	public static final Integer statusOfUserNotExist = 8;
+	public static final Integer statusOfUserNotExist = 108;
 	//
 	public static final String messageOfUserNotExist = "该用户不存在";
 	
@@ -83,6 +83,12 @@ public class Values {
 	public static final Long verificationCodeTime = (long) (15 * 60 * 60 * 1000) ;
 	//同时能够聊天的人数
 	public static final Integer chatNum = 3;
+	//当前使用标签
+	public static final Integer isNow = 1;
+	//当前未使用标签
+	public static final Integer notIsNow = 0;
+	
+	
 	/**
 	 * 请求参数值
 	 */

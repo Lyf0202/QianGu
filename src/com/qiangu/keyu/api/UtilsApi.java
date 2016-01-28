@@ -146,9 +146,10 @@ public class UtilsApi {
 		String verificationCode = parameters.get(Keys.verificationCode)[0];
 		HttpSession session = request.getSession();
 		Object sendVerificationCodeTime = session.getAttribute(Keys.verificationCodeTime);
+		System.out.println("sendVerificationCodeTime = "+sendVerificationCodeTime);
 		Object verificationCodeService = session.getAttribute(Keys.verificationCode);
 		if (verificationCodeService != null && sendVerificationCodeTime != null) {
-			long startTime = Long.valueOf((String) sendVerificationCodeTime);
+			long startTime = Long.valueOf(String.valueOf(sendVerificationCodeTime)).longValue();
 			long nowTime = System.currentTimeMillis();
 			if ((nowTime - startTime) <= Values.verificationCodeTime) {
 				if (verificationCodeService.equals(verificationCode)) {

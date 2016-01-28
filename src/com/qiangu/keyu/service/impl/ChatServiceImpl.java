@@ -17,8 +17,7 @@ public class ChatServiceImpl implements ChatService {
 	private ChatDao chatDao;
 	
 	@Override
-	public List<Map> getChatInfo(Map<String, String[]> parameters) {
-		Integer userId = Integer.valueOf(parameters.get(Keys.userId)[0]);
+	public List<Map> getChatInfo(Integer userId) {
 		return chatDao.getChatUsersById(userId);
 	}
 

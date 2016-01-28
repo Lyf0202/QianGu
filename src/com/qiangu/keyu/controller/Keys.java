@@ -26,11 +26,7 @@ public class Keys {
 	//
 	public static final String me = "me";
 	//
-	public static final String chatUser1 = "chatUser1";
-	//
-	public static final String chatUser2 = "chatUser2";
-	//
-	public static final String chatUser3 = "chatUser3";
+	public static final String chatUser = "chatUser";
 	//
 	public static final String chatInfo = "chatInfo";
 	

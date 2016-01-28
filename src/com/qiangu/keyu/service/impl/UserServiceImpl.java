@@ -38,4 +38,10 @@ public class UserServiceImpl implements UserService {
 		return userDao.getChatUsersByIds(list);
 	}
 
+	@Override
+	public UserPo getUserByUserId(Integer userId) {
+		
+		return userDao.getUserByUserId(userId);
+	}
+
 }

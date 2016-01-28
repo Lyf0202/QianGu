@@ -15,12 +15,10 @@ public class LoginAndRegisterResult {
 	@Autowired
 	private LoginAndRegisterInfoToJSON loginAndRegisterInfoToJSON;
 
-	public JSONObject getResult(Map<String,String[]> parameters){
+	public JSONObject getSendMessageResult(Map<String,String[]> parameters,String verificationCode){
 		JSONObject result ;
-		if(parameters.get(Keys.method).equals(Values.methodOfSendMessage)){
-			result = loginAndRegisterInfoToJSON.sendMessageInfoToJSON(parameters);
-		}else if(parameters.get(Keys.method).equals(Values.methodOfLoginOrRegister)){
-			
+		if(parameters.get(Keys.method)[0].equals(Values.methodOfSendMessage)){
+			result = loginAndRegisterInfoToJSON.sendMessageInfoToJSON(parameters,verificationCode);
 		}else{
 			result = new JSONObject();
 			JSONObject statusJSON = new JSONObject();
@@ -28,6 +26,20 @@ public class LoginAndRegisterResult {
 			statusJSON.accumulate(Keys.message, Values.messageOfNoMethod);
 			result.put(Keys.status, statusJSON);
 		}
-		return null;
+		return result;
+	}
+	
+	public JSONObject getResult(Map<String,String[]> parameters){
+		JSONObject result ;
+		if(parameters.get(Keys.method)[0].equals(Values.methodOfLoginOrRegister)){
+			result = loginAndRegisterInfoToJSON.loginOrRegisterInfoToJSON(parameters);
+		}else{
+			result = new JSONObject();
+			JSONObject statusJSON = new JSONObject();
+			statusJSON.accumulate(Keys.status, Values.statusOfNoMethod);
+			statusJSON.accumulate(Keys.message, Values.messageOfNoMethod);
+			result.put(Keys.status, statusJSON);
+		}
+		return result;
 	}
 }

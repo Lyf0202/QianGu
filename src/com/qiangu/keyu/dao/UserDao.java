@@ -9,4 +9,6 @@ public interface UserDao extends BaseDao<UserPo>{
 	public UserPo getUserByTelephone(String telephone);
 	
 	public List<UserPo> getChatUsersByIds(List<Integer> list);
+	
+	public UserPo getUserByUserId(Integer userId);
 }

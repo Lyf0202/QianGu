@@ -42,6 +42,13 @@ public class JUnitTest {
 		System.out.println(o instanceof JSONObject);
 	}
 	
+	@Test
+	public void test4(){
+		Object o = "12345";
+		long l = Long.valueOf((String) o);
+		System.out.println(l);
+	}
+	
 	public Object getObject(){
 		JSONObject j = new JSONObject();
 		j.accumulate("4132", "4545");

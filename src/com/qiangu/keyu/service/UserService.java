@@ -10,4 +10,6 @@ public interface UserService {
 	public UserPo getLoginOrRegisterUserInfo(Map<String,String[]> parameters);
 	
 	public List<UserPo> getChatUserInfo(List<Map> chatList);
+	
+	public UserPo getUserByUserId(Integer userId);
 }

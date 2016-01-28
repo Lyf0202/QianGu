@@ -36,15 +36,14 @@ public class LoginAndRegisterController {
 		System.out.println("ContentType = " + contentType);
 		Map<String, String[]> parameters = request.getParameterMap();
 		String resultStr = "123456789";
-		String verificationCode = utilsApi.getRandomNum(Values.verificationCodeLength);
+//		String verificationCode = utilsApi.getRandomNum(Values.verificationCodeLength);
+		String verificationCode = "1111";
 		HttpSession session = request.getSession();
 		JSONObject resultJSON = utilsApi.parametersIsValid(contentType, parameters);
 		if (resultJSON == null) {
 			session.setAttribute(Keys.verificationCode,verificationCode);
 			session.setAttribute(Keys.verificationCodeTime, System.currentTimeMillis());
-			String[] verificationCodes = {verificationCode}; 
-			parameters.put(Keys.verificationCode,verificationCodes);
-			resultJSON = loginAndRegisterResult.getResult(parameters);
+			resultJSON = loginAndRegisterResult.getSendMessageResult(parameters, verificationCode);
 		}
 		resultStr = resultJSON.toString();
 		System.out.println("resultStr ========= " + resultStr);
@@ -64,7 +63,7 @@ public class LoginAndRegisterController {
 		if(resultJSON == null){
 			resultJSON = utilsApi.requestIsLegal(request, parameters);
 			if(resultJSON == null){
-				
+				resultJSON = loginAndRegisterResult.getResult(parameters);
 			}
 		}
 		resultStr = resultJSON.toString();

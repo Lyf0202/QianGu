@@ -19,8 +19,10 @@ import com.qiangu.keyu.api.QiNiuYunApi;
 import com.qiangu.keyu.po.SchoolCoding;
 import com.qiangu.keyu.po.SchoolTypeCoding;
 import com.qiangu.keyu.po.UserPo;
+import com.qiangu.keyu.service.LoveManifestoService;
 import com.qiangu.keyu.service.SchoolService;
 import com.qiangu.keyu.service.TestService;
+import com.qiangu.keyu.service.UserService;
 
 
 public class HibernateTest {
@@ -29,7 +31,8 @@ public class HibernateTest {
 	
 	private SchoolService schoolService;
 	private Map<String,String[]> map;
-	
+	private UserService userService;
+	private LoveManifestoService loveManifestoService;
 	private QiNiuYunApi qiniu;
 	@Before
 	public void before(){
@@ -38,6 +41,8 @@ public class HibernateTest {
 		schoolService = (SchoolService) ac.getBean("schoolServiceImpl");
 		map = new HashMap<String,String[]>();
 		qiniu = (QiNiuYunApi) ac.getBean("qiNiuYunApi");
+		loveManifestoService = (LoveManifestoService) ac.getBean("loveManifestoServiceImpl");
+		userService = (UserService) ac.getBean("userServiceImpl");
 	}
 	
 	@Test
@@ -50,7 +55,10 @@ public class HibernateTest {
 		}
 		
 	}
-	
+	@Test
+	public void tt(){
+		System.out.println(loveManifestoService.getLoveManifestoPoByUserId(1));
+	}
 	@Test
 	public void test1(){
 		SchoolTypeCoding schoolTypeCoding = new SchoolTypeCoding();
@@ -79,7 +87,10 @@ public class HibernateTest {
 	
 	@Test
 	public void test3(){
-		testService.getChatUserModel();
+		Map<String, String[]> parameters = new HashMap<>();
+		String[] telephone = {"18857117310"};
+		parameters.put("telephone", telephone);
+		System.out.println(userService.getLoginOrRegisterUserInfo(parameters));
 	}
 
 	@After
