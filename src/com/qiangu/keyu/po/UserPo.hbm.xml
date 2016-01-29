@@ -56,7 +56,7 @@
         <property name="weight" type="java.lang.Double">
             <column name="weight" />
         </property>
-        <property name="birthday" type="java.util.Date">
+        <property name="birthday" type="java.lang.String">
             <column name="birthday" />
         </property>
         <property name="talkId" type="java.lang.String">

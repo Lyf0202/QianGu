@@ -15,7 +15,7 @@ public interface BaseDao<T> {
 	
 	public T getT(Class<T> c,Serializable id);
 	
-	public void save(T t);
+	public Serializable save(T t);
 	
 	public Integer update(String hql,Map<String , Object> params);
 	

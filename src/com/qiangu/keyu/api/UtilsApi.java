@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.UnsupportedEncodingException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -241,6 +242,7 @@ public class UtilsApi {
 	 * @return
 	 */
 	public Object getUploadParameters(HttpServletRequest request) {
+		List<Object> parametersList = new ArrayList<Object>();
 		Map<String, String> parameters = new HashMap<>();
 		Map<String, byte[]> fileContents = new HashMap<>();
 		boolean isMultipartContent = ServletFileUpload.isMultipartContent(request);
@@ -274,6 +276,8 @@ public class UtilsApi {
 					//
 				}
 			}
+			parametersList.add(parameters);
+			parametersList.add(fileContents);
 			JSONObject resultJSON = parametersIsValid(parameters);
 			if (resultJSON != null) {
 				return resultJSON;
@@ -287,6 +291,6 @@ public class UtilsApi {
 			return resultJSON;
 		}
 
-		return parameters;
+		return parametersList;
 	}
 }

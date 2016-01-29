@@ -9,4 +9,5 @@ public interface ChatDao extends BaseDao<ChatPo>{
 
 	public List<Map> getChatUsersById(Integer userId);
 	
+	public List<ChatPo> getChatPo(Integer userId);
 }

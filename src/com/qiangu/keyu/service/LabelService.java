@@ -7,5 +7,5 @@ import com.qiangu.keyu.po.LabelPo;
 
 public interface LabelService {
 
-	public List<LabelPo> getLabels(Map<String , String[]> parameters);
+	public List<LabelPo> getLabels(Integer userId);
 }

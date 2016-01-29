@@ -3,10 +3,13 @@ package hibernateTest;
 import static org.junit.Assert.*;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.apache.catalina.util.URLEncoder;
 import org.junit.Test;
+
+import com.qiangu.keyu.api.Sqlite;
 
 import net.sf.json.JSON;
 import net.sf.json.JSONObject;
@@ -38,15 +41,16 @@ public class JUnitTest {
 
 	@Test
 	public void test3(){
-		Object o = getObject();
-		System.out.println(o instanceof JSONObject);
+//		Object o = getObject();
+//		System.out.println(o instanceof JSONObject);
+		Date d = new Date();
+		System.out.println(d);
+		System.out.println(d.getTime());
 	}
 	
 	@Test
 	public void test4(){
-		Object o = "12345";
-		long l = Long.valueOf((String) o);
-		System.out.println(l);
+		
 	}
 	
 	public Object getObject(){

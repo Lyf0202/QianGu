@@ -1,5 +1,7 @@
 package com.qiangu.keyu.infoToJSON;
 
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -8,12 +10,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.qiangu.keyu.api.YunPianWangApi;
 import com.qiangu.keyu.controller.Keys;
 import com.qiangu.keyu.controller.Values;
+import com.qiangu.keyu.po.LabelPo;
 import com.qiangu.keyu.po.LoveManifestoPo;
 import com.qiangu.keyu.po.SchoolCoding;
 import com.qiangu.keyu.po.UserPo;
 import com.qiangu.keyu.service.ChatService;
 import com.qiangu.keyu.service.LabelService;
 import com.qiangu.keyu.service.LoveManifestoService;
+import com.qiangu.keyu.service.PictureService;
 import com.qiangu.keyu.service.SchoolService;
 import com.qiangu.keyu.service.UserService;
 
@@ -33,6 +37,8 @@ public class LoginAndRegisterInfoToJSON {
 	private LoveManifestoService loveManifestoService;
 	@Autowired
 	private ChatService chatService;
+	@Autowired
+	private PictureService pictureService;
 
 	public JSONObject sendMessageInfoToJSON(Map<String, String[]> parameters,String verificationCode) {
 		JSONObject returnJSON = new JSONObject();
@@ -91,6 +97,36 @@ public class LoginAndRegisterInfoToJSON {
 		return returnJSON;
 	}
 	
+	public JSONObject completeRegisterInfoToJSON(Map<String,String> parameters,Map<String,byte[]> fileContents){
+		JSONObject returnJSON = new JSONObject();
+		JSONObject statusJSON  = new JSONObject();
+		JSONObject resultJSON ;
+		UserPo user = new UserPo();
+		user.setTelephone(parameters.get(Keys.telephone));
+		user.setSex(Integer.valueOf(parameters.get(Keys.sex)));
+		user.setName(parameters.get(Keys.name));
+		user.setEducation(parameters.get(Keys.education));
+		user.setSchoolId(Integer.valueOf(parameters.get(Keys.school)));
+		String avatarName = parameters.get(Keys.telephone) + "_"+1;
+		Integer userId = Integer.valueOf(userService.addUser(user).toString());
+		if(userId > 0){
+			if(pictureService.addAvatar(userId, avatarName, fileContents.get(Keys.avatar)).equals(Values.yes) ){
+				statusJSON.accumulate(Keys.status, Values.statusOfSuccess);
+				
+			}else{
+				statusJSON.accumulate(Keys.status, Values.statusOfServiceError);
+				statusJSON.accumulate(Keys.message, Values.messageOfServiceError);
+			}
+			
+		}else{
+			statusJSON.accumulate(Keys.status, Values.statusOfServiceError);
+			statusJSON.accumulate(Keys.message, Values.messageOfServiceError);
+		}
+		returnJSON.put(Keys.status, statusJSON);
+		
+		return returnJSON;
+	}
+	
 	public JSONObject userPoToJSON(UserPo user){
 		JSONObject json = new JSONObject();
 		json.accumulate(Keys.userId, user.getId());
@@ -98,13 +134,20 @@ public class LoginAndRegisterInfoToJSON {
 		json.accumulate(Keys.name, user.getName());
 		json.accumulate(Keys.birthday, user.getBirthday());
 		json.accumulate(Keys.chatId, user.getTalkId());
-		json.accumulate(Keys.lastLoginTime,user.getLastOnlineTime());
+		json.accumulate(Keys.lastLoginTime,user.getLastOnlineTime().getTime());
 		json.accumulate(Keys.education, user.getEducation());
 		json.accumulate(Keys.weight, user.getWeight());
 		json.accumulate(Keys.height, user.getHeight());
-		json.accumulate(Keys.motto, user.getLoveManifestoId());
 		SchoolCoding school = schoolService.getSchoolById(user.getSchoolId());
 		LoveManifestoPo loveManifestoPo = loveManifestoService.getLoveManifestoPoByUserId(user.getId());
+		json.accumulate(Keys.school, school.getSchool_name());
+		json.accumulate(Keys.motto, loveManifestoPo.getLoveManifesto());
+		List<LabelPo> labels = labelService.getLabels(user.getId());
+		List<String> listLabels = new ArrayList<>();
+		for(LabelPo l : labels){
+			listLabels.add(l.getLabelContent());
+		}
+		json.accumulate(Keys.labels, listLabels);
 		return json;
 	}
 	
@@ -120,9 +163,9 @@ public class LoginAndRegisterInfoToJSON {
 	public JSONObject chatInfoToJSON(Map m){
 		JSONObject json = new JSONObject();
 		json.accumulate(Keys.chatId, m.get(Keys.chatId));
-		json.accumulate(Keys.startChatDate, m.get(Keys.startChatDate));
+		json.accumulate(Keys.startChatDate, ((Date)m.get(Keys.startChatDate)).getTime());
 		json.accumulate(Keys.hasChat, m.get(Keys.hasChat));
-		json.accumulate(Keys.endTime, m.get(Keys.endTime));
+//		json.accumulate(Keys.endTime, ((Date)m.get(Keys.endTime)).getTime());
 		json.accumulate(Keys.deleteUserId, m.get(Keys.deleteUserId));
 		json.accumulate(Keys.intimacy, m.get(Keys.intimacy));
 		return json;

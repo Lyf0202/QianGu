@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.qiangu.keyu.controller.Keys;
 import com.qiangu.keyu.dao.ChatDao;
+import com.qiangu.keyu.po.ChatPo;
 import com.qiangu.keyu.service.ChatService;
 
 @Service
@@ -19,6 +20,12 @@ public class ChatServiceImpl implements ChatService {
 	@Override
 	public List<Map> getChatInfo(Integer userId) {
 		return chatDao.getChatUsersById(userId);
+	}
+
+	@Override
+	public List<ChatPo> getChat(Integer userId) {
+		
+		return chatDao.getChatPo(userId);
 	}
 
 }

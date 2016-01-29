@@ -42,4 +42,18 @@ public class LoginAndRegisterResult {
 		}
 		return result;
 	}
+	
+	public JSONObject getResult(Map<String,String> parameters,Map<String,byte[]> fileContents){
+		JSONObject result ;
+		if(parameters.get(Keys.method).equals(Values.completeRegister)){
+			result = loginAndRegisterInfoToJSON.completeRegisterInfoToJSON(parameters, fileContents);
+		}else{
+			result = new JSONObject();
+			JSONObject statusJSON = new JSONObject();
+			statusJSON.accumulate(Keys.status, Values.statusOfNoMethod);
+			statusJSON.accumulate(Keys.message, Values.messageOfNoMethod);
+			result.put(Keys.status, statusJSON);
+		}
+		return result;
+	}
 }

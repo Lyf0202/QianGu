@@ -59,9 +59,7 @@ public class UpdateController {
 		if(object instanceof JSONObject){
 			resultJSON = (JSONObject) object;
 		}else{
-			parameters = (Map<String, String>) object;
-			resultJSON = new JSONObject();
-			resultJSON.accumulate("kobe", "Yes");
+			
 		}
 		String resultStr = resultJSON.toString();
 		System.out.println();

@@ -1,5 +1,6 @@
 package com.qiangu.keyu.service.impl;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -42,6 +43,11 @@ public class UserServiceImpl implements UserService {
 	public UserPo getUserByUserId(Integer userId) {
 		
 		return userDao.getUserByUserId(userId);
+	}
+
+	@Override
+	public Serializable addUser(UserPo user) {
+		return userDao.save(user);		
 	}
 
 }

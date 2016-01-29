@@ -16,10 +16,19 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import com.qiangu.keyu.api.QiNiuYunApi;
+import com.qiangu.keyu.api.Sqlite;
+import com.qiangu.keyu.dao.LoveManifestoDao;
+import com.qiangu.keyu.po.AvatarPo;
+import com.qiangu.keyu.po.ChatPo;
+import com.qiangu.keyu.po.LabelPo;
+import com.qiangu.keyu.po.LoveManifestoPo;
 import com.qiangu.keyu.po.SchoolCoding;
 import com.qiangu.keyu.po.SchoolTypeCoding;
 import com.qiangu.keyu.po.UserPo;
+import com.qiangu.keyu.service.ChatService;
+import com.qiangu.keyu.service.LabelService;
 import com.qiangu.keyu.service.LoveManifestoService;
+import com.qiangu.keyu.service.PictureService;
 import com.qiangu.keyu.service.SchoolService;
 import com.qiangu.keyu.service.TestService;
 import com.qiangu.keyu.service.UserService;
@@ -34,6 +43,10 @@ public class HibernateTest {
 	private UserService userService;
 	private LoveManifestoService loveManifestoService;
 	private QiNiuYunApi qiniu;
+	private LabelService labelService;
+	private ChatService chatService;
+	private PictureService pic;
+	private LoveManifestoDao lo;
 	@Before
 	public void before(){
 		ApplicationContext ac = new ClassPathXmlApplicationContext("beans.xml");
@@ -43,6 +56,10 @@ public class HibernateTest {
 		qiniu = (QiNiuYunApi) ac.getBean("qiNiuYunApi");
 		loveManifestoService = (LoveManifestoService) ac.getBean("loveManifestoServiceImpl");
 		userService = (UserService) ac.getBean("userServiceImpl");
+		labelService = (LabelService) ac.getBean("labelServiceImpl");
+		chatService = (ChatService) ac.getBean("chatServiceImpl");
+		lo = (LoveManifestoDao) ac.getBean("loveManifestoDaoImpl");
+		pic = (PictureService) ac.getBean("pictureServiceImpl");
 	}
 	
 	@Test
@@ -57,15 +74,28 @@ public class HibernateTest {
 	}
 	@Test
 	public void tt(){
-		System.out.println(loveManifestoService.getLoveManifestoPoByUserId(1));
+//		List<ChatPo> l = chatService.getChat(1);
+//		for(ChatPo p :l){
+//			System.out.println(p);
+//		}
+		AvatarPo a= new AvatarPo();
+		a.setPictureId(123);
+		pic.addAvatar(1,"123", null);
 	}
 	@Test
 	public void test1(){
-		SchoolTypeCoding schoolTypeCoding = new SchoolTypeCoding();
-		schoolTypeCoding.setSchoolTypeName("杭师");
-		testService.addTestBaseDao();
-		
-		System.out.println("------------------------");
+		Sqlite sqlite = new Sqlite();
+		for(int i = 5 ; i <= 2734 ; i++){
+			SchoolCoding school = schoolService.getSchoolById(i);
+			if(school != null){
+				String schoolName = school.getSchool_name();
+				int proId = school.getSchool_pro_id();
+				int typeId = school.getSchool_schooltype_id();
+				String insertSql = "insert into school values ("+i+",'"+schoolName+"',"+proId+","+typeId+")";
+				sqlite.insert(insertSql);
+				System.out.println("success "+i);
+			}
+		}
 	}
 	
 	@Test

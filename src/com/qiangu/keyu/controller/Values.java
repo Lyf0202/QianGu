@@ -87,6 +87,10 @@ public class Values {
 	public static final Integer isNow = 1;
 	//当前未使用标签
 	public static final Integer notIsNow = 0;
+	//
+	public static final String yes = "yes";
+	//
+	public static final String no = "no";
 	
 	
 	/**
@@ -114,6 +118,8 @@ public class Values {
 	public static final String methodOfSendMessage = "sendMessage";
 	//登录或注册
 	public static final String methodOfLoginOrRegister = "loginOrRegister";
+	//
+	public static final String completeRegister = "completeRegister";
 	
 	
 }

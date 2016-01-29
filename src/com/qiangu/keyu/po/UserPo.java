@@ -47,7 +47,7 @@ public class UserPo {
 	//体重
 	private Double weight;
 	//出生年月
-	private Date birthday;
+	private String birthday;
 	//聊天id
 	private String talkId;
 	//聊天密码
@@ -171,10 +171,10 @@ public class UserPo {
 	public void setWeight(Double weight) {
 		this.weight = weight;
 	}
-	public Date getBirthday() {
+	public String getBirthday() {
 		return birthday;
 	}
-	public void setBirthday(Date birthday) {
+	public void setBirthday(String birthday) {
 		this.birthday = birthday;
 	}
 	public String getTalkId() {

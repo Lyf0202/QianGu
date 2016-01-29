@@ -35,9 +35,9 @@ public class BaseDaoImpl<T> implements BaseDao<T> {
 	}
 
 	@Override
-	public void save(T t) {
+	public Serializable save(T t) {
 		// TODO Auto-generated method stub
-		getSession().save(t);
+		return getSession().save(t);
 	}
 
 	@Override

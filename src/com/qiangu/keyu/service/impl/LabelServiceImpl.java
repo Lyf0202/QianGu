@@ -19,8 +19,7 @@ public class LabelServiceImpl implements LabelService {
 	
 	
 	@Override
-	public List<LabelPo> getLabels(Map<String, String[]> parameters) {
-		Integer userId = Integer.valueOf(parameters.get(Keys.userId)[0]);
+	public List<LabelPo> getLabels(Integer userId) {
 		return labelDao.getLabelsById(userId);
 	}
 

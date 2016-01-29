@@ -1,5 +1,6 @@
 package com.qiangu.keyu.controller;
 
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -61,6 +62,7 @@ public class LoginAndRegisterController {
 		String resultStr = "123456789";
 		JSONObject resultJSON = utilsApi.parametersIsValid(contentType, parameters);
 		if(resultJSON == null){
+			//判断验证码是否正确
 			resultJSON = utilsApi.requestIsLegal(request, parameters);
 			if(resultJSON == null){
 				resultJSON = loginAndRegisterResult.getResult(parameters);
@@ -68,6 +70,26 @@ public class LoginAndRegisterController {
 		}
 		resultStr = resultJSON.toString();
 		System.out.println("resultStr ========= " + resultStr);
-		return null;
+		return resultStr;
+	}
+	
+	@RequestMapping(value="completeRegisterService.do",produces="text/json;charset=UTF-8")
+	@ResponseBody
+	public String completeRegister(HttpServletRequest request, HttpServletResponse response){
+		System.out.println("\n completeRegisterService.do " + utilsApi.getCurrentTime() + " *****************");
+		JSONObject resultJSON = null;
+		Object object = utilsApi.getUploadParameters(request);
+		if(object instanceof JSONObject){
+			resultJSON = (JSONObject) object;
+		}else{
+			List<Object> parametersList = (List<Object>) object;
+			Map<String,String> parameters = (Map<String, String>) parametersList.get(0);
+			Map<String,byte[]> fileContents = (Map<String, byte[]>) parametersList.get(1);
+			resultJSON = loginAndRegisterResult.getResult(parameters, fileContents);
+		}
+		String resultStr = resultJSON.toString();
+		System.out.println();
+		System.out.println(resultStr);
+		return resultStr;
 	}
 }
