@@ -17,6 +17,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import com.qiangu.keyu.api.QiNiuYunApi;
 import com.qiangu.keyu.api.Sqlite;
+import com.qiangu.keyu.controller.Keys;
 import com.qiangu.keyu.dao.LoveManifestoDao;
 import com.qiangu.keyu.po.AvatarPo;
 import com.qiangu.keyu.po.ChatPo;
@@ -73,14 +74,19 @@ public class HibernateTest {
 		
 	}
 	@Test
-	public void tt(){
-//		List<ChatPo> l = chatService.getChat(1);
-//		for(ChatPo p :l){
-//			System.out.println(p);
-//		}
-		AvatarPo a= new AvatarPo();
-		a.setPictureId(123);
-		pic.addAvatar(1,"123", null);
+	public void tt() throws HttpException, IOException{
+//		
+		Map<String , String[]> parameters = new HashMap<>();
+		String[] lat = {"30.318659"};
+		String[] lng = {"120.352625"};
+		String[] method = {"getSchool"};
+		parameters.put(Keys.lat,lat);
+		parameters.put(Keys.lng, lng);
+		parameters.put(Keys.method, method);
+		List<String> schools = schoolService.getLocationSchool(parameters);
+		for(String s : schools){
+			System.out.println(s);
+		}
 	}
 	@Test
 	public void test1(){

@@ -43,6 +43,7 @@ public class BaiduMapApi {
 	 */
 	public Map<String, String> changeLatAndLon(String lat, String lon, String coordsFrom, String coordsTo) throws HttpException, IOException {
 		ak = readXmlApi.getBaiduMapAk().get(readXmlApi.BaiduAk);
+		System.out.println("ak = "+ak);
 		String url = "http://api.map.baidu.com/geoconv/v1/";
 		fullURL = url + "?coords=" + lat + "," + lon + "&from=" + coordsFrom + "&to=" + coordsTo + "&ak=" + ak;
 		JSONObject jsonObject = getBaiduResult(fullURL);

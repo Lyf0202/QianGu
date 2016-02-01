@@ -7,8 +7,9 @@ public class Keys {
 	 * 请求参数名
 	 */
 	
-	
+	//纬度
 	public static final String lat = "lat";
+	//经度
 	public static final String lng = "lng";
 	public static final String method = "method";
 	
@@ -19,16 +20,18 @@ public class Keys {
 	
 	//返回状态
 	public static final String status = "status";
-	//
+	//返回结果说明
 	public static final String message = "message";
 	//返回结果
 	public static final String result = "result";
-	//
+	//登录用户的信息
 	public static final String me = "me";
-	//
+	//聊天用户的信息
 	public static final String chatUser = "chatUser";
-	//
+	//聊天信息
 	public static final String chatInfo = "chatInfo";
+	//学校信息
+	public static final String schools = "schools";
 	
 	/**
 	 * 用户基本信息key
@@ -78,6 +81,7 @@ public class Keys {
 	/**
 	 * 
 	 */
+	//验证码
 	public static final String verificationCode = "verificationCode";
 	public static final String verificationCodeTime = "verificationCodeTime";
 }

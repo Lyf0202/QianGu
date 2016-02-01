@@ -54,8 +54,10 @@ public class Values {
 	//
 	public static final String messageOfUserNotExist = "该用户不存在";
 	
+	//定位学校失败
+	public static final Integer statusOfNoSchools = 109;
 	//
-//	public static final Integer status
+	public static final String messageOfNoSchools = "附近没有匹配学校";
 	
 	
 	/**
@@ -80,7 +82,7 @@ public class Values {
 	//验证码长度
 	public static final Integer verificationCodeLength = 4;
 	//验证码有效期
-	public static final Long verificationCodeTime = (long) (15 * 60 * 60 * 1000) ;
+	public static final Long verificationCodeTime = (long) (5 * 60 * 1000) ;
 	//同时能够聊天的人数
 	public static final Integer chatNum = 3;
 	//当前使用标签
@@ -118,8 +120,10 @@ public class Values {
 	public static final String methodOfSendMessage = "sendMessage";
 	//登录或注册
 	public static final String methodOfLoginOrRegister = "loginOrRegister";
+	//完成注册
+	public static final String methodOfCompleteRegister = "completeRegister";
 	//
-	public static final String completeRegister = "completeRegister";
+	public static final String methodOfGetSchool = "getSchool";
 	
 	
 }

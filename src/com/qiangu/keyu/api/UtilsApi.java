@@ -136,7 +136,7 @@ public class UtilsApi {
 //		return requestIsLegal(request, params);
 //	}
 	/**
-	 * 判断验证码是否正确
+	 * 判断验证码是否正确,正确，返回null 否则返回对应的错误信息JSON
 	 * @param request
 	 * @param parameters
 	 * @return

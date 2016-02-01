@@ -28,10 +28,13 @@ public class ReadXmlApi {
 	private List<Element> childElements;
 	private Map<String, String> resultMap;
 	
+	private final String UbuntuPath = "/root/KeYu/qiangu.xml";
+	private final String WindowsPath = "E:/qiangu.xml";
+	
 	public ReadXmlApi() {
 		// TODO Auto-generated constructor stub
 		reader = new SAXReader();
-		file = new File("E:/qiangu.xml");
+		file = new File(UbuntuPath);
 		try {
 			document = reader.read(file);
 		} catch (DocumentException e) {

@@ -23,6 +23,7 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public UserPo getLoginOrRegisterUserInfo(Map<String, String[]> parameters) {
 		String telephone = parameters.get(Keys.telephone)[0];
+		
 		UserPo user = userDao.getUserByTelephone(telephone);
 		return user;
 	}

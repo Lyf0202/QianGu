@@ -40,12 +40,12 @@ public class LoginAndRegisterInfoToJSON {
 	@Autowired
 	private PictureService pictureService;
 
-	public JSONObject sendMessageInfoToJSON(Map<String, String[]> parameters,String verificationCode) {
+	public JSONObject sendMessageInfoToJSON(Map<String, String[]> parameters, String verificationCode) {
 		JSONObject returnJSON = new JSONObject();
 		JSONObject statusJSON = new JSONObject();
 		// 发送验证码
-//		String yunpianwangResult = yunPianWangApi.sendSms(verificationCode,
-//				parameters.get(Keys.telephone)[0]);
+		// String yunpianwangResult = yunPianWangApi.sendSms(verificationCode,
+		// parameters.get(Keys.telephone)[0]);
 		String yunpianwangResult = "0";
 		System.out.println("yunpianwangResult = " + yunpianwangResult);
 		// 发送成功情况
@@ -71,21 +71,21 @@ public class LoginAndRegisterInfoToJSON {
 		returnJSON.put(Keys.status, statusJSON);
 		return returnJSON;
 	}
-	
-	public JSONObject loginOrRegisterInfoToJSON(Map<String ,String[]> parameters){
+
+	public JSONObject loginOrRegisterInfoToJSON(Map<String, String[]> parameters) {
 		JSONObject returnJSON = new JSONObject();
 		JSONObject statusJSON = new JSONObject();
 		UserPo user = userService.getLoginOrRegisterUserInfo(parameters);
-		if(user == null){
+		if (user == null) {
 			statusJSON.accumulate(Keys.status, Values.statusOfUserNotExist);
 			statusJSON.accumulate(Keys.message, Values.messageOfUserNotExist);
-		}else{
+		} else {
 			statusJSON.accumulate(Keys.status, Values.statusOfSuccess);
 			JSONObject resultJSON = new JSONObject();
 			JSONObject me = userPoToJSON(user);
 			resultJSON.put(Keys.me, me);
 			List<Map> chatMapList = chatService.getChatInfo(user.getId());
-			for(int i = 1 ; i <= chatMapList.size() ; i++){
+			for (int i = 1; i <= chatMapList.size(); i++) {
 				String keyUser = Keys.chatUser + i;
 				JSONObject chatUser = chatUserInfoToJSON(chatMapList.get(i - 1));
 				resultJSON.put(keyUser, chatUser);
@@ -93,65 +93,70 @@ public class LoginAndRegisterInfoToJSON {
 			returnJSON.put(Keys.result, resultJSON);
 		}
 		returnJSON.put(Keys.status, statusJSON);
-		
+
 		return returnJSON;
 	}
-	
-	public JSONObject completeRegisterInfoToJSON(Map<String,String> parameters,Map<String,byte[]> fileContents){
+
+	public JSONObject completeRegisterInfoToJSON(Map<String, String> parameters, Map<String, byte[]> fileContents) {
 		JSONObject returnJSON = new JSONObject();
-		JSONObject statusJSON  = new JSONObject();
-		JSONObject resultJSON ;
+		JSONObject statusJSON = new JSONObject();
+		JSONObject resultJSON;
 		UserPo user = new UserPo();
 		user.setTelephone(parameters.get(Keys.telephone));
 		user.setSex(Integer.valueOf(parameters.get(Keys.sex)));
 		user.setName(parameters.get(Keys.name));
 		user.setEducation(parameters.get(Keys.education));
 		user.setSchoolId(Integer.valueOf(parameters.get(Keys.school)));
-		String avatarName = parameters.get(Keys.telephone) + "_"+1;
+		user.setLastOnlineTime(new Date());
+		String avatarName = parameters.get(Keys.telephone) + "_" + 1;
 		Integer userId = Integer.valueOf(userService.addUser(user).toString());
-		if(userId > 0){
-			if(pictureService.addAvatar(userId, avatarName, fileContents.get(Keys.avatar)).equals(Values.yes) ){
+		if (userId > 0) {
+			if (pictureService.addAvatar(userId, avatarName, fileContents.get(Keys.avatar)).equals(Values.yes)) {
 				statusJSON.accumulate(Keys.status, Values.statusOfSuccess);
-				
-			}else{
+
+			} else {
 				statusJSON.accumulate(Keys.status, Values.statusOfServiceError);
 				statusJSON.accumulate(Keys.message, Values.messageOfServiceError);
 			}
-			
-		}else{
+
+		} else {
 			statusJSON.accumulate(Keys.status, Values.statusOfServiceError);
 			statusJSON.accumulate(Keys.message, Values.messageOfServiceError);
 		}
 		returnJSON.put(Keys.status, statusJSON);
-		
+
 		return returnJSON;
 	}
-	
-	public JSONObject userPoToJSON(UserPo user){
+
+	public JSONObject userPoToJSON(UserPo user) {
 		JSONObject json = new JSONObject();
 		json.accumulate(Keys.userId, user.getId());
 		json.accumulate(Keys.sex, user.getSex());
 		json.accumulate(Keys.name, user.getName());
 		json.accumulate(Keys.birthday, user.getBirthday());
 		json.accumulate(Keys.chatId, user.getTalkId());
-		json.accumulate(Keys.lastLoginTime,user.getLastOnlineTime().getTime());
+		json.accumulate(Keys.lastLoginTime, user.getLastOnlineTime().getTime());
 		json.accumulate(Keys.education, user.getEducation());
 		json.accumulate(Keys.weight, user.getWeight());
 		json.accumulate(Keys.height, user.getHeight());
 		SchoolCoding school = schoolService.getSchoolById(user.getSchoolId());
 		LoveManifestoPo loveManifestoPo = loveManifestoService.getLoveManifestoPoByUserId(user.getId());
 		json.accumulate(Keys.school, school.getSchool_name());
-		json.accumulate(Keys.motto, loveManifestoPo.getLoveManifesto());
-		List<LabelPo> labels = labelService.getLabels(user.getId());
-		List<String> listLabels = new ArrayList<>();
-		for(LabelPo l : labels){
-			listLabels.add(l.getLabelContent());
+		if (loveManifestoPo != null) {
+			json.accumulate(Keys.motto, loveManifestoPo.getLoveManifesto());
 		}
-		json.accumulate(Keys.labels, listLabels);
+		List<LabelPo> labels = labelService.getLabels(user.getId());
+		if (labels != null) {
+			List<String> listLabels = new ArrayList<>();
+			for (LabelPo l : labels) {
+				listLabels.add(l.getLabelContent());
+			}
+			json.accumulate(Keys.labels, listLabels);
+		}
 		return json;
 	}
-	
-	public JSONObject chatUserInfoToJSON(Map m){
+
+	public JSONObject chatUserInfoToJSON(Map m) {
 		Integer userId = (Integer) m.get(Keys.userId);
 		UserPo u = userService.getUserByUserId(userId);
 		JSONObject userJSON = userPoToJSON(u);
@@ -159,13 +164,13 @@ public class LoginAndRegisterInfoToJSON {
 		userJSON.put(Keys.chatInfo, chatJSON);
 		return userJSON;
 	}
-	
-	public JSONObject chatInfoToJSON(Map m){
+
+	public JSONObject chatInfoToJSON(Map m) {
 		JSONObject json = new JSONObject();
 		json.accumulate(Keys.chatId, m.get(Keys.chatId));
-		json.accumulate(Keys.startChatDate, ((Date)m.get(Keys.startChatDate)).getTime());
+		json.accumulate(Keys.startChatDate, ((Date) m.get(Keys.startChatDate)).getTime());
 		json.accumulate(Keys.hasChat, m.get(Keys.hasChat));
-//		json.accumulate(Keys.endTime, ((Date)m.get(Keys.endTime)).getTime());
+		// json.accumulate(Keys.endTime, ((Date)m.get(Keys.endTime)).getTime());
 		json.accumulate(Keys.deleteUserId, m.get(Keys.deleteUserId));
 		json.accumulate(Keys.intimacy, m.get(Keys.intimacy));
 		return json;

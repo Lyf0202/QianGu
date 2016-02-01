@@ -1,5 +1,6 @@
 package com.qiangu.keyu.controller;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
@@ -7,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.httpclient.HttpException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -54,7 +56,7 @@ public class LoginAndRegisterController {
 	
 	@RequestMapping(value="loginOrRegisterService.do",produces="text/json;charset=UTF-8")
 	@ResponseBody
-	public String loginOrRegisterController(HttpServletRequest request, HttpServletResponse response){
+	public String loginOrRegisterController(HttpServletRequest request, HttpServletResponse response) throws HttpException, IOException{
 		System.out.println("\n sendMessageService.do " + utilsApi.getCurrentTime());
 		String contentType = request.getContentType();
 		System.out.println("ContentType = " + contentType);
@@ -90,6 +92,23 @@ public class LoginAndRegisterController {
 		String resultStr = resultJSON.toString();
 		System.out.println();
 		System.out.println(resultStr);
+		return resultStr;
+	}
+	
+	@RequestMapping(value="registerService.do",produces="text/json;charset=UTF-8")
+	@ResponseBody
+	public String RegisterServiceController(HttpServletRequest request, HttpServletResponse response) throws HttpException, IOException{
+		System.out.println("\n sendMessageService.do " + utilsApi.getCurrentTime());
+		String contentType = request.getContentType();
+		System.out.println("ContentType = " + contentType);
+		Map<String, String[]> parameters = request.getParameterMap();
+		String resultStr = "123456789";
+		JSONObject resultJSON = utilsApi.parametersIsValid(contentType, parameters);
+		if(resultJSON == null){
+			resultJSON = loginAndRegisterResult.getResult(parameters);
+		}
+		resultStr = resultJSON.toString();
+		System.out.println("resultStr ========= " + resultStr);
 		return resultStr;
 	}
 }
