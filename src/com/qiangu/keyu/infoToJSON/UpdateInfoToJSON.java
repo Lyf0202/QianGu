@@ -36,4 +36,74 @@ public class UpdateInfoToJSON {
 		returnJSON.put(Keys.status, statusJSON);
 		return returnJSON;
 	}
+	
+	public JSONObject updateAvatarInfoToJSON(Map<String,String> parameters,Map<String,byte[]> fileContents){
+		returnJSON = new JSONObject();
+		statusJSON = new JSONObject();
+		Integer userId = Integer.valueOf(parameters.get(Keys.userId));
+		byte[] avatarContent = fileContents.get(Keys.avatar);
+		if(userUpdateService.updateAvatar(userId, avatarContent)){
+			statusJSON.accumulate(Keys.status, Values.statusOfSuccess);
+		}else{
+			statusJSON.accumulate(Keys.status, Values.statusOfServiceError);
+			statusJSON.accumulate(Keys.message, Values.messageOfServiceError);
+		}
+		returnJSON.put(Keys.status,statusJSON);
+ 		return returnJSON;
+	}
+	
+	public JSONObject updateHeightInfoToJSON(Map<String,String[]> parameters){
+		returnJSON = new JSONObject();
+		statusJSON = new JSONObject();
+		Integer userId = Integer.valueOf(parameters.get(Keys.userId)[0]);
+		Double height = Double.valueOf(parameters.get(Keys.height)[0]);
+		if(userUpdateService.updateHeight(userId, height)){
+			resultJSON = new JSONObject();
+			resultJSON.accumulate(Keys.height,height);
+			statusJSON.accumulate(Keys.status, Values.statusOfSuccess);
+			returnJSON.put(Keys.result, resultJSON);
+		}else{
+			statusJSON.accumulate(Keys.status, Values.statusOfServiceError);
+			statusJSON.accumulate(Keys.message, Values.messageOfServiceError);
+		}
+		returnJSON.put(Keys.status, statusJSON);
+		return returnJSON;
+	}
+	
+	public JSONObject updateWeightInfoToJSON(Map<String,String[]> parameters){
+		returnJSON = new JSONObject();
+		statusJSON = new JSONObject();
+		Integer userId = Integer.valueOf(parameters.get(Keys.userId)[0]);
+		Double weight = Double.valueOf(parameters.get(Keys.weight)[0]);
+		if(userUpdateService.updateWeight(userId, weight)){
+			resultJSON = new JSONObject();
+			resultJSON.accumulate(Keys.weight ,weight);
+			statusJSON.accumulate(Keys.status, Values.statusOfSuccess);
+			returnJSON.put(Keys.result, resultJSON);
+		}else{
+			statusJSON.accumulate(Keys.status, Values.statusOfServiceError);
+			statusJSON.accumulate(Keys.message, Values.messageOfServiceError);
+		}
+		returnJSON.put(Keys.status, statusJSON);
+		return returnJSON;
+	}
+	
+	public JSONObject updateBirthdayInfoToJSON(Map<String,String[]> parameters){
+		returnJSON = new JSONObject();
+		statusJSON = new JSONObject();
+		Integer userId = Integer.valueOf(parameters.get(Keys.userId)[0]);
+		String birthday = parameters.get(Keys.birthday)[0];
+		if(userUpdateService.updateBirthday(userId, birthday)){
+			resultJSON = new JSONObject();
+			resultJSON.accumulate(Keys.birthday,birthday);
+			statusJSON.accumulate(Keys.status, Values.statusOfSuccess);
+			returnJSON.put(Keys.result, resultJSON);
+		}else{
+			statusJSON.accumulate(Keys.status, Values.statusOfServiceError);
+			statusJSON.accumulate(Keys.message, Values.messageOfServiceError);
+		}
+		returnJSON.put(Keys.status, statusJSON);
+		return returnJSON;
+		
+	}
 }

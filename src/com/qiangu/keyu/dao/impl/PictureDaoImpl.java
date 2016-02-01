@@ -16,11 +16,11 @@ public class PictureDaoImpl extends BaseDaoImpl<PicturePo> implements PictureDao
 	/**
 	 * 
 	 */
-	String getUserAvatarHql = "select PicturePo from Picture as P ,UserPo as U where U.avatarId = P.id and U.id = :id";
+	String getUserAvatarHql = "select P from PicturePo as P ,AvatarPo as A where A.pictureId = P.id and A.userId = :userId";
 	@Override
 	public PicturePo getUserAvatar(Integer userId) {
 		Map<String , Object> params = new HashMap<>();
-		params.put("id",userId);
+		params.put("userId",userId);
 		PicturePo p = getT(getUserAvatarHql, params);
 		return p;
 	}

@@ -76,17 +76,7 @@ public class HibernateTest {
 	@Test
 	public void tt() throws HttpException, IOException{
 //		
-		Map<String , String[]> parameters = new HashMap<>();
-		String[] lat = {"30.318659"};
-		String[] lng = {"120.352625"};
-		String[] method = {"getSchool"};
-		parameters.put(Keys.lat,lat);
-		parameters.put(Keys.lng, lng);
-		parameters.put(Keys.method, method);
-		List<String> schools = schoolService.getLocationSchool(parameters);
-		for(String s : schools){
-			System.out.println(s);
-		}
+		pic.getpicturePo();
 	}
 	@Test
 	public void test1(){

@@ -31,7 +31,7 @@ public class UpdateController {
 	@Autowired
 	private UpdateResult updateResult;
 
-	@RequestMapping(value="updateUserinfoService.do",produces="text/json;charset=UTF-8")
+	@RequestMapping(value="updateUserInfoService.do",produces="text/json;charset=UTF-8")
 	@ResponseBody
 	public String updateUserInfoController(HttpServletRequest request, HttpServletResponse response) {
 		System.out.println("\n updateUserinfoService.do " + utilsApi.getCurrentTime());
@@ -53,13 +53,15 @@ public class UpdateController {
 	@ResponseBody
 	public String updatePicInfoController(HttpServletRequest request, HttpServletResponse response) {
 		System.out.println("\n updatePicInfoService.do " + utilsApi.getCurrentTime() + " *****************");
-		Map<String,String> parameters = null;
 		JSONObject resultJSON = null;
 		Object object = utilsApi.getUploadParameters(request);
 		if(object instanceof JSONObject){
 			resultJSON = (JSONObject) object;
 		}else{
-			
+			List<Object> parametersList = (List<Object>) object;
+			Map<String,String> parameters = (Map<String, String>) parametersList.get(0);
+			Map<String,byte[]> fileContents = (Map<String, byte[]>) parametersList.get(1);
+			resultJSON = updateResult.getResult(parameters, fileContents);
 		}
 		String resultStr = resultJSON.toString();
 		System.out.println();

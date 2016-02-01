@@ -4,7 +4,7 @@ import java.util.Map;
 
 public interface UserUpdateService {
 
-//	public String updateAvatar();
+	public Boolean updateAvatar(Integer userId,byte[] fileContent);
 //	
 //	public String updateLoveManifesto();
 	
@@ -12,13 +12,13 @@ public interface UserUpdateService {
 	
 //	public String updateHometown();
 //	
-//	public String updateBirthday();
+	public Boolean updateBirthday(Integer userId,String newBirthday);
 //	
 //	public String updateInstitute();
 //	
-//	public String updateWeight();
+	public Boolean updateWeight(Integer userId,Double newWeight);
 //	
-//	public String updateHeight();
+	public Boolean updateHeight(Integer userId,Double newHeight);
 //	
 //	public String updateLabel();
 }

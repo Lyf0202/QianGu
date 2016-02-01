@@ -25,28 +25,6 @@ public class PictureServiceImpl implements PictureService {
 	@Autowired
 	private QiNiuYunApi qiniuApi;
 
-	@Override
-	public String updateUserAvatar(Map<String, String> parameters, Map<String, byte[]> fileContents) {
-		Integer userId = Integer.valueOf(parameters.get(Keys.userId));
-		PicturePo p = pictureDao.getUserAvatar(userId);
-		String newAvatarName = getNewAvatarName(p.getPictureName());
-		if (qiniuApi.pictureUpload(newAvatarName, fileContents.get(Keys.avatar))) {
-			PicturePo newP = new PicturePo();
-			newP.setPictureName(newAvatarName);
-			pictureDao.save(newP);
-			System.out.println("newP.getId() = " + newP.getId());
-			userUpdateDao.updateAvatarId(newP.getId(), userId);
-		}
-
-		return null;
-	}
-
-	public String getNewAvatarName(String oldAvatarName) {
-		String[] str = oldAvatarName.split("_");
-		int avatarNum = Integer.valueOf(str[1]);
-		String newAvatarName = str[0] + "_" + ++avatarNum;
-		return newAvatarName;
-	}
 
 	@Override
 	public String addAvatar(Integer userId, String avatarName, byte[] avatarContent) {
@@ -63,6 +41,13 @@ public class PictureServiceImpl implements PictureService {
 		}else{
 			return Values.no;
 		}
+	}
+
+
+	@Override
+	public void getpicturePo() {
+		// TODO Auto-generated method stub
+		System.out.println(pictureDao.getUserAvatar(27));
 	}
 
 }

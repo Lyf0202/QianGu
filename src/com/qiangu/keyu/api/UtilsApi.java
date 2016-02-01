@@ -208,7 +208,7 @@ public class UtilsApi {
 			if (parameters.get(keySet) == null || parameters.get(keySet).equals("")) {
 				return true;
 			}
-			System.out.print(keySet + " : " + parameters.get(keySet));
+			System.out.println(keySet + " : " + parameters.get(keySet));
 		}
 		if (parameters.size() == 0) {
 			return true;
