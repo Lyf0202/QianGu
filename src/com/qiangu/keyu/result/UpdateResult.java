@@ -21,11 +21,17 @@ public class UpdateResult {
 			result = updateInfoToJSON.updateNameInfoToJSON(parameters);
 		} else if (parameters.get(Keys.method)[0].equals(Values.methodOfUpdateHeight)) {
 			result = updateInfoToJSON.updateHeightInfoToJSON(parameters);
-		} else if(parameters.get(Keys.method)[0].equals(Values.methodOfUpdateWeight)){
+		} else if (parameters.get(Keys.method)[0].equals(Values.methodOfUpdateWeight)) {
 			result = updateInfoToJSON.updateWeightInfoToJSON(parameters);
-		}else if(parameters.get(Keys.method)[0].equals(Values.methodOfUpdateBirthday)){
+		} else if (parameters.get(Keys.method)[0].equals(Values.methodOfUpdateBirthday)) {
 			result = updateInfoToJSON.updateBirthdayInfoToJSON(parameters);
-		}else {
+		} else if (parameters.get(Keys.method)[0].equals(Values.methodOfUpdateMotto)) {
+			result = updateInfoToJSON.updateLoveManifestoInfoToJSON(parameters);
+		} else if (parameters.get(Keys.method)[0].equals(Values.methodOfUpdateCity)) {
+
+		} else if (parameters.get(Keys.method)[0].equals(Values.methodOfUpdateLabel)) {
+
+		} else {
 			result = new JSONObject();
 			JSONObject statusJSON = new JSONObject();
 			statusJSON.accumulate(Keys.status, Values.statusOfNoMethod);

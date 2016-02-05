@@ -1,5 +1,6 @@
 package com.qiangu.keyu.service.impl;
 
+import java.io.Serializable;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,9 +8,11 @@ import org.springframework.stereotype.Service;
 
 import com.qiangu.keyu.api.QiNiuYunApi;
 import com.qiangu.keyu.controller.Keys;
+import com.qiangu.keyu.dao.LoveManifestoDao;
 import com.qiangu.keyu.dao.PictureDao;
 import com.qiangu.keyu.dao.UserUpdateDao;
 import com.qiangu.keyu.po.AvatarPo;
+import com.qiangu.keyu.po.LoveManifestoPo;
 import com.qiangu.keyu.po.PicturePo;
 import com.qiangu.keyu.service.UserUpdateService;
 
@@ -21,6 +24,9 @@ public class UserUpdateServiceImpl implements UserUpdateService {
 	
 	@Autowired
 	private PictureDao pictureDao;
+	
+	@Autowired
+	private LoveManifestoDao loveManifestoDao;
 	
 	@Autowired
 	private QiNiuYunApi qiNiuYunAPI;
@@ -88,6 +94,19 @@ public class UserUpdateServiceImpl implements UserUpdateService {
 			return true;
 		}
 		return false;
+	}
+
+	@Override
+	public Boolean updateLoveManifesto(Integer userId, String loveManifesto) {
+		LoveManifestoPo loveManifestoPo = new LoveManifestoPo();
+		loveManifestoPo.setLoveManifesto(loveManifesto);
+		loveManifestoPo.setUserId(userId);
+		Serializable saveResult = loveManifestoDao.save(loveManifestoPo);
+		if(saveResult != null && Integer.valueOf(saveResult.toString()) > 0){
+			return true;
+		}else{
+			return false;
+		}
 	}
 
 }

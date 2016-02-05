@@ -50,7 +50,9 @@ public class JUnitTest {
 	
 	@Test
 	public void test4(){
-		
+		double d = 100;
+		long l = 122;
+		System.out.println(l / 100);
 	}
 	
 	public Object getObject(){

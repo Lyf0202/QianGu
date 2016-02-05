@@ -127,16 +127,18 @@ public class UtilsApi {
 		return d;
 	}
 
-//	public JSONObject uploadRequestIsLegal(HttpServletRequest request, Map<String, String> parameters){
-//		Map<String,String[]> params = new HashMap<>();
-//		for (String keySet : parameters.keySet()) {
-//			String[] strs = {parameters.get(keySet)};
-//			params.put(keySet, strs);
-//		}
-//		return requestIsLegal(request, params);
-//	}
+	// public JSONObject uploadRequestIsLegal(HttpServletRequest request,
+	// Map<String, String> parameters){
+	// Map<String,String[]> params = new HashMap<>();
+	// for (String keySet : parameters.keySet()) {
+	// String[] strs = {parameters.get(keySet)};
+	// params.put(keySet, strs);
+	// }
+	// return requestIsLegal(request, params);
+	// }
 	/**
 	 * 判断验证码是否正确,正确，返回null 否则返回对应的错误信息JSON
+	 * 
 	 * @param request
 	 * @param parameters
 	 * @return
@@ -147,7 +149,7 @@ public class UtilsApi {
 		String verificationCode = parameters.get(Keys.verificationCode)[0];
 		HttpSession session = request.getSession();
 		Object sendVerificationCodeTime = session.getAttribute(Keys.verificationCodeTime);
-		System.out.println("sendVerificationCodeTime = "+sendVerificationCodeTime);
+		System.out.println("sendVerificationCodeTime = " + sendVerificationCodeTime);
 		Object verificationCodeService = session.getAttribute(Keys.verificationCode);
 		if (verificationCodeService != null && sendVerificationCodeTime != null) {
 			long startTime = Long.valueOf(String.valueOf(sendVerificationCodeTime)).longValue();
@@ -159,7 +161,7 @@ public class UtilsApi {
 					statusJSON.accumulate(Keys.status, Values.statusOfWrongVerificationCode);
 					statusJSON.accumulate(Keys.message, Values.messageOfWrongVerificationCode);
 				}
-			}else{
+			} else {
 				statusJSON.accumulate(Keys.status, Values.statusOfInvalidVerificationCode);
 				statusJSON.accumulate(Keys.message, Values.messageOfInvalidVerificationCode);
 			}

@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.qiangu.keyu.api.BaiduMapApi;
 import com.qiangu.keyu.api.ReadXmlApi;
 import com.qiangu.keyu.dao.TestDao;
+import com.qiangu.keyu.po.AreasCoding;
 import com.qiangu.keyu.po.CitiesCoding;
 import com.qiangu.keyu.po.ProvinceCoding;
 import com.qiangu.keyu.po.SchoolCoding;
@@ -99,6 +100,12 @@ public class TestServiceImpl implements TestService {
 	public void getChatUserModel() {
 		// TODO Auto-generated method stub
 		testdao.getChatUser();
+	}
+
+	@Override
+	public AreasCoding getAreaCoding(Integer id) {
+		// TODO Auto-generated method stub
+		return testdao.getAreaCoding(id);
 	}
 
 	

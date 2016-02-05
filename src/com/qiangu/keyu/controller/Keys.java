@@ -2,37 +2,35 @@ package com.qiangu.keyu.controller;
 
 public class Keys {
 
-	
 	/**
 	 * 请求参数名
 	 */
-	
-	//纬度
+
+	// 纬度
 	public static final String lat = "lat";
-	//经度
+	// 经度
 	public static final String lng = "lng";
 	public static final String method = "method";
-	
-	
+
 	/**
 	 * 返回参数名
 	 */
-	
-	//返回状态
+
+	// 返回状态
 	public static final String status = "status";
-	//返回结果说明
+	// 返回结果说明
 	public static final String message = "message";
-	//返回结果
+	// 返回结果
 	public static final String result = "result";
-	//登录用户的信息
+	// 登录用户的信息
 	public static final String me = "me";
-	//聊天用户的信息
+	// 聊天用户的信息
 	public static final String chatUser = "chatUser";
-	//聊天信息
+	// 聊天信息
 	public static final String chatInfo = "chatInfo";
-	//学校信息
+	// 学校信息
 	public static final String schools = "schools";
-	
+
 	/**
 	 * 用户基本信息key
 	 */
@@ -55,12 +53,12 @@ public class Keys {
 	public static final String department = "department";
 	public static final String birthday = "birthday";
 	public static final String sex = "sex";
-	
+
 	/**
 	 * 匹配用户的额外属性
 	 */
 	public static final String isLike = "isLike";
-	
+
 	/**
 	 * 聊天用户的额外属性
 	 */
@@ -71,17 +69,17 @@ public class Keys {
 	public static final String hasChat = "hasChat";
 	public static final String endTime = "endTime";
 	public static final String deleteUserId = "deleteUserId";
-	
+
 	/**
 	 * 登录用户的额外属性
 	 */
 	public static final String chatPassword = "chatPassword";
 	public static final String telephone = "telephone";
-	
+
 	/**
 	 * 
 	 */
-	//验证码
+	// 验证码
 	public static final String verificationCode = "verificationCode";
 	public static final String verificationCodeTime = "verificationCodeTime";
 }

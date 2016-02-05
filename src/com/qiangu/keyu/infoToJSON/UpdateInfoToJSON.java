@@ -103,7 +103,24 @@ public class UpdateInfoToJSON {
 			statusJSON.accumulate(Keys.message, Values.messageOfServiceError);
 		}
 		returnJSON.put(Keys.status, statusJSON);
-		return returnJSON;
-		
+		return returnJSON;	
+	}
+	
+	public JSONObject updateLoveManifestoInfoToJSON(Map<String,String[]> parameters){
+		returnJSON = new JSONObject();
+		statusJSON = new JSONObject();
+		Integer userId = Integer.valueOf(parameters.get(Keys.userId)[0]);
+		String loveManifesto = parameters.get(Keys.motto)[0];
+		if(userUpdateService.updateLoveManifesto(userId, loveManifesto)){
+			resultJSON = new JSONObject();
+			resultJSON.accumulate(Keys.motto,loveManifesto);
+			statusJSON.accumulate(Keys.status, Values.statusOfSuccess);
+			returnJSON.put(Keys.result, resultJSON);
+		}else{
+			statusJSON.accumulate(Keys.status, Values.statusOfServiceError);
+			statusJSON.accumulate(Keys.message, Values.messageOfServiceError);
+		}
+		returnJSON.put(Keys.status, statusJSON);
+		return returnJSON;	
 	}
 }

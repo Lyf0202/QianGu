@@ -6,7 +6,7 @@ public interface UserUpdateService {
 
 	public Boolean updateAvatar(Integer userId,byte[] fileContent);
 //	
-//	public String updateLoveManifesto();
+	public Boolean updateLoveManifesto(Integer userId ,String loveManifesto);
 	
 	public Boolean updateName(Map<String,String[]> parameters);
 	

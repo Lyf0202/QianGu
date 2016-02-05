@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 
 import com.qiangu.keyu.dao.TestDao;
 import com.qiangu.keyu.model.ChatUserModel;
+import com.qiangu.keyu.po.AreasCoding;
 import com.qiangu.keyu.po.CitiesCoding;
 import com.qiangu.keyu.po.ProvinceCoding;
 import com.qiangu.keyu.po.SchoolCoding;
@@ -72,6 +73,12 @@ public class TestDaoImpl extends BaseDaoImpl<UserPo> implements TestDao {
 			}
 		}
 		return null;
+	}
+
+	@Override
+	public AreasCoding getAreaCoding(Integer id) {
+		
+		return (AreasCoding) getSession().get(AreasCoding.class, id);
 	}
 
 }

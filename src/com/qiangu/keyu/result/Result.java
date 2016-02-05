@@ -10,10 +10,10 @@ public class Result {
 
 	@Autowired
 	private SchoolServiceInfoToJSON schoolServiceInfoToJSON;
-	
-	public String getResult(Map<String,String> parameters){
+
+	public String getResult(Map<String, String> parameters) {
 		String result = "";
-		
+
 		return result;
 	}
 }
