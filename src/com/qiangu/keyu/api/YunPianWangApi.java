@@ -105,9 +105,8 @@ public class YunPianWangApi {
         params.put("text", demoText.replaceAll("#code#", identifycode));
         params.put("mobile", mobile);
         JSONObject jsonObject = JSONObject.fromObject(post(URI_SEND_SMS, params));
-        System.out.println(jsonObject);
-        System.out.println("----------code = "+jsonObject.getString("code"));
-        
+//        System.out.println("----------code = "+jsonObject.getString("code"));
+//        LoggerApi.info(this, "----------code = "+jsonObject.getString("code"));
         return jsonObject.getString("code");
     }
 }

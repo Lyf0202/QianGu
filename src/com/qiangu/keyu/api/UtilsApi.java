@@ -84,18 +84,24 @@ public class UtilsApi {
 	 * @return 有空值返回 true 否则返回false
 	 */
 	public boolean isHasNull(Map<String, String[]> parameters) {
-
+		StringBuilder str = new StringBuilder("\n");
 		for (String keySet : parameters.keySet()) {
 			if (parameters.get(keySet) == null || parameters.get(keySet).length == 0
 					|| parameters.get(keySet)[0].equals("")) {
 				return true;
 			}
-			System.out.print(keySet + " : ");
+			str.append(keySet);
+			str.append(" : ");
+//			System.out.print(keySet + " : ");
 			for (String s : parameters.get(keySet)) {
-				System.out.print(s + " , ");
+				str.append(s);
+				str.append(" , ");
+//				System.out.print(s + " , ");
 			}
-			System.out.println();
+			str.append("\n");
+//			System.out.println();
 		}
+		LoggerApi.info(this, str.toString());
 		if (parameters.size() == 0)
 			return true;
 		else
@@ -149,7 +155,8 @@ public class UtilsApi {
 		String verificationCode = parameters.get(Keys.verificationCode)[0];
 		HttpSession session = request.getSession();
 		Object sendVerificationCodeTime = session.getAttribute(Keys.verificationCodeTime);
-		System.out.println("sendVerificationCodeTime = " + sendVerificationCodeTime);
+		LoggerApi.info(this, "sendVerificationCodeTime = " + sendVerificationCodeTime);
+//		System.out.println("sendVerificationCodeTime = " + sendVerificationCodeTime);
 		Object verificationCodeService = session.getAttribute(Keys.verificationCode);
 		if (verificationCodeService != null && sendVerificationCodeTime != null) {
 			long startTime = Long.valueOf(String.valueOf(sendVerificationCodeTime)).longValue();
@@ -206,12 +213,18 @@ public class UtilsApi {
 	 * @return 有返回 true 否则返回false
 	 */
 	public boolean uploadParameterIsHasNull(Map<String, String> parameters) {
+		StringBuilder str = new StringBuilder("\n");
 		for (String keySet : parameters.keySet()) {
 			if (parameters.get(keySet) == null || parameters.get(keySet).equals("")) {
 				return true;
 			}
-			System.out.println(keySet + " : " + parameters.get(keySet));
+			str.append(keySet);
+			str.append(" : ");
+			str.append(parameters.get(keySet));
+			str.append("\n");
+//			System.out.println(keySet + " : " + parameters.get(keySet));
 		}
+		LoggerApi.info(this, str.toString());
 		if (parameters.size() == 0) {
 			return true;
 		} else {

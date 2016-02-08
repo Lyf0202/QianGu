@@ -50,9 +50,12 @@ public class JUnitTest {
 	
 	@Test
 	public void test4(){
-		double d = 100;
-		long l = 122;
-		System.out.println(l / 100);
+		StringBuilder s = new StringBuilder("\n");
+		s.append("123");
+		s.append("\n");
+		s.append("456");
+		String str = s.toString();
+		System.out.println(str);
 	}
 	
 	public Object getObject(){

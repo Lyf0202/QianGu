@@ -33,13 +33,10 @@ public class LoginAndRegisterController {
 	@RequestMapping(value = "sendMessageService.do", produces = "text/json;charset=UTF-8")
 	@ResponseBody
 	public String sendMessageController(HttpServletRequest request, HttpServletResponse response) {
-		// System.out.println("\n sendMessageService.do " +
-		// utilsApi.getCurrentTime());
-		String str = "\n sendMessageService.do " + utilsApi.getCurrentTime();
-		LoggerApi.info(this, "\n sendMessageService.do " + utilsApi.getCurrentTime());
+		
+		LoggerApi.info(this, request.getRemoteAddr() + " sendMessageService.do " + utilsApi.getCurrentTime());
 		String contentType = request.getContentType();
-		// System.out.println("ContentType = " + contentType);
-//		LoggerApi.info(this, "ContentType = " + contentType);
+		LoggerApi.info(this, "ContentType = " + contentType);
 		Map<String, String[]> parameters = request.getParameterMap();
 		String resultStr = "123456789";
 		// String verificationCode =
@@ -53,7 +50,8 @@ public class LoginAndRegisterController {
 			resultJSON = loginAndRegisterResult.getSendMessageResult(parameters, verificationCode);
 		}
 		resultStr = resultJSON.toString();
-		System.out.println("resultStr ========= " + resultStr);
+//		System.out.println("resultStr ========= " + resultStr);
+		LoggerApi.info(this, "resultStr = " + resultStr);
 
 		return resultStr;
 	}
@@ -62,9 +60,9 @@ public class LoginAndRegisterController {
 	@ResponseBody
 	public String loginOrRegisterController(HttpServletRequest request, HttpServletResponse response)
 			throws HttpException, IOException {
-		System.out.println("\n sendMessageService.do " + utilsApi.getCurrentTime());
+		LoggerApi.info(this, "loginOrRegisterService.do " + utilsApi.getCurrentTime());
 		String contentType = request.getContentType();
-		System.out.println("ContentType = " + contentType);
+		LoggerApi.info(this, "ContentType = " + contentType);
 		Map<String, String[]> parameters = request.getParameterMap();
 		String resultStr = "123456789";
 		JSONObject resultJSON = utilsApi.parametersIsValid(contentType, parameters);
@@ -76,14 +74,15 @@ public class LoginAndRegisterController {
 			}
 		}
 		resultStr = resultJSON.toString();
-		System.out.println("resultStr ========= " + resultStr);
+//		System.out.println("resultStr ========= " + resultStr);
+		LoggerApi.info(this, "resultStr = " + resultStr);
 		return resultStr;
 	}
 
 	@RequestMapping(value = "completeRegisterService.do", produces = "text/json;charset=UTF-8")
 	@ResponseBody
 	public String completeRegister(HttpServletRequest request, HttpServletResponse response) {
-		System.out.println("\n completeRegisterService.do " + utilsApi.getCurrentTime() + " *****************");
+		LoggerApi.info(this, "completeRegisterService.do " + utilsApi.getCurrentTime());
 		JSONObject resultJSON = null;
 		Object object = utilsApi.getUploadParameters(request);
 		if (object instanceof JSONObject) {
@@ -95,8 +94,8 @@ public class LoginAndRegisterController {
 			resultJSON = loginAndRegisterResult.getResult(parameters, fileContents);
 		}
 		String resultStr = resultJSON.toString();
-		System.out.println();
-		System.out.println(resultStr);
+//		System.out.println(resultStr);
+		LoggerApi.info(this, "resultStr = " + resultStr);
 		return resultStr;
 	}
 
@@ -104,9 +103,9 @@ public class LoginAndRegisterController {
 	@ResponseBody
 	public String RegisterServiceController(HttpServletRequest request, HttpServletResponse response)
 			throws HttpException, IOException {
-		System.out.println("\n sendMessageService.do " + utilsApi.getCurrentTime());
+		LoggerApi.info(this, "registerService.do " + utilsApi.getCurrentTime());
 		String contentType = request.getContentType();
-		System.out.println("ContentType = " + contentType);
+		LoggerApi.info(this, "ContentType = " + contentType);
 		Map<String, String[]> parameters = request.getParameterMap();
 		String resultStr = "123456789";
 		JSONObject resultJSON = utilsApi.parametersIsValid(contentType, parameters);
@@ -114,7 +113,8 @@ public class LoginAndRegisterController {
 			resultJSON = loginAndRegisterResult.getResult(parameters);
 		}
 		resultStr = resultJSON.toString();
-		System.out.println("resultStr ========= " + resultStr);
+//		System.out.println("resultStr ========= " + resultStr);
+		LoggerApi.info(this, "resultStr = " + resultStr);
 		return resultStr;
 	}
 }

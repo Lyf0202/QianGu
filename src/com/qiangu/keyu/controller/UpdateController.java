@@ -18,6 +18,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.qiangu.keyu.api.LoggerApi;
 import com.qiangu.keyu.api.UtilsApi;
 import com.qiangu.keyu.result.UpdateResult;
 
@@ -34,9 +35,9 @@ public class UpdateController {
 	@RequestMapping(value = "updateUserInfoService.do", produces = "text/json;charset=UTF-8")
 	@ResponseBody
 	public String updateUserInfoController(HttpServletRequest request, HttpServletResponse response) {
-		System.out.println("\n updateUserinfoService.do " + utilsApi.getCurrentTime());
+		LoggerApi.info(this, "updateUserInfoService.do" + utilsApi.getCurrentTime());
 		String contentType = request.getContentType();
-		System.out.println("ContentType = " + contentType);
+		LoggerApi.info(this, "ContentType = " + contentType);
 		Map<String, String[]> parameters = request.getParameterMap();
 		String resultStr = "123456789";
 		JSONObject resultJSON = utilsApi.parametersIsValid(contentType, parameters);
@@ -44,15 +45,15 @@ public class UpdateController {
 			resultJSON = updateResult.getResult(parameters);
 		}
 		resultStr = resultJSON.toString();
-		System.out.println("resultStr ========= " + resultStr);
-
+//		System.out.println("resultStr = " + resultStr);
+		LoggerApi.info(this, "resultStr = " + resultStr);
 		return resultStr;
 	}
 
 	@RequestMapping(value = "updatePicInfoService.do", produces = "text/json;charset=UTF-8")
 	@ResponseBody
 	public String updatePicInfoController(HttpServletRequest request, HttpServletResponse response) {
-		System.out.println("\n updatePicInfoService.do " + utilsApi.getCurrentTime() + " *****************");
+		LoggerApi.info(this, "updatePicInfoService.do" + utilsApi.getCurrentTime());
 		JSONObject resultJSON = null;
 		Object object = utilsApi.getUploadParameters(request);
 		if (object instanceof JSONObject) {
@@ -64,8 +65,9 @@ public class UpdateController {
 			resultJSON = updateResult.getResult(parameters, fileContents);
 		}
 		String resultStr = resultJSON.toString();
-		System.out.println();
-		System.out.println(resultStr);
+		
+//		System.out.println(resultStr);
+		LoggerApi.info(this, "resultStr = " + resultStr);
 		return resultStr;
 	}
 }

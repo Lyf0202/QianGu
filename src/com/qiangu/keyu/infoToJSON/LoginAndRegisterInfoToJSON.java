@@ -7,6 +7,7 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.qiangu.keyu.api.LoggerApi;
 import com.qiangu.keyu.api.YunPianWangApi;
 import com.qiangu.keyu.controller.Keys;
 import com.qiangu.keyu.controller.Values;
@@ -47,7 +48,8 @@ public class LoginAndRegisterInfoToJSON {
 		// String yunpianwangResult = yunPianWangApi.sendSms(verificationCode,
 		// parameters.get(Keys.telephone)[0]);
 		String yunpianwangResult = "0";
-		System.out.println("yunpianwangResult = " + yunpianwangResult);
+//		System.out.println("yunpianwangResult = " + yunpianwangResult);
+		LoggerApi.info(this, "yunpianwangResult = " + yunpianwangResult);
 		// 发送成功情况
 		if (yunpianwangResult.equals(YunPianWangApi.okResult)) {
 			statusJSON.accumulate(Keys.status, Values.statusOfSuccess);
