@@ -10,7 +10,7 @@ public interface UserUpdateService {
 	
 	public Boolean updateName(Map<String,String[]> parameters);
 	
-//	public String updateHometown();
+	public Boolean updateHometown(Integer userId,Integer areaId);
 //	
 	public Boolean updateBirthday(Integer userId,String newBirthday);
 //	

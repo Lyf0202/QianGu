@@ -18,4 +18,6 @@ public interface UserUpdateDao extends BaseDao<UserPo> {
 	public Integer updateWeight(Double weight,Integer userId);
 	
 	public Integer updateBirthday(String birthday,Integer userId);
+	
+	public Integer updateHometown(Integer areaId,Integer userId);
 }

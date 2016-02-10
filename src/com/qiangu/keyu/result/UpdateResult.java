@@ -28,7 +28,7 @@ public class UpdateResult {
 		} else if (parameters.get(Keys.method)[0].equals(Values.methodOfUpdateMotto)) {
 			result = updateInfoToJSON.updateLoveManifestoInfoToJSON(parameters);
 		} else if (parameters.get(Keys.method)[0].equals(Values.methodOfUpdateCity)) {
-
+			result = updateInfoToJSON.updateHometownInfoToJSON(parameters);
 		} else if (parameters.get(Keys.method)[0].equals(Values.methodOfUpdateLabel)) {
 
 		} else {

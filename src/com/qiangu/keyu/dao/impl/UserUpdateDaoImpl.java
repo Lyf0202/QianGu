@@ -47,6 +47,15 @@ public class UserUpdateDaoImpl extends BaseDaoImpl<UserPo> implements UserUpdate
 		return update(hqlUpdateBirthday, params);
 	}
 	
+	String hqlUpdateHometown = "update UserPo set countyId = :countyId where id = :userId";
+	@Override
+	public Integer updateHometown(Integer areaId, Integer userId) {
+		Map<String , Object> params = new HashMap<>();
+		params.put("countyId", areaId);
+		params.put("userId", userId);
+		return update(hqlUpdateHometown, params);
+	}
+	
 	
 	
 }

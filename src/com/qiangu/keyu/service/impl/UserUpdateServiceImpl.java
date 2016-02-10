@@ -109,4 +109,14 @@ public class UserUpdateServiceImpl implements UserUpdateService {
 		}
 	}
 
+	@Override
+	public Boolean updateHometown(Integer userId, Integer areaId) {
+		Integer daoResult = userUpdateDao.updateHometown(areaId, userId);
+		if(daoResult > 0){
+			return true;
+		}else{
+			return false;
+		}
+	}
+
 }

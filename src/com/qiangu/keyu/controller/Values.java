@@ -107,7 +107,7 @@ public class Values {
 	//更新个人描述
 	public static final String methodOfUpdateMotto = "updateMotto";
 	//更新家乡
-	public static final String methodOfUpdateCity = "updateCity";
+	public static final String methodOfUpdateCity = "updateHometown";
 	//更新生日
 	public static final String methodOfUpdateBirthday = "updateBirthday";
 	//更新体重

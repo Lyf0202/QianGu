@@ -123,4 +123,22 @@ public class UpdateInfoToJSON {
 		returnJSON.put(Keys.status, statusJSON);
 		return returnJSON;	
 	}
+	
+	public JSONObject updateHometownInfoToJSON(Map<String,String[]> parameters){
+		returnJSON = new JSONObject();
+		statusJSON = new JSONObject();
+		Integer userId = Integer.valueOf(parameters.get(Keys.userId)[0]);
+		Integer areaId = Integer.valueOf(parameters.get(Keys.city)[0]);
+		if(userUpdateService.updateHometown(userId, areaId)){
+			statusJSON.accumulate(Keys.status, Values.statusOfSuccess);
+			resultJSON = new JSONObject();
+			resultJSON.accumulate(Keys.city, areaId);
+			returnJSON.put(Keys.status, statusJSON);
+		}else{
+			statusJSON.accumulate(Keys.status, Values.statusOfServiceError);
+			statusJSON.accumulate(Keys.message, Values.messageOfServiceError);
+		}
+		returnJSON.put(Keys.status, statusJSON);
+		return returnJSON;
+	}
 }
