@@ -1,5 +1,6 @@
 package com.qiangu.keyu.service;
 
+import java.util.List;
 import java.util.Map;
 
 public interface UserUpdateService {
@@ -20,5 +21,5 @@ public interface UserUpdateService {
 //	
 	public Boolean updateHeight(Integer userId,Double newHeight);
 //	
-//	public String updateLabel();
+	public List<Object> updateLabel(Integer userId ,String[] oldLabel, String[] officialLabels,String[] userLabels);
 }

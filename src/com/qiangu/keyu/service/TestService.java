@@ -30,5 +30,7 @@ public interface TestService {
 	public void getChatUserModel();
 
 	public AreasCoding getAreaCoding(Integer id);
+	
+	public void updateLabel();
 
 }

@@ -141,4 +141,22 @@ public class UpdateInfoToJSON {
 		returnJSON.put(Keys.status, statusJSON);
 		return returnJSON;
 	}
+	
+	public JSONObject updateLabelsInfoToJSON(Map<String,String[]> parameters){
+		returnJSON = new JSONObject();
+		statusJSON = new JSONObject();
+		Integer userId = Integer.valueOf(parameters.get(Keys.userId)[0]);
+		String[] officialLabels = parameters.get(Keys.officialLabels);
+		String[] userLabels = parameters.get(Keys.userLabels);
+		String[] oldLabels = parameters.get(Keys.oldLabels);
+		if(userUpdateService.updateLabel(userId, oldLabels, officialLabels, userLabels) != null){
+			statusJSON.accumulate(Keys.status, Values.statusOfSuccess);
+		}else{
+			statusJSON.accumulate(Keys.status, Values.statusOfServiceError);
+			statusJSON.accumulate(Keys.message,Values.messageOfServiceError);
+		}
+		returnJSON.put(Keys.status, resultJSON);
+		return returnJSON;
+		
+	}
 }

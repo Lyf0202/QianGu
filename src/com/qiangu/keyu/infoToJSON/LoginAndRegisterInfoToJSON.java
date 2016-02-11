@@ -2,6 +2,7 @@ package com.qiangu.keyu.infoToJSON;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -149,9 +150,12 @@ public class LoginAndRegisterInfoToJSON {
 		}
 		List<LabelPo> labels = labelService.getLabels(user.getId());
 		if (labels != null) {
-			List<String> listLabels = new ArrayList<>();
+			
+			List<Map<Integer,String>> listLabels = new ArrayList<>();
 			for (LabelPo l : labels) {
-				listLabels.add(l.getLabelContent());
+				Map<Integer,String> labelMap = new HashMap<>();
+				labelMap.put(l.getId(), l.getLabelContent());
+				listLabels.add(labelMap);
 			}
 			json.accumulate(Keys.labels, listLabels);
 		}

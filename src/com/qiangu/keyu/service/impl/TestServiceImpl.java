@@ -1,6 +1,8 @@
 package com.qiangu.keyu.service.impl;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,7 +10,9 @@ import org.springframework.stereotype.Service;
 
 import com.qiangu.keyu.api.BaiduMapApi;
 import com.qiangu.keyu.api.ReadXmlApi;
+import com.qiangu.keyu.dao.LabelDao;
 import com.qiangu.keyu.dao.TestDao;
+import com.qiangu.keyu.dao.UserUpdateDao;
 import com.qiangu.keyu.po.AreasCoding;
 import com.qiangu.keyu.po.CitiesCoding;
 import com.qiangu.keyu.po.ProvinceCoding;
@@ -26,6 +30,11 @@ public class TestServiceImpl implements TestService {
 	@Autowired
 	private ReadXmlApi readXmlApi;
 	
+	@Autowired
+	private UserUpdateDao userUpdateDao;
+	
+	@Autowired
+	private LabelDao labelDao;
 	
 	public void setTestdao(TestDao testdao) {
 		this.testdao = testdao;
@@ -106,6 +115,14 @@ public class TestServiceImpl implements TestService {
 	public AreasCoding getAreaCoding(Integer id) {
 		// TODO Auto-generated method stub
 		return testdao.getAreaCoding(id);
+	}
+
+	@Override
+	public void updateLabel() {
+		List<Integer> ids = new ArrayList<>();
+		ids.add(1);
+		ids.add(2);
+		labelDao.updateOldLabel(ids, 1);
 	}
 
 	

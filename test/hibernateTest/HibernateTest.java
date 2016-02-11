@@ -123,6 +123,12 @@ public class HibernateTest {
 		parameters.put("telephone", telephone);
 		System.out.println(userService.getLoginOrRegisterUserInfo(parameters));
 	}
+	
+	@Test
+	public void test4(){
+		testService.updateLabel();
+		System.out.println("123465 v");
+	}
 
 	@After
 	public void after() {

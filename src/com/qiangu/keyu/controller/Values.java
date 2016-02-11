@@ -93,7 +93,12 @@ public class Values {
 	public static final String yes = "yes";
 	//
 	public static final String no = "no";
-	
+	//
+	public static final String noLabels = "0";
+	//官方标签
+	public static final Integer officialLabels = 1;
+	//自定义标签
+	public static final Integer userLabels = 2;
 	
 	/**
 	 * 请求参数值
