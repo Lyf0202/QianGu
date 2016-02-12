@@ -133,36 +133,40 @@ public class UserUpdateServiceImpl implements UserUpdateService {
 	public List<Object> updateLabel(Integer userId, String[] oldLabel, String[] officialLabels,
 			String[] userLabels) {
 		List<Object> listU = null;
-		if (oldLabel[0].equals(Values.noLabels)) {
+		if (!oldLabel[0].equals(Values.noLabels)) {
 			List<Integer> labelIds = new ArrayList<>();
 			for (String s : oldLabel) {
 				labelIds.add(Integer.valueOf(s));
 			}
 			if (labelDao.updateOldLabel(labelIds, userId) > 0) {
-				listU = new ArrayList<>();
-				if (officialLabels[0].equals(Values.noLabels)) {
-					for (String s : officialLabels) {
-						UserLabelPo uL = new UserLabelPo();
-						uL.setIsNow(Values.isNow);
-						uL.setLabelId(Integer.valueOf(s));
-						uL.setUserId(userId);
-						labelDao.addUserLabel(uL);
-						listU.add(s);
-					}
-				}
-				if (userLabels[0].equals(Values.noLabels)) {
-					for (String s : userLabels) {
-						LabelPo l = new LabelPo();
-						l.setLabelContent(s);
-						labelDao.save(l);
-						UserLabelPo uL = new UserLabelPo();
-						uL.setIsNow(Values.isNow);
-						uL.setLabelId(l.getId());
-						uL.setUserId(userId);
-						labelDao.addUserLabel(uL);
-						listU.add(s);
-					}
-				}
+				listU = new ArrayList<>();	
+			}
+		}
+		
+		if (!officialLabels[0].equals(Values.noLabels)) {
+			listU = new ArrayList<>();	
+			for (String s : officialLabels) {
+				UserLabelPo uL = new UserLabelPo();
+				uL.setIsNow(Values.isNow);
+				uL.setLabelId(Integer.valueOf(s));
+				uL.setUserId(userId);
+				labelDao.addUserLabel(uL);
+				listU.add(s);
+			}
+		}
+		if (!userLabels[0].equals(Values.noLabels)) {
+			listU = new ArrayList<>();	
+			for (String s : userLabels) {
+				LabelPo l = new LabelPo();
+				l.setLabelContent(s);
+				l.setTypeId(Values.userLabels);
+				labelDao.save(l);
+				UserLabelPo uL = new UserLabelPo();
+				uL.setIsNow(Values.isNow);
+				uL.setLabelId(l.getId());
+				uL.setUserId(userId);
+				labelDao.addUserLabel(uL);
+				listU.add(s);
 			}
 		}
 

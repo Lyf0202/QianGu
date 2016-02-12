@@ -149,13 +149,14 @@ public class UpdateInfoToJSON {
 		String[] officialLabels = parameters.get(Keys.officialLabels);
 		String[] userLabels = parameters.get(Keys.userLabels);
 		String[] oldLabels = parameters.get(Keys.oldLabels);
+		
 		if(userUpdateService.updateLabel(userId, oldLabels, officialLabels, userLabels) != null){
 			statusJSON.accumulate(Keys.status, Values.statusOfSuccess);
 		}else{
 			statusJSON.accumulate(Keys.status, Values.statusOfServiceError);
 			statusJSON.accumulate(Keys.message,Values.messageOfServiceError);
 		}
-		returnJSON.put(Keys.status, resultJSON);
+		returnJSON.put(Keys.status, statusJSON);
 		return returnJSON;
 		
 	}

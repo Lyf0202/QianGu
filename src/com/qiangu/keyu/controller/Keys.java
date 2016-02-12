@@ -53,9 +53,9 @@ public class Keys {
 	public static final String department = "department";
 	public static final String birthday = "birthday";
 	public static final String sex = "sex";
-	public static final String officialLabels = "officialLabels";
-	public static final String userLabels = "userLabels";
-	public static final String oldLabels = "oldLabels";
+	public static final String officialLabels = "officialLabels[]";
+	public static final String userLabels = "userLabels[]";
+	public static final String oldLabels = "oldLabels[]";
 	
 	/**
 	 * 匹配用户的额外属性
