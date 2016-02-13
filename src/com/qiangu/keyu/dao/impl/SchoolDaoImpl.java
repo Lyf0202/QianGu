@@ -14,10 +14,10 @@ public class SchoolDaoImpl extends BaseDaoImpl<SchoolCoding> implements SchoolDa
 	/**
 	 * 根据省份查询学校
 	 */
-	final String getSchoolHql = "select S.school_name from SchoolCoding as S ,ProvinceCoding as P "
+	final String getSchoolHql = "select S from SchoolCoding as S ,ProvinceCoding as P "
 			+ "where S.school_pro_id = P.id and P.province = :province";
 	@Override
-	public List<String> getSchool(String province) {
+	public List<SchoolCoding> getSchool(String province) {
 		// TODO Auto-generated method stub
 		Query query = getSession().createQuery(getSchoolHql);
 		query.setCacheable(true);

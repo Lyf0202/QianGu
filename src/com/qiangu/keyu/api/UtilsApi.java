@@ -190,7 +190,8 @@ public class UtilsApi {
 	public JSONObject parametersIsValid(String contentType, Map<String, String[]> parameters) {
 		JSONObject returnJSON = null;
 		JSONObject statusJSON = new JSONObject();
-		if (contentType != null && contentType.equals("application/x-www-form-urlencoded")) {
+//		if (contentType != null && contentType.equals("application/x-www-form-urlencoded")) {
+		if(true){
 			if (isHasNull(parameters)) {
 				returnJSON = new JSONObject();
 				statusJSON.accumulate(Keys.status, Values.statusOfNullParameter);

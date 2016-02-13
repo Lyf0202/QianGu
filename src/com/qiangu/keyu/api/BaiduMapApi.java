@@ -47,6 +47,7 @@ public class BaiduMapApi {
 		String url = "http://api.map.baidu.com/geoconv/v1/";
 		fullURL = url + "?coords=" + lat + "," + lon + "&from=" + coordsFrom + "&to=" + coordsTo + "&ak=" + ak;
 		JSONObject jsonObject = getBaiduResult(fullURL);
+		System.out.println("jsonObject.toString() ==== "+jsonObject.toString());
 		List<JSONObject> coordsList = jsonObject.getJSONArray("result");
 		Map<String, String> coords = new HashMap<String, String>();
 		coords.put("lat", String.valueOf(coordsList.get(0).get("x")));

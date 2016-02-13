@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.qiangu.keyu.controller.Keys;
 import com.qiangu.keyu.controller.Values;
+import com.qiangu.keyu.po.SchoolCoding;
 import com.qiangu.keyu.service.SchoolService;
 
 import net.sf.json.JSONObject;
@@ -22,7 +23,7 @@ public class SchoolServiceInfoToJSON {
 		JSONObject returnJSON = new JSONObject();
 		JSONObject statusJSON = new JSONObject();
 		JSONObject resultJSON = new JSONObject();
-		List<String> schools = schoolService.getLocationSchool(parameters);
+		List<SchoolCoding> schools = schoolService.getLocationSchool(parameters);
 		if(schools == null || schools.size() == 0){
 			statusJSON.accumulate(Keys.status,Values.statusOfNoSchools);
 			statusJSON.accumulate(Keys.message, Values.messageOfNoSchools);

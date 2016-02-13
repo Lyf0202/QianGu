@@ -6,7 +6,7 @@ import com.qiangu.keyu.po.SchoolCoding;
 
 public interface SchoolDao extends BaseDao<SchoolCoding> {
 
-	public List<String> getSchool(String province);
+	public List<SchoolCoding> getSchool(String province);
 	
 	public List<SchoolCoding> getSchoolByProvinceId(Integer provinceId);
 	

@@ -35,13 +35,13 @@ public class SchoolServiceImpl implements SchoolService {
 	 * @throws IOException 
 	 */
 	@Override
-	public List<String> getLocationSchool(Map<String, String[]> parameters) throws IOException {
+	public List<SchoolCoding> getLocationSchool(Map<String, String[]> parameters) throws IOException {
 		String lat = parameters.get(parametersValues.lat)[0];
 		String lng = parameters.get(parametersValues.lng)[0];
 		//根据经纬度获取用户所在省份
 		String province = baiduMapApi.getProvince(lat, lng);
 		//获取该省份所有的大学
-		List<String> school = schoolDao.getSchool(province);
+		List<SchoolCoding> school = schoolDao.getSchool(province);
 		//获取以该经纬度为中心方圆2000内所有的大学
 		JSONObject jsonObject = baiduMapApi.getBaiduSchool(lat, lng);
 		return locationSchool(school, jsonObject);
@@ -53,12 +53,12 @@ public class SchoolServiceImpl implements SchoolService {
 	 * @param jsonObject
 	 * @return
 	 */
-	public List<String> locationSchool(List<String> schools,JSONObject jsonObject){
+	public List<SchoolCoding> locationSchool(List<SchoolCoding> schools,JSONObject jsonObject){
 		List<JSONObject> schoolJSON = jsonObject.getJSONArray(baiduMapApi.results);
-		List<String> locationSchools = new ArrayList<String>();
+		List<SchoolCoding> locationSchools = new ArrayList<SchoolCoding>();
 		for(JSONObject json : schoolJSON){
-			for(String school : schools){
-				if(json.getString("name").contains(school) && !locationSchools.contains(school)){
+			for(SchoolCoding school : schools){
+				if(json.getString("name").contains(school.getSchool_name()) && !locationSchools.contains(school)){
 					locationSchools.add(school);
 				}
 			}

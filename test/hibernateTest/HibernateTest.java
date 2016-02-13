@@ -105,13 +105,13 @@ public class HibernateTest {
 		String[] str2 = { "120.006685" };
 		map.put("lat", str1);
 		map.put("lng", str2);
-		List<String> s = schoolService.getLocationSchool(map);
-		for (String school : s) {
+		List<SchoolCoding> s = schoolService.getLocationSchool(map);
+		for (SchoolCoding school : s) {
 			System.out.println(school);
 		}
 
-		List<String> s1 = schoolService.getLocationSchool(map);
-		for (String school : s1) {
+		List<SchoolCoding> s1 = schoolService.getLocationSchool(map);
+		for (SchoolCoding school : s1) {
 			System.out.println(school);
 		}
 	}
