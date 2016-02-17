@@ -29,7 +29,11 @@ public class SchoolServiceInfoToJSON {
 			statusJSON.accumulate(Keys.message, Values.messageOfNoSchools);
 		}else{
 			statusJSON.accumulate(Keys.status, Values.statusOfSuccess);
-			resultJSON.accumulate(Keys.schools,schools);
+			JSONObject schoolJSON = new JSONObject();
+			for(SchoolCoding s : schools){
+				schoolJSON.accumulate(String.valueOf(s.getId()), s.getSchool_name());
+			}
+			resultJSON.put(Keys.school, schoolJSON);
 			returnJSON.put(Keys.result, resultJSON);
 		}
 		returnJSON.put(Keys.status, statusJSON);
