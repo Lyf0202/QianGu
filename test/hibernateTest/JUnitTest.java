@@ -51,16 +51,36 @@ public class JUnitTest {
 	@Test
 	public void testMongodb() {
 		MongodbApi m = new MongodbApi();
-		for (int i = 1; i < 10; i++) {
-			BasicDBObject b = new BasicDBObject();
-			Double[] d = { Double.valueOf("30."+i+12121), 121.123465 };
-			b.put("loc", d);
-			b.put("userId", i+15);
-			WriteResult w = m.mongodbInsert(b);
-			System.out.println("success");
-		}
+		BasicDBObject b = new BasicDBObject();
+		Double[] d = { -73.80, 40.70};
+		JSONObject json = new JSONObject();
+		json.put("type","Point");
+		json.put("coordinates", d);
+		
+		b.put("loc", json);
+		b.put("name", "HZNU");
+		WriteResult w = m.mongodbInsert(b);
+		System.out.println("success");
 	}
 
+	@Test
+	public void mongodbQuery(){
+		String near = "$near";
+		String geometry = "$geometry";
+		String maxDistance = "$maxDistance";
+		long distance =  15000;
+		MongodbApi m = new MongodbApi();
+		BasicDBObject geovalueB = new BasicDBObject();
+		geovalueB.put("type", "Point");
+		geovalueB.put("coordinates", new Double[] {-73.80, 40.79});
+		BasicDBObject nearB = new BasicDBObject();
+		nearB.put(geometry, geovalueB);
+		nearB.put(maxDistance, distance);
+		BasicDBObject b = new BasicDBObject().append("loc", 
+				new BasicDBObject().append(near, nearB));
+		m.mongodbFind(b);
+	}
+	
 	@Test
 	public void test3() {
 		try {
@@ -78,12 +98,12 @@ public class JUnitTest {
 			Float[] f = { (float) 121.1251, (float) 1255.15 };
 			document.put("msg", f);
 			// 将新建立的document保存到collection中去
-			collection.insert(document);
+//			collection.insert(document);
 			// 创建要查询的document
 			BasicDBObject searchQuery = new BasicDBObject();
-			searchQuery.put("id", 1001);
+			searchQuery.put("name","HZNU");
 			// 使用collection的find方法查找document
-			DBCursor cursor = collection.find();
+			DBCursor cursor = collection.find(searchQuery);
 			// 循环输出结果
 			while (cursor.hasNext()) {
 				System.out.println(cursor.next());
@@ -98,7 +118,7 @@ public class JUnitTest {
 
 	@Test
 	public void test4() {
-		System.out.println(getDistance(-73.97,40.77,-73.80,40.79));
+		System.out.println(getDistance(-73.8, 40.7, -73.80, 40.79));
 	}
 
 	public Object getObject() {

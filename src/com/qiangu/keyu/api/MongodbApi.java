@@ -6,6 +6,7 @@ import java.net.UnknownHostException;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DB;
 import com.mongodb.DBCollection;
+import com.mongodb.DBCursor;
 import com.mongodb.Mongo;
 import com.mongodb.MongoException;
 import com.mongodb.MongoOptions;
@@ -13,8 +14,8 @@ import com.mongodb.WriteResult;
 
 public class MongodbApi {
 
-	private final static String DBNAME = "KeYu";
-	private final static String COLLECTIONName = "userLocation";
+	private final static String DBNAME = "firstMongodb";
+	private final static String COLLECTIONName = "testLBS";
 	private final static String HOST = "localhost";// 端口  
     private final static int PORT = 27017;// 端口  
     private final static int POOLSIZE = 100;// 连接数量  
@@ -49,6 +50,18 @@ public class MongodbApi {
 		DB db = getDB(DBNAME);
 		DBCollection collection = db.getCollection(COLLECTIONName);
 		return collection.insert(document);
+	}
+	
+	public void mongodbFind(BasicDBObject searchQuery){
+		DB db = getDB(DBNAME);
+		DBCollection collection = db.getCollection(COLLECTIONName);
+		DBCursor cursor = collection.find(searchQuery);
+		// 循环输出结果
+		while (cursor.hasNext()) {
+			System.out.println(cursor.next());
+		}
+		System.out.println("Done");
+		
 	}
 	
 }
