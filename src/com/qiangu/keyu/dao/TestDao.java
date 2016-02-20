@@ -29,4 +29,6 @@ public interface TestDao extends BaseDao<UserPo>{
 	public List<ChatUserModel> getChatUser();
 	
 	public AreasCoding getAreaCoding(Integer id);
+	
+	public List<UserPo> getMapUser();
 }

@@ -1,5 +1,6 @@
 package com.qiangu.keyu.dao.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -79,6 +80,23 @@ public class TestDaoImpl extends BaseDaoImpl<UserPo> implements TestDao {
 	public AreasCoding getAreaCoding(Integer id) {
 		
 		return (AreasCoding) getSession().get(AreasCoding.class, id);
+	}
+
+	@Override
+	public List<UserPo> getMapUser() {
+		String hql = "select U from UserPo as U where U.id in (:ids) and U.lastOnlineTime > :t";
+		List<Integer> ids = new ArrayList<>();
+//		for(int i = 1;i<15;i++){
+//			ids.add(i);
+//		}
+		ids.add(9);
+		ids.add(2);
+		ids.add(12);
+		long t = System.currentTimeMillis() - 1800*1000;
+		Query query = getSession().createQuery(hql);
+		query.setParameterList("ids",ids);
+		query.setParameter("t", t);
+		return query.list();
 	}
 
 }

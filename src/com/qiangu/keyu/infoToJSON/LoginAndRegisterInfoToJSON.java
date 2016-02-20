@@ -88,11 +88,14 @@ public class LoginAndRegisterInfoToJSON {
 			JSONObject me = userPoToJSON(user);
 			resultJSON.put(Keys.me, me);
 			List<Map> chatMapList = chatService.getChatInfo(user.getId());
+			List<JSONObject> chatUserList = new ArrayList<>();
 			for (int i = 1; i <= chatMapList.size(); i++) {
-				String keyUser = Keys.chatUser + i;
+//				String keyUser = Keys.chatUser + i;
 				JSONObject chatUser = chatUserInfoToJSON(chatMapList.get(i - 1));
-				resultJSON.put(keyUser, chatUser);
+//				resultJSON.put(keyUser, chatUser);
+				chatUserList.add(chatUser);
 			}
+			resultJSON.put(Keys.chatUser, chatUserList);
 			returnJSON.put(Keys.result, resultJSON);
 		}
 		returnJSON.put(Keys.status, statusJSON);
@@ -110,7 +113,7 @@ public class LoginAndRegisterInfoToJSON {
 		user.setName(parameters.get(Keys.name));
 		user.setEducation(parameters.get(Keys.education));
 		user.setSchoolId(Integer.valueOf(parameters.get(Keys.school)));
-		user.setLastOnlineTime(new Date());
+		user.setLastOnlineTime(System.currentTimeMillis());
 		String avatarName = parameters.get(Keys.telephone) + "_" + 1;
 		Integer userId = Integer.valueOf(userService.addUser(user).toString());
 		if (userId > 0) {
@@ -138,7 +141,7 @@ public class LoginAndRegisterInfoToJSON {
 		json.accumulate(Keys.name, user.getName());
 		json.accumulate(Keys.birthday, user.getBirthday());
 		json.accumulate(Keys.chatId, user.getTalkId());
-		json.accumulate(Keys.lastLoginTime, user.getLastOnlineTime().getTime());
+		json.accumulate(Keys.lastLoginTime, user.getLastOnlineTime());
 		json.accumulate(Keys.education, user.getEducation());
 		json.accumulate(Keys.weight, user.getWeight());
 		json.accumulate(Keys.height, user.getHeight());

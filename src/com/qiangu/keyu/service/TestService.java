@@ -32,5 +32,7 @@ public interface TestService {
 	public AreasCoding getAreaCoding(Integer id);
 	
 	public void updateLabel();
+	
+	public void getMapUser();
 
 }

@@ -71,7 +71,7 @@
         <property name="countyId" type="java.lang.Integer">
             <column name="countyId" />
         </property>
-        <property name="lastOnlineTime" type="java.util.Date">
+        <property name="lastOnlineTime" type="java.lang.Long">
             <column name="lastOnlineTime" />
         </property>
         <property name="sk" type="java.lang.String" access="field">

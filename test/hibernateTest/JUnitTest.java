@@ -27,8 +27,9 @@ public class JUnitTest {
 
 	@Test
 	public void test() {
-
-		System.out.println(getDistance(120.352625, 30.318659, 120.349070, 30.315232));
+		Long t = System.currentTimeMillis();
+		System.out.println(t);
+//		System.out.println(getDistance(120.352625, 30.318659, 120.349070, 30.315232));
 	}
 
 	@Test

@@ -125,6 +125,16 @@ public class TestServiceImpl implements TestService {
 		labelDao.updateOldLabel(ids, 1);
 	}
 
+	@Override
+	public void getMapUser() {
+		List<UserPo> l = testdao.getMapUser();
+		System.out.println("l = "+l);
+		for(int i = 0 ; i< l.size();i++){
+			System.out.println(l.get(i).getId());
+		}
+		
+	}
+
 	
 
 }

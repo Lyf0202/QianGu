@@ -57,7 +57,7 @@ public class UserPo {
 	//区县（家乡）id
 	private Integer countyId;
 	//上次登录时间
-	private Date lastOnlineTime;
+	private Long lastOnlineTime;
 	//
 	private String sk;
 	//
@@ -201,12 +201,19 @@ public class UserPo {
 	public void setCountyId(Integer countyId) {
 		this.countyId = countyId;
 	}
-	public Date getLastOnlineTime() {
+	public Long getLastOnlineTime() {
 		return lastOnlineTime;
 	}
-	public void setLastOnlineTime(Date lastOnlineTime) {
+	public void setLastOnlineTime(Long lastOnlineTime) {
 		this.lastOnlineTime = lastOnlineTime;
 	}
+	public String getSk() {
+		return sk;
+	}
+	public void setSk(String sk) {
+		this.sk = sk;
+	}
+	
 	
 	
 }

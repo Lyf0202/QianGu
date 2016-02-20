@@ -126,7 +126,7 @@ public class HibernateTest {
 	
 	@Test
 	public void test4(){
-		testService.updateLabel();
+		testService.getMapUser();
 		System.out.println("123465 v");
 	}
 
