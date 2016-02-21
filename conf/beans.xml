@@ -19,6 +19,7 @@
 	<bean id="yunPianWangApi" class="com.qiangu.keyu.api.YunPianWangApi"></bean>
 	<bean id="qiNiuYunApi" class="com.qiangu.keyu.api.QiNiuYunApi"></bean>
 	<bean id="keYuApi" class="com.qiangu.keyu.api.KeYuApi"></bean>
+	<bean id="mongodbApi" class="com.qiangu.keyu.api.MongodbApi"></bean>
 	
 	<bean id="parametersValues" class="com.qiangu.keyu.controller.Keys"></bean>
 	

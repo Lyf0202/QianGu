@@ -14,6 +14,7 @@ import com.mongodb.BasicDBObject;
 import com.mongodb.DB;
 import com.mongodb.DBCollection;
 import com.mongodb.DBCursor;
+import com.mongodb.DBObject;
 import com.mongodb.Mongo;
 import com.mongodb.MongoException;
 import com.mongodb.WriteResult;
@@ -21,6 +22,7 @@ import com.qiangu.keyu.api.MongodbApi;
 import com.qiangu.keyu.api.Sqlite;
 
 import net.sf.json.JSON;
+import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
 public class JUnitTest {
@@ -65,6 +67,24 @@ public class JUnitTest {
 	}
 
 	@Test
+	public void mongodbUpdate(){
+		MongodbApi m = new MongodbApi();
+		
+		BasicDBObject updateCondition = new BasicDBObject();
+		updateCondition.put("name", "杭师大");
+		
+		BasicDBObject updateSetValue = new BasicDBObject();
+		Double[] d = { -88.88,66.66};
+		JSONObject json = new JSONObject();
+		json.put("type","Point");
+		json.put("coordinates", d);
+		updateSetValue.put("loc", json);
+		
+		m.mongodbUpdateOrInsert(updateCondition, updateSetValue);
+		System.out.println("success !");
+	}
+	
+	@Test
 	public void mongodbQuery(){
 		String near = "$near";
 		String geometry = "$geometry";
@@ -104,11 +124,21 @@ public class JUnitTest {
 			BasicDBObject searchQuery = new BasicDBObject();
 			searchQuery.put("name","HZNU");
 			// 使用collection的find方法查找document
-			DBCursor cursor = collection.find(searchQuery);
+			DBCursor cursor = collection.find();
+			
 			// 循环输出结果
 			while (cursor.hasNext()) {
-				System.out.println(cursor.next());
+				JSONObject json = JSONObject.fromObject(cursor.next());
+//				System.out.println(json.get("name"));
+				JSONObject j = (JSONObject) json.get("loc");
+				JSONArray d = j.getJSONArray("coordinates");
+				System.out.println(d.get(0)+"  "+d.get(1));
 			}
+//			System.out.println("---------");
+//			List<DBObject> l = cursor.toArray();
+//			for(DBObject d :l){
+//				System.out.println(d);
+//			}
 			System.out.println("Done");
 		} catch (UnknownHostException e) {
 			e.printStackTrace();
@@ -119,7 +149,7 @@ public class JUnitTest {
 
 	@Test
 	public void test4() {
-		System.out.println(getDistance(-73.8, 40.7, -73.80, 40.79));
+		System.out.println(getDistance(-73.92, 40.79, -73.84, 40.79));
 	}
 
 	public Object getObject() {

@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import com.qiangu.keyu.controller.Keys;
 import com.qiangu.keyu.controller.Values;
+import com.qiangu.keyu.dao.MongodbDao;
 import com.qiangu.keyu.dao.UserDao;
 import com.qiangu.keyu.po.UserPo;
 import com.qiangu.keyu.service.UserService;
@@ -19,6 +20,9 @@ public class UserServiceImpl implements UserService {
 
 	@Autowired
 	private UserDao userDao;
+	
+	@Autowired
+	private MongodbDao mongodbDao;
 	
 	@Override
 	public UserPo getLoginOrRegisterUserInfo(Map<String, String[]> parameters) {
@@ -49,6 +53,20 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public Serializable addUser(UserPo user) {
 		return userDao.save(user);		
+	}
+
+	@Override
+	public UserPo getOpenAppUser(Integer userId,Double lng,Double lat) {
+//		mongodbDao.updateOrInsert(userId, lng, lat);
+		List<Map<String,Object>> list = mongodbDao.findByDistance(8000, -73.84, 40.79);
+		if(list.size() == 0){
+			System.out.println("no user");
+		}else{
+			for(Map<String,Object> m : list){
+				System.out.println("userId = "+m.get(Keys.userId));
+			}
+		}
+		return null;
 	}
 
 }

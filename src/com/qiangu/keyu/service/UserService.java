@@ -15,4 +15,6 @@ public interface UserService {
 	public UserPo getUserByUserId(Integer userId);
 	
 	public Serializable addUser(UserPo user);
+	
+	public UserPo getOpenAppUser(Integer userId,Double lng,Double lat);
 }
