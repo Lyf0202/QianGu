@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.hibernate.Query;
 import org.springframework.stereotype.Repository;
 
 import com.qiangu.keyu.dao.UserDao;
@@ -36,6 +37,18 @@ public class UserDaoImpl extends BaseDaoImpl<UserPo> implements UserDao{
 	public UserPo getUserByUserId(Integer userId) {
 		
 		return getT(UserPo.class, userId);
+	}
+
+	String getUserByDistanceHql = "select U from UserPo as U where U.id in (:distanceId) and U.id not in (:likeUserId) and U.lastOnlineTime > :minOnlineTime and U.lastOnlineTime < :maxOnlineTime";
+	@Override
+	public List<UserPo> getUserByDistance(List<Integer> distanceId, List<Integer> likeUserId,long minOnlineTime,long maxOnlineTime) {
+		Query query = getSession().createQuery(getUserByDistanceHql);
+		query.setParameterList("distanceId", distanceId);
+		query.setParameterList("likeUserId", likeUserId);
+		query.setParameter("minOnlineTime", minOnlineTime);
+		query.setParameter("maxOnlineTime", maxOnlineTime);
+		List<UserPo> l = query.list();
+		return l;
 	}
 
 }

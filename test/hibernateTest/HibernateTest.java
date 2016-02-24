@@ -136,6 +136,11 @@ public class HibernateTest {
 		userService.getOpenAppUser(1, 110.121, 1.14541);
 	}
 
+	@Test
+	public void test5(){
+		
+	}
+	
 	@After
 	public void after() {
 

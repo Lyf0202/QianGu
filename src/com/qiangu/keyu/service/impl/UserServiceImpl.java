@@ -2,6 +2,7 @@ package com.qiangu.keyu.service.impl;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -10,8 +11,10 @@ import org.springframework.stereotype.Service;
 
 import com.qiangu.keyu.controller.Keys;
 import com.qiangu.keyu.controller.Values;
+import com.qiangu.keyu.dao.LikeDao;
 import com.qiangu.keyu.dao.MongodbDao;
 import com.qiangu.keyu.dao.UserDao;
+import com.qiangu.keyu.po.LikePo;
 import com.qiangu.keyu.po.UserPo;
 import com.qiangu.keyu.service.UserService;
 
@@ -23,6 +26,9 @@ public class UserServiceImpl implements UserService {
 	
 	@Autowired
 	private MongodbDao mongodbDao;
+	
+	@Autowired
+	private LikeDao likeDao;
 	
 	@Override
 	public UserPo getLoginOrRegisterUserInfo(Map<String, String[]> parameters) {
@@ -89,6 +95,23 @@ public class UserServiceImpl implements UserService {
 			}
 		}
 		return str;
+	}
+
+	@Override
+	public List<UserPo> getMainUser(Double lng, Double lat, Integer userId,Integer maxDistance,long minOnlineTime,long maxOnlineTime) {
+		List<Map<String,Object>> distanceUser = mongodbDao.findByDistance(maxDistance, lng, lat);
+		List<Integer> distanceId = new ArrayList<>();
+		for(Map<String,Object> m : distanceUser){
+			distanceId.add((Integer)m.get(Keys.userId));
+		}
+		List<Integer> likeUserId = likeDao.getLikeUserIdByLikedUserId(userId);
+		List<UserPo> listUser = userDao.getUserByDistance(distanceId, likeUserId,minOnlineTime,maxOnlineTime);
+		Map<Integer,UserPo> mapUser = new HashMap<>();
+		for(UserPo u : listUser){
+			mapUser.put(u.getId(),u);
+		}
+		
+		return null;
 	}
 
 }

@@ -16,6 +16,15 @@ public interface UserService {
 	
 	public Serializable addUser(UserPo user);
 	
+	/**
+	 * 获取主页匹配的用户信息
+	 * @param lng
+	 * @param lat
+	 * @param userId
+	 * @return
+	 */
+	public List<UserPo> getMainUser(Double lng,Double lat,Integer userId,Integer maxDistance,long minOnlineTime,long maxOnlineTime);
+	
 	public UserPo getOpenAppUser(Integer userId,Double lng,Double lat);
 	
 	//测试用

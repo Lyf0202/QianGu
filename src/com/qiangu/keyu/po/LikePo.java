@@ -16,6 +16,9 @@ public class LikePo {
 	private Integer likeUserId;
 	//点击时间
 	private Date likeTime;
+	//
+	private Integer isSuccess;
+	
 	public Integer getId() {
 		return id;
 	}
@@ -40,17 +43,26 @@ public class LikePo {
 	public void setLikeTime(Date likeTime) {
 		this.likeTime = likeTime;
 	}
-	public LikePo(Integer userId, Integer likeUserId, Date likeTime) {
+	public Integer getIsSuccess() {
+		return isSuccess;
+	}
+	public void setIsSuccess(Integer isSuccess) {
+		this.isSuccess = isSuccess;
+	}
+	public LikePo(Integer id, Integer userId, Integer likeUserId, Date likeTime, Integer isSuccess) {
 		super();
+		this.id = id;
 		this.userId = userId;
 		this.likeUserId = likeUserId;
 		this.likeTime = likeTime;
+		this.isSuccess = isSuccess;
 	}
 	@Override
 	public String toString() {
 		return "LikePo [id=" + id + ", userId=" + userId + ", likeUserId=" + likeUserId + ", likeTime=" + likeTime
-				+ "]";
+				+ ", isSuccess=" + isSuccess + "]";
 	}
+	
 	
 	
 	

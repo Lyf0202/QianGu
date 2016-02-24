@@ -71,9 +71,9 @@ public class Values {
 	public static final Integer notVerify = 0;
 	//用户已认证
 	public static final Integer verifyed = 1;
-	//不喜欢
+	//不喜欢 / 单方喜欢(聊天表中用)
 	public static final Integer notLike = 0;
-	//喜欢
+	//喜欢 / 已经双方喜欢(聊天表中用)
 	public static final Integer liked = 1;
 	//聊天被删除
 	public static final Integer relationDeleted = 0;

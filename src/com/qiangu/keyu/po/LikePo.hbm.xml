@@ -17,5 +17,8 @@
         <property name="likeTime" type="java.util.Date">
             <column name="likeTime" />
         </property>
+        <property name="isSuccess" type="java.lang.Integer">
+            <column name="isSuccess" />
+        </property>
     </class>
 </hibernate-mapping>
