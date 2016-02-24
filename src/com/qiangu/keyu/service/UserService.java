@@ -17,4 +17,7 @@ public interface UserService {
 	public Serializable addUser(UserPo user);
 	
 	public UserPo getOpenAppUser(Integer userId,Double lng,Double lat);
+	
+	//测试用
+	public Object addUserLoc(Integer userId,Double lng,Double lat,Integer type);
 }

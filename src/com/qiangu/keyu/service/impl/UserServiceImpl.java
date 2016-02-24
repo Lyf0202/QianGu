@@ -58,15 +58,37 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public UserPo getOpenAppUser(Integer userId,Double lng,Double lat) {
 //		mongodbDao.updateOrInsert(userId, lng, lat);
-		List<Map<String,Object>> list = mongodbDao.findByDistance(8000, -73.84, 40.79);
+		//11182
+		mongodbDao.updateOrInsert(-1,-73.97,40.77);
+		//3550
+		mongodbDao.updateOrInsert(-2, -73.88,40.78);
+		//6742
+		mongodbDao.updateOrInsert(-3,-73.92,40.79);
+		return null;
+	}
+
+	@Override
+	public Object addUserLoc(Integer userId, Double lng, Double lat,Integer type) {
+		Integer distance = 0;
+		if(type == 1){
+			distance = 3000;
+		}else if(type == 2){
+			distance = 5000;
+		}else if(type == 3){
+			distance = 10000;
+		}else if(type == 4){
+			distance = 15000;
+		}
+		String str = "result = ";
+		List<Map<String,Object>> list = mongodbDao.findByDistance(distance, -73.84, 40.79);
 		if(list.size() == 0){
-			System.out.println("no user");
+			str = "no user";
 		}else{
 			for(Map<String,Object> m : list){
-				System.out.println("userId = "+m.get(Keys.userId));
+				str += m.get(Keys.userId) + " ";
 			}
 		}
-		return null;
+		return str;
 	}
 
 }

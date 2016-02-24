@@ -47,9 +47,6 @@
         <property name="verifyType" type="java.lang.Integer">
             <column name="verifyType" />
         </property>
-        <property name="loveManifestoId" type="java.lang.Integer">
-            <column name="loveManifestoId" />
-        </property>
         <property name="height" type="java.lang.Double">
             <column name="height" />
         </property>

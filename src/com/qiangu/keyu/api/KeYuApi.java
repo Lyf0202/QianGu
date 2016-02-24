@@ -19,7 +19,13 @@ public class KeYuApi {
 	//B的聊天句数所占比例
 	public static final double chatB = 0.45;
 	
-	
+	/**
+	 * 获取请密度
+	 * @param chatNumA A的聊天句数
+	 * @param chatNumB B的聊天句数
+	 * @param chatPo
+	 * @return
+	 */
 	public Double getIntimacy(Integer chatNumA ,Integer chatNumB,ChatPo chatPo){
 		Date startTime = chatPo.getStartTime();
 		long chatTime = System.currentTimeMillis() - startTime.getTime();

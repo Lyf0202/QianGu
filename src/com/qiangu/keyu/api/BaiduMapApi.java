@@ -32,7 +32,7 @@ public class BaiduMapApi {
 	}
 
 	/**
-	 * 
+	 * 将IOS获取到的经纬度转换成百度经纬度
 	 * @param lat
 	 * @param lon
 	 * @param coordsFrom
@@ -56,7 +56,7 @@ public class BaiduMapApi {
 	}
 	
 	/**
-	 * 
+	 * 根据经纬度得到对应的省份
 	 * @param lat
 	 * @param lng
 	 * @return
@@ -80,7 +80,7 @@ public class BaiduMapApi {
 	}
 	
 	/**
-	 * 
+	 * 根据经纬度获取到附近的学校
 	 * @param lat
 	 * @param lng
 	 * @return
@@ -105,7 +105,7 @@ public class BaiduMapApi {
 	}
 	
 	/**
-	 * 
+	 * 通过URL发送百度地图请求
 	 * @param url
 	 * @return
 	 * @throws IOException 

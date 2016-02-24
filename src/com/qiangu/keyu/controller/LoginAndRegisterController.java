@@ -30,6 +30,12 @@ public class LoginAndRegisterController {
 	@Autowired
 	private LoginAndRegisterResult loginAndRegisterResult;
 
+	/**
+	 * 发送验证码接口
+	 * @param request
+	 * @param response
+	 * @return
+	 */
 	@RequestMapping(value = "sendMessageService.do", produces = "text/json;charset=UTF-8")
 	@ResponseBody
 	public String sendMessageController(HttpServletRequest request, HttpServletResponse response) {
@@ -56,6 +62,15 @@ public class LoginAndRegisterController {
 		return resultStr;
 	}
 
+	
+	/**
+	 * 登录或注册接口
+	 * @param request
+	 * @param response
+	 * @return
+	 * @throws HttpException
+	 * @throws IOException
+	 */
 	@RequestMapping(value = "loginOrRegisterService.do", produces = "text/json;charset=UTF-8")
 	@ResponseBody
 	public String loginOrRegisterController(HttpServletRequest request, HttpServletResponse response)
@@ -79,6 +94,13 @@ public class LoginAndRegisterController {
 		return resultStr;
 	}
 
+	
+	/**
+	 * 完成注册接口
+	 * @param request
+	 * @param response
+	 * @return
+	 */
 	@RequestMapping(value = "completeRegisterService.do", produces = "text/json;charset=UTF-8")
 	@ResponseBody
 	public String completeRegister(HttpServletRequest request, HttpServletResponse response) {
@@ -99,6 +121,14 @@ public class LoginAndRegisterController {
 		return resultStr;
 	}
 
+	/**
+	 * 注册过程其他服务接口
+	 * @param request
+	 * @param response
+	 * @return
+	 * @throws HttpException
+	 * @throws IOException
+	 */
 	@RequestMapping(value = "registerService.do", produces = "text/json;charset=UTF-8")
 	@ResponseBody
 	public String RegisterServiceController(HttpServletRequest request, HttpServletResponse response)

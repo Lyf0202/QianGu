@@ -15,8 +15,8 @@ import com.mongodb.WriteResult;
 public class MongodbApi {
 
 	private final static String DBNAME = "KeYu";
-	private final static String COLLECTIONName = "userLocation";
-	private final static String HOST = "localhost";// 端口  
+	private final static String COLLECTIONName = "testCollection";
+	private final static String HOST = "127.0.0.1";// 端口  
     private final static int PORT = 27017;// 端口  
     private final static int POOLSIZE = 100;// 连接数量  
     private final static int BLOCKSIZE = 100; // 等待队列长度  
@@ -38,10 +38,19 @@ public class MongodbApi {
     public MongodbApi() {
     	initDBPrompties();
 	}
+    
+    /**
+     * 根据数据库名获取对应数据库
+     * @param dbName
+     * @return
+     */
 	public DB getDB(String dbName){
 		return mongo.getDB(dbName);
 	}
 	
+	/**
+	 * 初始化
+	 */
 	public void initDBPrompties(){
 		// 其他参数根据实际情况进行添加  
         try {  
@@ -58,6 +67,11 @@ public class MongodbApi {
         }  
 	}
 	
+	/**
+	 * 将document写入数据库
+	 * @param document
+	 * @return
+	 */
 	public WriteResult mongodbInsert(BasicDBObject document){
 		DB db = getDB(DBNAME);
 		DBCollection collection = db.getCollection(COLLECTIONName);
@@ -65,12 +79,23 @@ public class MongodbApi {
 		return collection.insert(document);
 	}
 	
+	/**
+	 * 根据searchQuery查找对应数据
+	 * @param searchQuery
+	 * @return
+	 */
 	public DBCursor mongodbFind(BasicDBObject searchQuery){
 		DB db = getDB(DBNAME);
 		DBCollection collection = db.getCollection(COLLECTIONName);
 		return collection.find(searchQuery);
 	}
 	
+	/**
+	 * 更新数据库
+	 * @param updateCondition
+	 * @param updateValue
+	 * @return
+	 */
 	public WriteResult mongodbUpdateOrInsert(BasicDBObject updateCondition,BasicDBObject updateValue){
 		DB db = getDB(DBNAME);
 		DBCollection collection = db.getCollection(COLLECTIONName);

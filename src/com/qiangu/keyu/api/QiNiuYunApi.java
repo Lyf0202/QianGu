@@ -28,6 +28,11 @@ public class QiNiuYunApi {
 		this.readXmlApi = readXmlApi;
 	}
 	
+	/**
+	 * 
+	 * @param downloadPicName
+	 * @return
+	 */
 	public String getDownloadUrl(String downloadPicName){
 		url = readXmlApi.getQiNiuInfo().get(readXmlApi.QiNiuURL);
 		photoSize = readXmlApi.getQiNiuInfo().get(readXmlApi.QiNiuPhotoSize);

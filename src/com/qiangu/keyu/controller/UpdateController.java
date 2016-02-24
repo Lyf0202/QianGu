@@ -32,6 +32,12 @@ public class UpdateController {
 	@Autowired
 	private UpdateResult updateResult;
 
+	/**
+	 * 
+	 * @param request
+	 * @param response
+	 * @return
+	 */
 	@RequestMapping(value = "updateUserInfoService.do", produces = "text/json;charset=UTF-8")
 	@ResponseBody
 	public String updateUserInfoController(HttpServletRequest request, HttpServletResponse response) {
@@ -50,6 +56,12 @@ public class UpdateController {
 		return resultStr;
 	}
 
+	/**
+	 * 
+	 * @param request
+	 * @param response
+	 * @return
+	 */
 	@RequestMapping(value = "updatePicInfoService.do", produces = "text/json;charset=UTF-8")
 	@ResponseBody
 	public String updatePicInfoController(HttpServletRequest request, HttpServletResponse response) {
