@@ -13,6 +13,9 @@
 
 	<context:component-scan base-package="com"></context:component-scan>
 	
+	<!-- 配置自动为匹配 aspectJ 注解的 JAVA 类生成代理对象 -->
+	<aop:aspectj-autoproxy></aop:aspectj-autoproxy>
+	
 	<bean id="readXmlApi" class="com.qiangu.keyu.api.ReadXmlApi"></bean>
 	<bean id="baiduMapApi" class="com.qiangu.keyu.api.BaiduMapApi"></bean>
 	<bean id="utilsApi" class="com.qiangu.keyu.api.UtilsApi"></bean>
