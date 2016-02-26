@@ -1,5 +1,6 @@
 package com.qiangu.keyu.dao.impl;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -24,7 +25,7 @@ public class LikeDaoImpl extends BaseDaoImpl<LikePo> implements LikeDao{
 		return findTs(getLikeUserByLikedUserIdHql, params);
 	}
 	
-	String getLikeUserIdByLikedUserIdHql = "select id from LikePo where likeUserId = :userId and isSuccess = :notLike order by likeTime";
+	String getLikeUserIdByLikedUserIdHql = "select userId from LikePo where likeUserId = :userId and isSuccess = :notLike order by likeTime";
 	@Override
 	public List<Integer> getLikeUserIdByLikedUserId(Integer likedUserId) {
 		Query query = getSession().createQuery(getLikeUserIdByLikedUserIdHql);
@@ -32,5 +33,17 @@ public class LikeDaoImpl extends BaseDaoImpl<LikePo> implements LikeDao{
 		query.setParameter("notLike",Values.notLike);
 		return query.list();
 	}
+	
+	String getLikeUserIdByTimeHql = "select userId from LikePo where likeUserId = :userId and isSuccess = :notLike and likeTime > :lastOnlineTime order by likeTime"; 
+	@Override
+	public List<Integer> getLikeUserIdByTime(Integer likedUserId, Date lastOnlineTime) {
+		Query query = getSession().createQuery(getLikeUserIdByTimeHql);
+		query.setParameter("userId",likedUserId);
+		query.setParameter("notLike", Values.notLike);
+		query.setParameter("lastOnlineTime", lastOnlineTime);
+		return query.list();
+	}
+	
+	
 
 }

@@ -25,6 +25,7 @@ public class MongodbApi {
     public static String geometry = "$geometry";
     public static String maxDistance = "$maxDistance";
     public static String set = "$set";
+    public static String in = "$in";
     public static String type = "type";
     public static String Point = "Point";
     public static String coordinates = "coordinates";

@@ -34,5 +34,7 @@ public interface TestService {
 	public void updateLabel();
 	
 	public void getMapUser();
+	
+	public void getTest();
 
 }

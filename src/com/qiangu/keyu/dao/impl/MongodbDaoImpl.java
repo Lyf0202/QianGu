@@ -48,7 +48,7 @@ public class MongodbDaoImpl implements MongodbDao {
      *                } } } )
 	 */
 	@Override
-	public List<Map<String,Object>> findByDistance(Integer maxDistance, Double lng, Double lat) {
+	public Map<Integer,Map<String,Object>> findByDistance(Integer maxDistance, Double lng, Double lat) {
 		
 		//$geometry
 		BasicDBObject geovalueB = new BasicDBObject();
@@ -65,7 +65,7 @@ public class MongodbDaoImpl implements MongodbDao {
 				new BasicDBObject().append(MongodbApi.near, nearB));
 		
 		DBCursor dbCursor = mongodbApi.mongodbFind(searchB);
-		List<Map<String,Object>> list = new ArrayList<>();
+		Map<Integer,Map<String,Object>> userM = new HashMap<>();
 		while(dbCursor.hasNext()){
 			Map<String,Object> m = new HashMap<>();
 			JSONObject json = JSONObject.fromObject(dbCursor.next().toString());
@@ -74,9 +74,34 @@ public class MongodbDaoImpl implements MongodbDao {
 			JSONArray jsonArray = jsonLoc.getJSONArray(MongodbApi.coordinates);
 			m.put(Keys.lng,jsonArray.get(0));
 			m.put(Keys.lat,jsonArray.get(1));
-			list.add(m);
+			userM.put((Integer)json.get(MongodbApi.userId), m);
 		}
-		return list;
+		return userM;
+	}
+
+
+	@Override
+	public Map<Integer, Map<String, Object>> findByArray(List<Integer> userIds) {
+		
+		BasicDBObject inB = new BasicDBObject();
+		inB.put(MongodbApi.in, userIds);
+		
+		BasicDBObject searchB = new BasicDBObject();
+		searchB.put(MongodbApi.userId, inB);
+
+		DBCursor dbCursor = mongodbApi.mongodbFind(searchB);
+		Map<Integer,Map<String,Object>> userM = new HashMap<>();
+		while(dbCursor.hasNext()){
+			Map<String,Object> m = new HashMap<>();
+			JSONObject json = JSONObject.fromObject(dbCursor.next().toString());
+			m.put(Keys.userId,json.get(MongodbApi.userId));
+			JSONObject jsonLoc = (JSONObject) json.get(MongodbApi.loc);
+			JSONArray jsonArray = jsonLoc.getJSONArray(MongodbApi.coordinates);
+			m.put(Keys.lng,jsonArray.get(0));
+			m.put(Keys.lat,jsonArray.get(1));
+			userM.put((Integer)json.get(MongodbApi.userId), m);
+		}
+		return userM;
 	}
 
 }

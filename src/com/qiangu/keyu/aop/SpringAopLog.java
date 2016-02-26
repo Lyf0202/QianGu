@@ -1,5 +1,10 @@
 package com.qiangu.keyu.aop;
 
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+
+import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.After;
@@ -9,7 +14,11 @@ import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.annotation.Pointcut;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import com.qiangu.keyu.api.LoggerApi;
+import com.qiangu.keyu.controller.Keys;
 
 /**
  * 可以使用 @order(2) 注解指定切面的优先级,值越小优先级越高
@@ -25,38 +34,55 @@ public class SpringAopLog {
 	 * 定义一个方法,用于声明切入点表达式,一般的,该方法中再不需要填入其他代码 后面的其他通知直接使用方法名来引用当前的切入点表达式.其他类引用时加上
 	 * 类名 或 包名
 	 */
-	@Pointcut("execution(* com.qiangu.keyu.controller.UpdateController.*(..))")
+	@Pointcut("execution(* com.qiangu.keyu.controller.*.*(..))")
 	public void declareJointPointExpression() {
 	};
 
-//	@Before("declareJointPointExpression()")
-//	public void beforeMethod(JoinPoint joinPoint) {
-//		String methodName = joinPoint.getSignature().getName();
-//		Object[] args = joinPoint.getArgs();
-//		System.out.println("the method begins.");
-//	}
-//
-//	/**
-//	 * 在方法执行之后执行的代码，无论该方法是否出现异常
-//	 * 
-//	 * @param joinPoint
-//	 */
-//	@After("declareJointPointExpression()")
-//	public void afterMethod(JoinPoint joinPoint) {
-//
-//	}
-//
-//	/**
-//	 * 在方法正常结束后执行的代码 返回通知是可以访问到方法的返回值的
-//	 */
-//	@AfterReturning(value = "declareJointPointExpression()", returning = "result")
-//	public void afterReturning(JoinPoint joinPoint, Object result) {
-//
-//	}
+	// @Before("declareJointPointExpression()")
+	// public void beforeMethod(JoinPoint joinPoint) {
+	// String methodName = joinPoint.getSignature().getName();
+	// Object[] args = joinPoint.getArgs();
+	// System.out.println("the method begins.");
+	// }
+	//
+	// /**
+	// * 在方法执行之后执行的代码，无论该方法是否出现异常
+	// *
+	// * @param joinPoint
+	// */
+	// @After("declareJointPointExpression()")
+	// public void afterMethod(JoinPoint joinPoint) {
+	//
+	// }
+	//
+	// /**
+	// * 在方法正常结束后执行的代码 返回通知是可以访问到方法的返回值的
+	// */
+	// @AfterReturning(value = "declareJointPointExpression()", returning =
+	// "result")
+	// public void afterReturning(JoinPoint joinPoint, Object result) {
+	//
+	// }
 
 	@AfterThrowing(value = "declareJointPointExpression()", throwing = "ex")
-	public void afterThrowing(Exception ex) {
-
+	public void afterThrowing(JoinPoint joinPoint,Exception ex) {
+		Object[] args = joinPoint.getArgs();
+		HttpServletRequest request = (HttpServletRequest) args[0];
+		String userId = "0";
+		boolean isMultipartContent = ServletFileUpload.isMultipartContent(request);
+		if(isMultipartContent){
+			
+		}else{
+			Map<String, String[]> parameters = request.getParameterMap();
+			userId = parameters.get(Keys.userId)[0];
+		}
+		StackTraceElement[] st = ex.getStackTrace();
+		String exclass = st[0].getClassName();
+		String method = st[0].getMethodName();
+		int lineNum = st[0].getLineNumber();
+		String error = "userId 为 " + userId +" 的用户在调用 "+exclass + " 类的 " + method + " 方法时,在第 "
+				+lineNum + " 行,发生异常,异常信息为 : "+ ex.toString();
+		LoggerApi.error(this, error);
 	}
 
 	/**
@@ -65,28 +91,28 @@ public class SpringAopLog {
 	 * 
 	 * @param pjd
 	 */
-	@Around("execution(* com.qiangu.keyu.controller.LoginAndRegisterController.*(..))")
-	public Object aroundMethod(ProceedingJoinPoint pjd) {
-
-		Object result = null;
-		String methodName = pjd.getSignature().getName();
-
-		try {
-			// 前置通知
-			System.out.println("the method begins");
-
-			// 执行目标方法
-			result = pjd.proceed();
-
-			// 返回通知
-			System.out.println("the method ends with" + result);
-		} catch (Throwable e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-		// 后置通知
-		System.out.println("the method ends ");
-		return "123456";
-	}
+//	@Around("execution(* com.qiangu.keyu.controller.LoginAndRegisterController.*(..))")
+//	public Object aroundMethod(ProceedingJoinPoint pjd) {
+//
+//		Object result = null;
+//		String methodName = pjd.getSignature().getName();
+//
+//		try {
+//			// 前置通知
+//			System.out.println("the method begins");
+//
+//			// 执行目标方法
+//			result = pjd.proceed();
+//
+//			// 返回通知
+//			System.out.println("the method ends with" + result);
+//		} catch (Throwable e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//
+//		// 后置通知
+//		System.out.println("the method ends ");
+//		return "123456";
+//	}
 }

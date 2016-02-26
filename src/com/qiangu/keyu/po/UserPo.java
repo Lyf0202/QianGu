@@ -62,6 +62,10 @@ public class UserPo {
 	private String sk;
 	//
 	private String identifyCode;
+	//
+	private Double lng;
+	//
+	private Double lat;
 	
 	public String getIdentifyCode() {
 		return identifyCode;
@@ -212,6 +216,18 @@ public class UserPo {
 	}
 	public void setSk(String sk) {
 		this.sk = sk;
+	}
+	public Double getLng() {
+		return lng;
+	}
+	public void setLng(Double lng) {
+		this.lng = lng;
+	}
+	public Double getLat() {
+		return lat;
+	}
+	public void setLat(Double lat) {
+		this.lat = lat;
 	}
 	
 	

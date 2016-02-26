@@ -20,4 +20,6 @@ public interface UserDao extends BaseDao<UserPo>{
 	 * @return
 	 */
 	public List<UserPo> getUserByDistance(List<Integer> distanceId,List<Integer> likeUserId,long minOnlineTime,long maxOnlineTime);
+	
+	public List<UserPo> getUserByDistance(List<Integer> distanceId,long minOnlineTime,long maxOnlineTime,Integer userId );
 }

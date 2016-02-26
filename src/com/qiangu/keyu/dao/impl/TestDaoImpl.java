@@ -1,6 +1,7 @@
 package com.qiangu.keyu.dao.impl;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -11,6 +12,7 @@ import com.qiangu.keyu.dao.TestDao;
 import com.qiangu.keyu.model.ChatUserModel;
 import com.qiangu.keyu.po.AreasCoding;
 import com.qiangu.keyu.po.CitiesCoding;
+import com.qiangu.keyu.po.LikePo;
 import com.qiangu.keyu.po.ProvinceCoding;
 import com.qiangu.keyu.po.SchoolCoding;
 import com.qiangu.keyu.po.SchoolTypeCoding;
@@ -97,6 +99,21 @@ public class TestDaoImpl extends BaseDaoImpl<UserPo> implements TestDao {
 		query.setParameterList("ids",ids);
 		query.setParameter("t", t);
 		return query.list();
+	}
+
+	@Override
+	public void getLike() {
+		LikePo l  = (LikePo)getSession().get(LikePo.class,1);
+		Date d = l.getLikeTime();
+		String hql = "from LikePo where likeTime > :f and likeTime < :l";
+		Query query = getSession().createQuery(hql);
+		query.setParameter("f",d);
+		query.setParameter("l",new Date());
+		List<LikePo> list = query.list();
+		System.out.println("list.size() = "+list.size());
+		for(LikePo like : list){
+			System.out.println(like);
+		}
 	}
 
 }

@@ -135,6 +135,12 @@ public class TestServiceImpl implements TestService {
 		
 	}
 
+	@Override
+	public void getTest() {
+		testdao.getLike();
+		
+	}
+
 	
 
 }

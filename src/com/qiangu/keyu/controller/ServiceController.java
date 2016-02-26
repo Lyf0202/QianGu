@@ -159,8 +159,8 @@ public class ServiceController {
 //		}else if(parameters.get("type")[0].equals("2")){
 //			
 //		}
-		System.out.println("testService.......");
-		return null;
+		int a = 10 / 0;
+		return "123456";
 	}
 	
 	

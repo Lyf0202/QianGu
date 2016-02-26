@@ -51,4 +51,16 @@ public class UserDaoImpl extends BaseDaoImpl<UserPo> implements UserDao{
 		return l;
 	}
 
+	String getUserByDistanceHql2 = "select distinct U from UserPo as U ,LikePo as L where U.id in (:distanceId) and U.lastOnlineTime > :minOnlineTime and U.lastOnlineTime < :maxOnlineTime and U.id != L.userId and L.likeUserId = :userId";
+	@Override
+	public List<UserPo> getUserByDistance(List<Integer> distanceId, long minOnlineTime, long maxOnlineTime,
+			Integer userId) {
+		Query query = getSession().createQuery(getUserByDistanceHql2);
+		query.setParameterList("distanceId",distanceId);
+		query.setParameter("minOnlineTime", minOnlineTime);
+		query.setParameter("maxOnlineTime", maxOnlineTime);
+		query.setParameter("userId",userId);
+		return query.list();
+	}
+
 }

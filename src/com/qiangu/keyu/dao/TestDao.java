@@ -31,4 +31,6 @@ public interface TestDao extends BaseDao<UserPo>{
 	public AreasCoding getAreaCoding(Integer id);
 	
 	public List<UserPo> getMapUser();
+	
+	public void getLike();
 }

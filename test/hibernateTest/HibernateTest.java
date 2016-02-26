@@ -76,6 +76,11 @@ public class HibernateTest {
 		}
 
 	}
+	
+	@Test
+	public void testServiceTest(){
+		testService.getTest();
+	}
 
 	@Test
 	public void tt() throws HttpException, IOException {
@@ -133,7 +138,8 @@ public class HibernateTest {
 //		//6742
 //		userService.getOpenAppUser(3,-73.92,40.79);
 //		System.out.println("123465 v");
-		userService.getOpenAppUser(1, 110.121, 1.14541);
+//		userService.getOpenAppUser(1, 110.121, 1.14541);
+		userService.addUserLoc(1, 121.1215, 2121.12415, 1);
 	}
 
 	@Test

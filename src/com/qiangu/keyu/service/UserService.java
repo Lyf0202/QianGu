@@ -1,6 +1,7 @@
 package com.qiangu.keyu.service;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -23,7 +24,7 @@ public interface UserService {
 	 * @param userId
 	 * @return
 	 */
-	public List<UserPo> getMainUser(Double lng,Double lat,Integer userId,Integer maxDistance,long minOnlineTime,long maxOnlineTime);
+	public List<UserPo> getMainUser(Double lng,Double lat,Integer userId,Integer maxDistance,long minOnlineTime,long maxOnlineTime,Date lastOnlineTime);
 	
 	public UserPo getOpenAppUser(Integer userId,Double lng,Double lat);
 	

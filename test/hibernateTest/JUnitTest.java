@@ -5,7 +5,9 @@ import static org.junit.Assert.*;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.catalina.util.URLEncoder;
 import org.junit.Test;
@@ -152,6 +154,14 @@ public class JUnitTest {
 		System.out.println(getDistance(-73.92, 40.79, -73.84, 40.79));
 	}
 
+	@Test
+	public void test5(){
+		long time = System.currentTimeMillis();
+		Date d = new Date(time);
+		System.out.println(d);
+		System.out.println(new Date());
+	}
+	
 	public Object getObject() {
 		JSONObject j = new JSONObject();
 		j.accumulate("4132", "4545");

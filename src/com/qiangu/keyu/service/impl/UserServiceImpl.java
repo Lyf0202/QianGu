@@ -2,6 +2,7 @@ package com.qiangu.keyu.service.impl;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -65,52 +66,51 @@ public class UserServiceImpl implements UserService {
 	public UserPo getOpenAppUser(Integer userId,Double lng,Double lat) {
 //		mongodbDao.updateOrInsert(userId, lng, lat);
 		//11182
-		mongodbDao.updateOrInsert(-1,-73.97,40.77);
-		//3550
-		mongodbDao.updateOrInsert(-2, -73.88,40.78);
-		//6742
-		mongodbDao.updateOrInsert(-3,-73.92,40.79);
+//		mongodbDao.updateOrInsert(-1,-73.97,40.77);
+//		//3550
+//		mongodbDao.updateOrInsert(-2, -73.88,40.78);
+//		//6742
+//		mongodbDao.updateOrInsert(-3,-73.92,40.79);
+		List<Integer> userIds = new ArrayList<>();
+		userIds.add(-1);
+		userIds.add(-2);
+		Map<Integer, Map<String, Object>> m = mongodbDao.findByArray(userIds);
+		System.out.println("m.size() = "+m.size());
+		for(Integer i : m.keySet()){
+			System.out.println("-----");
+			System.out.println(i);
+		}
 		return null;
 	}
 
 	@Override
 	public Object addUserLoc(Integer userId, Double lng, Double lat,Integer type) {
-		Integer distance = 0;
-		if(type == 1){
-			distance = 3000;
-		}else if(type == 2){
-			distance = 5000;
-		}else if(type == 3){
-			distance = 10000;
-		}else if(type == 4){
-			distance = 15000;
+		List<Integer> distanceId = new ArrayList<>();
+		for(int i = 1; i < 10; i+= 2){
+			distanceId.add(i);
+		}
+		long minOnlineTime = 123;
+		long maxOnlineTime = 456;
+		List<UserPo> listU = userDao.getUserByDistance(distanceId, minOnlineTime, maxOnlineTime, 1);
+		
+		System.out.println("------------"+listU.size());
+		for(UserPo u : listU){
+			System.out.println(u.getId());
 		}
 		String str = "result = ";
-		List<Map<String,Object>> list = mongodbDao.findByDistance(distance, -73.84, 40.79);
-		if(list.size() == 0){
-			str = "no user";
-		}else{
-			for(Map<String,Object> m : list){
-				str += m.get(Keys.userId) + " ";
-			}
-		}
+		
 		return str;
 	}
 
 	@Override
-	public List<UserPo> getMainUser(Double lng, Double lat, Integer userId,Integer maxDistance,long minOnlineTime,long maxOnlineTime) {
-		List<Map<String,Object>> distanceUser = mongodbDao.findByDistance(maxDistance, lng, lat);
-		List<Integer> distanceId = new ArrayList<>();
-		for(Map<String,Object> m : distanceUser){
-			distanceId.add((Integer)m.get(Keys.userId));
-		}
-		List<Integer> likeUserId = likeDao.getLikeUserIdByLikedUserId(userId);
-		List<UserPo> listUser = userDao.getUserByDistance(distanceId, likeUserId,minOnlineTime,maxOnlineTime);
-		Map<Integer,UserPo> mapUser = new HashMap<>();
-		for(UserPo u : listUser){
-			mapUser.put(u.getId(),u);
-		}
+	public List<UserPo> getMainUser(Double lng, Double lat, Integer userId,Integer maxDistance,long minOnlineTime,long maxOnlineTime,Date lastOnlineTime) {
 		
+		List<Integer> likeUserId = likeDao.getLikeUserIdByLikedUserId(userId);
+		Map<Integer,Map<String,Object>> likeUser = mongodbDao.findByArray(likeUserId);
+		
+		Map<Integer,Map<String,Object>> distanceUser = mongodbDao.findByDistance(maxDistance, lng, lat);
+		List<Integer> distanceId = new ArrayList<Integer>(distanceUser.keySet());
+		List<UserPo> listUser = userDao.getUserByDistance(distanceId, likeUserId,minOnlineTime,maxOnlineTime);
 		return null;
 	}
 
