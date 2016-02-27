@@ -24,10 +24,14 @@ public interface UserService {
 	 * @param userId
 	 * @return
 	 */
-	public List<UserPo> getMainUser(Double lng,Double lat,Integer userId,Integer maxDistance,long minOnlineTime,long maxOnlineTime,Date lastOnlineTime);
+	
+	public List<UserPo> getMainUserByDistance(Double lng,Double lat,Integer userId,Integer minDistance,Integer maxDistance,long minOnlineTime,long maxOnlineTime);
+	
+	public List<UserPo> getMainUserByLike(Integer userId,Date lastOnlineTime);
 	
 	public UserPo getOpenAppUser(Integer userId,Double lng,Double lat);
 	
+	public List<UserPo> getMainUserBySchool(Integer userId,Integer schoolId,long minOnlineTime, long maxOnlineTime);
 	//测试用
 	public Object addUserLoc(Integer userId,Double lng,Double lat,Integer type);
 }

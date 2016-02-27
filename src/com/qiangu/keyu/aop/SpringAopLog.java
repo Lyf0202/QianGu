@@ -91,12 +91,15 @@ public class SpringAopLog {
 	 * 
 	 * @param pjd
 	 */
-//	@Around("execution(* com.qiangu.keyu.controller.LoginAndRegisterController.*(..))")
+//	@Around("execution(* com.qiangu.keyu.controller.UserController.*(..))")
 //	public Object aroundMethod(ProceedingJoinPoint pjd) {
 //
 //		Object result = null;
 //		String methodName = pjd.getSignature().getName();
-//
+//		Object[] args = pjd.getArgs();
+//		HttpServletRequest request = (HttpServletRequest) args[0];
+//		boolean isMultipartContent = ServletFileUpload.isMultipartContent(request);
+//		
 //		try {
 //			// 前置通知
 //			System.out.println("the method begins");

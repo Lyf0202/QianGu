@@ -1,5 +1,6 @@
 package com.qiangu.keyu.dao;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -22,4 +23,12 @@ public interface UserDao extends BaseDao<UserPo>{
 	public List<UserPo> getUserByDistance(List<Integer> distanceId,List<Integer> likeUserId,long minOnlineTime,long maxOnlineTime);
 	
 	public List<UserPo> getUserByDistance(List<Integer> distanceId,long minOnlineTime,long maxOnlineTime,Integer userId );
+	
+	public List<UserPo> getUserByLikeUserId(Integer userId,Date lastOnlineTime);
+	
+	/**
+	 * 根据学校和喜欢获取用户列表
+	 */
+	public List<UserPo> getUserBySchool(Integer userId,Integer schoolId,long minOnlineTime,long maxOnlineTime);
+	
 }

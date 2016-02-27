@@ -44,11 +44,12 @@ public class MongodbDaoImpl implements MongodbDao {
      *                     { $geometry :
      *                        { type : "Point" ,
      *                          coordinates : [ <longitude> , <latitude> ] } ,
-     *                       $maxDistance : <distance in meters>
+     *                       $maxDistance : <distance in meters>,
+     *                       $minDistance : <distance in meters>
      *                } } } )
 	 */
 	@Override
-	public Map<Integer,Map<String,Object>> findByDistance(Integer maxDistance, Double lng, Double lat) {
+	public Map<Integer,Map<String,Object>> findByDistance(Integer minDistance,Integer maxDistance, Double lng, Double lat) {
 		
 		//$geometry
 		BasicDBObject geovalueB = new BasicDBObject();
@@ -59,6 +60,7 @@ public class MongodbDaoImpl implements MongodbDao {
 		BasicDBObject nearB = new BasicDBObject();
 		nearB.put(MongodbApi.geometry, geovalueB);
 		nearB.put(MongodbApi.maxDistance,maxDistance);
+		nearB.put(MongodbApi.minDistance,minDistance);
 		
 		//loc
 		BasicDBObject searchB = new BasicDBObject().append(MongodbApi.loc, 

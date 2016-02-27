@@ -12,4 +12,5 @@ public interface LikeDao extends BaseDao<LikePo>{
 	public List<Integer> getLikeUserIdByLikedUserId(Integer likedUserId);
 	
 	public List<Integer> getLikeUserIdByTime(Integer likedUserId,Date lastOnlineTime);
+	
 }

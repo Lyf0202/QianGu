@@ -93,12 +93,14 @@ public class Values {
 	public static final String yes = "yes";
 	//
 	public static final String no = "no";
-	//
+	//无标签内容
 	public static final String noLabels = "0";
 	//官方标签
 	public static final Integer officialLabels = 1;
 	//自定义标签
 	public static final Integer userLabels = 2;
+	//不提供定位权限
+	public static final String noLoc = "noLoc";
 	
 	/**
 	 * 请求参数值
@@ -129,6 +131,8 @@ public class Values {
 	public static final String methodOfCompleteRegister = "completeRegister";
 	//
 	public static final String methodOfGetSchool = "getSchool";
+	//
+	public static final String methodOfOpenApp = "openApp";
 	
 	
 }

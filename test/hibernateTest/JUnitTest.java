@@ -156,10 +156,9 @@ public class JUnitTest {
 
 	@Test
 	public void test5(){
-		long time = System.currentTimeMillis();
-		Date d = new Date(time);
-		System.out.println(d);
-		System.out.println(new Date());
+		
+		System.out.println(System.currentTimeMillis());
+		System.out.println(System.currentTimeMillis() - 3600*1000);
 	}
 	
 	public Object getObject() {

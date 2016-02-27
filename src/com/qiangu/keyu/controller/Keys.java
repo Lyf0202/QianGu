@@ -30,6 +30,12 @@ public class Keys {
 	public static final String chatInfo = "chatInfo";
 	// 学校信息
 	public static final String schools = "schools";
+	//附近的人
+	public static final String distanceUser = "distanceUser";
+	//点击喜欢的人
+	public static final String likeUser = "likeUser";
+	//没有开启定位功能时，同校的人
+	public static final String schoolUser = "schoolUser";
 
 	/**
 	 * 用户基本信息key
@@ -57,10 +63,18 @@ public class Keys {
 	public static final String userLabels = "userLabels[]";
 	public static final String oldLabels = "oldLabels[]";
 	
+	
+	
 	/**
 	 * 匹配用户的额外属性
 	 */
 	public static final String isLike = "isLike";
+	
+	public static final String minDistance = "minDistance";
+	public static final String maxDistance = "maxDistance";
+	public static final String minOnlineTime = "minOnlineTime";
+	public static final String maxOnlineTime = "maxOnlineTime";
+	
 
 	/**
 	 * 聊天用户的额外属性
