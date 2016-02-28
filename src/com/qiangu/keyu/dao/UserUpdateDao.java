@@ -20,4 +20,6 @@ public interface UserUpdateDao extends BaseDao<UserPo> {
 	public Integer updateBirthday(String birthday,Integer userId);
 	
 	public Integer updateHometown(Integer areaId,Integer userId);
+	
+	public Integer updateLikeUserOrder(Integer likeUserOrder,Integer userId);
 }

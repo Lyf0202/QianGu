@@ -101,6 +101,12 @@ public class Values {
 	public static final Integer userLabels = 2;
 	//不提供定位权限
 	public static final String noLoc = "noLoc";
+	//本地缓存在喜欢用户
+	public static final String hasLikeUser = "1";
+	//本地未缓存喜欢用户 
+	public static final String noHasLikeUser = "0";
+	
+	
 	
 	/**
 	 * 请求参数值
@@ -123,16 +129,19 @@ public class Values {
 	public static final String methodOfUpdateDepartment = "updateDepartment";
 	//更新标签
 	public static final String methodOfUpdateLabel = "updateLabel";
+	//更新用户查看了点击喜欢用户的序号
+	public static final String methodOfUpdateLikeUserOrder = "updateLikeUserOrder";
 	//发送验证码
 	public static final String methodOfSendMessage = "sendMessage";
 	//登录或注册
 	public static final String methodOfLoginOrRegister = "loginOrRegister";
 	//完成注册
 	public static final String methodOfCompleteRegister = "completeRegister";
-	//
+	//定位学校
 	public static final String methodOfGetSchool = "getSchool";
-	//
+	//打开APP
 	public static final String methodOfOpenApp = "openApp";
-	
+	//获取主页用户
+	public static final String methodOfGetUser = "getUser";
 	
 }

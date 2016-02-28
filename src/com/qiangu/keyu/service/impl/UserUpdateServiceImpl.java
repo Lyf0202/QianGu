@@ -173,4 +173,14 @@ public class UserUpdateServiceImpl implements UserUpdateService {
 		return listU;
 	}
 
+	@Override
+	public Boolean updateLikeUserOrder(Integer userId, Integer likeUserOrder) {
+		Integer daoResult = userUpdateDao.updateLikeUserOrder(likeUserOrder, userId);
+		if (daoResult > 0) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
 }

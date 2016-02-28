@@ -21,7 +21,10 @@ public class UserResult {
 		JSONObject result = null;
 		if(parameters.get(Keys.method)[0].equals(Values.methodOfOpenApp)){
 			result = userInfoToJSON.openAppInfoToJSON(parameters);
-		}else{
+		}else if(parameters.get(Keys.method)[0].equals(Values.methodOfGetUser)){
+		    result = userInfoToJSON.getUserInfoToJSON(parameters);
+		}else
+		{
 			result = new JSONObject();
 			JSONObject statusJSON = new JSONObject();
 			statusJSON.accumulate(Keys.status, Values.statusOfNoMethod);

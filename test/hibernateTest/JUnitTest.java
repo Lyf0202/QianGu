@@ -157,8 +157,8 @@ public class JUnitTest {
 	@Test
 	public void test5(){
 		
+//		System.out.println(new Date(Long.valueOf("1456578500742")));
 		System.out.println(System.currentTimeMillis());
-		System.out.println(System.currentTimeMillis() - 3600*1000);
 	}
 	
 	public Object getObject() {

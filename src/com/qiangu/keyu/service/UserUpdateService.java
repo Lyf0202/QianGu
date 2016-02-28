@@ -22,4 +22,6 @@ public interface UserUpdateService {
 	public Boolean updateHeight(Integer userId,Double newHeight);
 //	
 	public List<Object> updateLabel(Integer userId ,String[] oldLabel, String[] officialLabels,String[] userLabels);
+	
+	public Boolean updateLikeUserOrder(Integer userId,Integer likeUserOrder);
 }

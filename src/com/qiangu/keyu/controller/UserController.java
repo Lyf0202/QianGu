@@ -28,8 +28,16 @@ public class UserController {
 	@RequestMapping(value = "userService.do", produces = "text/json;charset=UTF-8")
 	@ResponseBody
 	public String userController(HttpServletRequest request, HttpServletResponse response){
-		
-		return null;
+		LoggerApi.info(this, "userService.do" + utilsApi.getCurrentTime());
+		Map<String, String[]> parameters = request.getParameterMap();
+		String resultStr = "123456789";
+		JSONObject resultJSON = utilsApi.parametersIsValid("", parameters);
+		if (resultJSON == null) {
+			resultJSON = userResult.getResult(parameters); 
+		}
+		resultStr = resultJSON.toString();
+		LoggerApi.info(this, "resultStr = " + resultStr);
+		return resultStr;
 	}
 	
 	@RequestMapping(value = "openAppService.do", produces = "text/json;charset=UTF-8")

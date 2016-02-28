@@ -77,5 +77,8 @@
         <property name="identifyCode" type="java.lang.String">
             <column name="identifyCode" />
         </property>
+        <property name="likeUserOrder" type="java.lang.Integer">
+            <column name="likeUserOrder" />
+        </property>
     </class>
 </hibernate-mapping>

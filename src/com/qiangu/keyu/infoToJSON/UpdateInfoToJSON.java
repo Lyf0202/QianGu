@@ -160,4 +160,23 @@ public class UpdateInfoToJSON {
 		return returnJSON;
 		
 	}
+	
+	public JSONObject updateLikeUserOrder(Map<String,String[]> parameters){
+		returnJSON = new JSONObject();
+		statusJSON = new JSONObject();
+		Integer userId = Integer.valueOf(parameters.get(Keys.userId)[0]);
+		Integer likeUserOrder = Integer.valueOf(parameters.get(Keys.likeUserOrder)[0]);
+		if(userUpdateService.updateLikeUserOrder(userId, likeUserOrder)){
+			statusJSON.accumulate(Keys.status, Values.statusOfSuccess);
+			resultJSON = new JSONObject();
+			resultJSON.accumulate(Keys.likeUserOrder,likeUserOrder);
+			returnJSON.put(Keys.status, statusJSON);
+		}else{
+			statusJSON.accumulate(Keys.status, Values.statusOfServiceError);
+			statusJSON.accumulate(Keys.message, Values.messageOfServiceError);
+		}
+		returnJSON.put(Keys.status, statusJSON);
+		return returnJSON;
+		
+	}
 }

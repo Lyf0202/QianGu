@@ -31,7 +31,10 @@ public class UpdateResult {
 			result = updateInfoToJSON.updateHometownInfoToJSON(parameters);
 		} else if (parameters.get(Keys.method)[0].equals(Values.methodOfUpdateLabel)) {
 			result = updateInfoToJSON.updateLabelsInfoToJSON(parameters);
-		} else {
+		}else if(parameters.get(Keys.method)[0].equals(Values.methodOfUpdateLikeUserOrder)){
+			result = updateInfoToJSON.updateLikeUserOrder(parameters);
+		}
+		else {
 			result = new JSONObject();
 			JSONObject statusJSON = new JSONObject();
 			statusJSON.accumulate(Keys.status, Values.statusOfNoMethod);

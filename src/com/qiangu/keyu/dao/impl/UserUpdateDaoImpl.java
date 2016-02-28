@@ -56,6 +56,15 @@ public class UserUpdateDaoImpl extends BaseDaoImpl<UserPo> implements UserUpdate
 		return update(hqlUpdateHometown, params);
 	}
 	
+	String updateLikeUserOrderHql = "update UserPo set likeUserOrder = :likeUserOrder where id = :userId";
+	@Override
+	public Integer updateLikeUserOrder(Integer likeUserOrder, Integer userId) {
+		Map<String,Object> params = new HashMap<>();
+		params.put("likeUserOrder", likeUserOrder);
+		params.put("userId", userId);
+		return update(updateLikeUserOrderHql, params);
+	}
+	
 	
 	
 }

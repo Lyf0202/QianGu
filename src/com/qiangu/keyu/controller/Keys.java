@@ -62,7 +62,8 @@ public class Keys {
 	public static final String officialLabels = "officialLabels[]";
 	public static final String userLabels = "userLabels[]";
 	public static final String oldLabels = "oldLabels[]";
-	
+	public static final String hasLikeUser = "hasLikeUser";
+	public static final String likeUserOrder = "likeUserOrder";
 	
 	
 	/**
