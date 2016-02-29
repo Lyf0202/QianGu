@@ -53,26 +53,50 @@ public class UserDaoImpl extends BaseDaoImpl<UserPo> implements UserDao{
 		return l;
 	}
 
-	String getUserByDistanceHql2 = "select distinct U from UserPo as U where U.id in (:distanceId) and U.lastOnlineTime > :minOnlineTime and U.lastOnlineTime < :maxOnlineTime and U.id not in (select L.userId from LikePo as L where L.likeUserId = :userId)";
+	
+	String getUserByDistanceHql2 = 
+			"select distinct U "
+			+ "from UserPo as U "
+			+ "where U.id in (:distanceId) "
+			+ "and U.lastOnlineTime > :minOnlineTime "
+			+ "and U.lastOnlineTime < :maxOnlineTime "
+			+ "and U.sex = :sex "
+			+ "and U.id not in "
+			+ "(select L.userId from LikePo as L where L.likeUserId = :userId) "
+			+ "order by U.lastOnlineTime desc";
 	@Override
 	public List<UserPo> getUserByDistance(List<Integer> distanceId, long minOnlineTime, long maxOnlineTime,
-			Integer userId) {
+			Integer userId,Integer sex) {
 		Query query = getSession().createQuery(getUserByDistanceHql2);
 		query.setParameterList("distanceId",distanceId);
 		query.setParameter("minOnlineTime", minOnlineTime);
 		query.setParameter("maxOnlineTime", maxOnlineTime);
+		query.setParameter("sex",sex);
 		query.setParameter("userId",userId);
+		query.setFirstResult(0);
+		query.setMaxResults(Values.onceUserNum);
 		return query.list();
 	}
 
-	
-	String getUserByLikeUserIdHql = "select distinct U from UserPo as U ,LikePo as L where U.id = L.userId and L.likeUserId = :likeUserId and L.isSuccess = :notLike and L.likeTime > :lastOnlineTime order by likeTime";
+	String getUserByLikeUserIdHql = 
+			"select distinct U "
+			+ "from UserPo as U ,LikePo as L "
+			+ "where U.id = L.userId "
+			+ "and U.sex = :sex "
+			+ "and L.likeUserId = :likeUserId "
+			+ "and L.isSuccess = :notLike "
+			+ "and L.likeTime > :lastOnlineTime "
+			+ "order by likeTime desc";
+	String getUserByLikeUserIdHql1 = "select distinct U from UserPo as U ,LikePo as L where U.id = L.userId and L.likeUserId = :likeUserId and L.isSuccess = :notLike and L.likeTime > :lastOnlineTime order by likeTime";
 	@Override
-	public List<UserPo> getUserByLikeUserId(Integer userId, Date lastOnlineTime) {
+	public List<UserPo> getUserByLikeUserId(Integer userId, Long lastOnlineTime,Integer sex) {
 		Query query = getSession().createQuery(getUserByLikeUserIdHql);
+		query.setParameter("sex", sex);
 		query.setParameter("likeUserId", userId);
 		query.setParameter("notLike",Values.notLike);
 		query.setParameter("lastOnlineTime",lastOnlineTime);
+		query.setFirstResult(0);
+		query.setMaxResults(Values.onceLikeUserNum);
 		return query.list();
 	}
 

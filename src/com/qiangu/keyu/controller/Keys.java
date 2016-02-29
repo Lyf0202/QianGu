@@ -64,6 +64,8 @@ public class Keys {
 	public static final String oldLabels = "oldLabels[]";
 	public static final String hasLikeUser = "hasLikeUser";
 	public static final String likeUserOrder = "likeUserOrder";
+	public static final String AvatarLittleSizePicUrl = "littleSizePicUrl"; 
+	public static final String AvatarDimPicUrl = "dimPicUrl";
 	
 	
 	/**

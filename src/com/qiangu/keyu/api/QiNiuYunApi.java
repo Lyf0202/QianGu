@@ -15,6 +15,9 @@ public class QiNiuYunApi {
 	@Autowired
 	private ReadXmlApi readXmlApi ;
 	
+	public static final Integer width = 200;
+	public static final Integer height = 200;
+	
 	public String ACCESS_KEY = "";
 	public String SECRET_KEY = "";
 	public String bucket = "";
@@ -35,10 +38,25 @@ public class QiNiuYunApi {
 	 */
 	public String getDownloadUrl(String downloadPicName){
 		url = readXmlApi.getQiNiuInfo().get(readXmlApi.QiNiuURL);
-		photoSize = readXmlApi.getQiNiuInfo().get(readXmlApi.QiNiuPhotoSize);
-		String finalUrl = url + downloadPicName + "?"+photoSize;
-		
-		
+		String finalUrl = url + downloadPicName;
+		return finalUrl;
+	}
+	
+	public String getDownloadUrl(String downloadPicName,Integer width,Integer height){
+		url = readXmlApi.getQiNiuInfo().get(readXmlApi.QiNiuURL);
+		String finalUrl = url + downloadPicName + "?imageView2/1/w/"+width+"/h/"+height;
+		return finalUrl;
+	}
+	
+	public String getDownloadUrl(String downloadPicName,Double radius,Double sigma){
+		url = readXmlApi.getQiNiuInfo().get(readXmlApi.QiNiuURL);
+		String finalUrl = url + downloadPicName + "?imageMogr2/blur/"+radius+"x"+sigma;
+		return finalUrl;
+	}
+	
+	public String getDownloadUrl(String downloadPicName,Integer width,Integer height,Double radius,Double sigma){
+		url = readXmlApi.getQiNiuInfo().get(readXmlApi.QiNiuURL);
+		String finalUrl = url + downloadPicName + "?imageMogr2/thumbnail/"+width+"x"+height+"!"+"/blur/"+radius+"x"+sigma;
 		return finalUrl;
 	}
 	

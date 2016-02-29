@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.qiangu.keyu.api.KeYuApi;
 import com.qiangu.keyu.api.LoggerApi;
+import com.qiangu.keyu.api.QiNiuYunApi;
 import com.qiangu.keyu.api.YunPianWangApi;
 import com.qiangu.keyu.controller.Keys;
 import com.qiangu.keyu.controller.Values;
@@ -44,6 +45,8 @@ public class LoginAndRegisterInfoToJSON {
 	private PictureService pictureService;
 	@Autowired
 	private KeYuApi keYuApi;
+	@Autowired
+	private QiNiuYunApi qiniuYunApi;
 
 	public JSONObject sendMessageInfoToJSON(Map<String, String[]> parameters, String verificationCode) {
 		JSONObject returnJSON = new JSONObject();
@@ -89,6 +92,11 @@ public class LoginAndRegisterInfoToJSON {
 			statusJSON.accumulate(Keys.status, Values.statusOfSuccess);
 			JSONObject resultJSON = new JSONObject();
 			JSONObject me = keYuApi.userPoToJSON(user);
+			String avatarPicName = pictureService.getAvatar(user.getId()).getPictureName();
+			String meAvatarPicDownloadUrl = qiniuYunApi.getDownloadUrl(avatarPicName);
+			me.accumulate(Keys.avatar,meAvatarPicDownloadUrl);
+			String meLittlePicDownloadUrl = qiniuYunApi.getDownloadUrl(avatarPicName, QiNiuYunApi.width, QiNiuYunApi.height);
+			me.accumulate(Keys.AvatarLittleSizePicUrl,meLittlePicDownloadUrl);
 			resultJSON.put(Keys.me, me);
 			List<Map> chatMapList = chatService.getChatInfo(user.getId());
 			List<JSONObject> chatUserList = new ArrayList<>();

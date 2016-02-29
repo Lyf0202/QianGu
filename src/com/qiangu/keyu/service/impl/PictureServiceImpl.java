@@ -50,4 +50,11 @@ public class PictureServiceImpl implements PictureService {
 		System.out.println(pictureDao.getUserAvatar(27));
 	}
 
+
+	@Override
+	public PicturePo getAvatar(Integer userId) {
+		
+		return pictureDao.getUserAvatar(userId);
+	}
+
 }

@@ -31,8 +31,11 @@ public class UserInfoToJSON {
 	@Autowired
 	private ChatService chatService;
 	
-	@Autowired
-	private MongodbDao mongodbDao;
+
+	public JSONObject openAppInfoToJSON_1(Map<String,String[]> parameters){
+		
+		return null;
+	}
 	
 	public JSONObject openAppInfoToJSON(Map<String,String[]> parameters){
 		JSONObject returnJSON = new JSONObject();
@@ -59,11 +62,12 @@ public class UserInfoToJSON {
 			List<JSONObject> schoolUserJSONList = keYuApi.getSchoolUserJSONList(userId,user.getSchoolId(), minOnlineTime, maxOnlineTime);
 			resultJSON.put(Keys.schoolUser, schoolUserJSONList);
 		}else{
-			Double lng = Double.valueOf(parameters.get(Keys.lng)[0]);
-			Double lat = Double.valueOf(parameters.get(Keys.lat)[0]);
+			Map<Integer,Map<String,Object>> userLoc = userService.getUserLoc(userId);
+			Double lng = (Double)userLoc.get(userId).get(Keys.lng);
+			Double lat = (Double)userLoc.get(userId).get(Keys.lat);
 			
 			//更新用户所在经纬度
-			mongodbDao.updateOrInsert(userId, lng, lat);
+
 			
 			Integer minDistance = Integer.valueOf(parameters.get(Keys.minDistance)[0]);
 			Integer maxDistance = Integer.valueOf(parameters.get(Keys.maxDistance)[0]);
@@ -75,9 +79,9 @@ public class UserInfoToJSON {
 		List<JSONObject> likeUserJSONList = null;
 		//判断客户端本地是否已经有喜欢用户缓存    获取点击喜欢的用户列表
 		if(parameters.get(Keys.hasLikeUser)[0].equals(Values.hasLikeUser)){
-			likeUserJSONList = keYuApi.getLikeUserJSONList(userId,new Date(user.getLastOnlineTime()));
+			likeUserJSONList = keYuApi.getLikeUserJSONList(userId,user.getLastOnlineTime());
 		}else{
-			likeUserJSONList = keYuApi.getLikeUserJSONList(userId,new Date(Long.valueOf("1456578500742")));
+			likeUserJSONList = keYuApi.getLikeUserJSONList(userId,Long.valueOf("1456578500742"));
 		}
 		
 		resultJSON.put(Keys.likeUser, likeUserJSONList);
@@ -103,8 +107,10 @@ public class UserInfoToJSON {
 			List<JSONObject> schoolUserJSONList = keYuApi.getSchoolUserJSONList(userId,schoolId, minOnlineTime, maxOnlineTime);
 			resultJSON.put(Keys.schoolUser, schoolUserJSONList);
 		}else{
-			Double lng = Double.valueOf(parameters.get(Keys.lng)[0]);
-			Double lat = Double.valueOf(parameters.get(Keys.lat)[0]);
+			Map<Integer,Map<String,Object>> userLoc = userService.getUserLoc(userId);
+			Double lng = (Double)userLoc.get(userId).get(Keys.lng);
+			Double lat = (Double)userLoc.get(userId).get(Keys.lat);
+			
 			Integer minDistance = Integer.valueOf(parameters.get(Keys.minDistance)[0]);
 			Integer maxDistance = Integer.valueOf(parameters.get(Keys.maxDistance)[0]);
 			List<JSONObject> distanceUserJSONList = keYuApi.getDistanceUserJSONList(userId, lng, lat, minDistance, maxDistance, minOnlineTime, maxOnlineTime);

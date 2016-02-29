@@ -63,11 +63,13 @@ public class UserPo {
 	//
 	private String identifyCode;
 	//
+	private Integer likeUserOrder;
+	//
+	private Integer hasLoc;
+	//
 	private Double lng;
 	//
 	private Double lat;
-	//
-	private Integer likeUserOrder;
 	
 	public String getIdentifyCode() {
 		return identifyCode;
@@ -236,6 +238,12 @@ public class UserPo {
 	}
 	public void setLikeUserOrder(Integer likeUserOrder) {
 		this.likeUserOrder = likeUserOrder;
+	}
+	public Integer getHasLoc() {
+		return hasLoc;
+	}
+	public void setHasLoc(Integer hasLoc) {
+		this.hasLoc = hasLoc;
 	}
 	
 	

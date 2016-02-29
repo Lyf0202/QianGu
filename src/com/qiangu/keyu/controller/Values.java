@@ -105,6 +105,14 @@ public class Values {
 	public static final String hasLikeUser = "1";
 	//本地未缓存喜欢用户 
 	public static final String noHasLikeUser = "0";
+	//没给定位时存储的经度
+	public static final Double noLocLng = -12.12;
+	//没给定位时存储的纬度
+	public static final Double noLocLat = -12.12;
+	//
+	public static final Integer onceUserNum = 20;
+	//
+	public static final Integer onceLikeUserNum = 10;
 	
 	
 	

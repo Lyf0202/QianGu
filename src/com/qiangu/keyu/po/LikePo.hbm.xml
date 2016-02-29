@@ -14,7 +14,7 @@
         <property name="likeUserId" type="java.lang.Integer">
             <column name="likeUserId" />
         </property>
-        <property name="likeTime" type="java.util.Date">
+        <property name="likeTime" type="java.lang.Long">
             <column name="likeTime" />
         </property>
         <property name="isSuccess" type="java.lang.Integer">

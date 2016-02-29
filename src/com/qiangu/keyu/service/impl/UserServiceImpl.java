@@ -91,7 +91,7 @@ public class UserServiceImpl implements UserService {
 		}
 		long minOnlineTime = System.currentTimeMillis() - 5 * 3600 * 1000;
 		long maxOnlineTime = System.currentTimeMillis();
-		List<UserPo> listU = userDao.getUserByDistance(distanceId, minOnlineTime, maxOnlineTime, 1);
+		List<UserPo> listU = userDao.getUserByDistance(distanceId, minOnlineTime, maxOnlineTime, 1,1);
 
 		System.out.println("------------" + listU.size());
 		for (UserPo u : listU) {
@@ -104,10 +104,10 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public List<UserPo> getMainUserByDistance(Double lng, Double lat, Integer userId, Integer minDistance,
-			Integer maxDistance, long minOnlineTime, long maxOnlineTime) {
+			Integer maxDistance, long minOnlineTime, long maxOnlineTime,Integer sex) {
 		Map<Integer, Map<String, Object>> distanceUser = mongodbDao.findByDistance(minDistance, maxDistance, lng, lat);
 		List<Integer> distanceId = new ArrayList<Integer>(distanceUser.keySet());
-		List<UserPo> listU = userDao.getUserByDistance(distanceId, minOnlineTime, maxOnlineTime, userId);
+		List<UserPo> listU = userDao.getUserByDistance(distanceId, minOnlineTime, maxOnlineTime, userId,sex);
 		for (UserPo u : listU) {
 			Object lng_o = distanceUser.get(u.getId()).get(Keys.lng);
 			Object lat_o = distanceUser.get(u.getId()).get(Keys.lat);
@@ -120,9 +120,9 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public List<UserPo> getMainUserByLike(Integer userId, Date lastOnlineTime) {
+	public List<UserPo> getMainUserByLike(Integer userId, Long lastOnlineTime,Integer sex) {
 		List<Integer> likeUserId = new ArrayList<>();
-		List<UserPo> listU = userDao.getUserByLikeUserId(userId, lastOnlineTime);
+		List<UserPo> listU = userDao.getUserByLikeUserId(userId, lastOnlineTime,1);
 		for (UserPo u : listU) {
 			likeUserId.add(u.getId());
 		}
@@ -141,6 +141,18 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public List<UserPo> getMainUserBySchool(Integer userId, Integer schoolId, long minOnlineTime, long maxOnlineTime) {
 		return userDao.getUserBySchool(userId, schoolId, minOnlineTime, maxOnlineTime);
+	}
+
+	@Override
+	public Map<Integer, Map<String, Object>> getUserLoc(Integer userId) {
+		
+		return mongodbDao.findByUserId(userId);
+	}
+
+	@Override
+	public void addUserLoc(Integer userId, Double lng, Double lat) {
+		
+		mongodbDao.updateOrInsert(userId, lng, lat);
 	}
 
 }

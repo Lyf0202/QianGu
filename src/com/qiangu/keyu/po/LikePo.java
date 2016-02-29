@@ -15,7 +15,7 @@ public class LikePo {
 	//喜欢对象的用户id
 	private Integer likeUserId;
 	//点击时间
-	private Date likeTime;
+	private Long likeTime;
 	//
 	private Integer isSuccess;
 	
@@ -37,10 +37,10 @@ public class LikePo {
 	public void setLikeUserId(Integer likeUserId) {
 		this.likeUserId = likeUserId;
 	}
-	public Date getLikeTime() {
+	public Long getLikeTime() {
 		return likeTime;
 	}
-	public void setLikeTime(Date likeTime) {
+	public void setLikeTime(Long likeTime) {
 		this.likeTime = likeTime;
 	}
 	public Integer getIsSuccess() {
@@ -49,7 +49,7 @@ public class LikePo {
 	public void setIsSuccess(Integer isSuccess) {
 		this.isSuccess = isSuccess;
 	}
-	public LikePo(Integer id, Integer userId, Integer likeUserId, Date likeTime, Integer isSuccess) {
+	public LikePo(Integer id, Integer userId, Integer likeUserId, Long likeTime, Integer isSuccess) {
 		super();
 		this.id = id;
 		this.userId = userId;

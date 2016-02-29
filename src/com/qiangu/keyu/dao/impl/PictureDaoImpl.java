@@ -16,7 +16,7 @@ public class PictureDaoImpl extends BaseDaoImpl<PicturePo> implements PictureDao
 	/**
 	 * 
 	 */
-	String getUserAvatarHql = "select P from PicturePo as P ,AvatarPo as A where A.pictureId = P.id and A.userId = :userId";
+	String getUserAvatarHql = "select P from PicturePo as P ,AvatarPo as A where A.pictureId = P.id and A.id = (select max(AP.id) from AvatarPo as AP where AP.userId = :userId)";
 	@Override
 	public PicturePo getUserAvatar(Integer userId) {
 		Map<String , Object> params = new HashMap<>();

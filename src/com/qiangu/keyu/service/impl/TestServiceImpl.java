@@ -11,15 +11,20 @@ import org.springframework.stereotype.Service;
 import com.qiangu.keyu.api.BaiduMapApi;
 import com.qiangu.keyu.api.ReadXmlApi;
 import com.qiangu.keyu.dao.LabelDao;
+import com.qiangu.keyu.dao.MongodbDao;
+import com.qiangu.keyu.dao.PictureDao;
 import com.qiangu.keyu.dao.TestDao;
+import com.qiangu.keyu.dao.UserDao;
 import com.qiangu.keyu.dao.UserUpdateDao;
 import com.qiangu.keyu.po.AreasCoding;
 import com.qiangu.keyu.po.CitiesCoding;
+import com.qiangu.keyu.po.PicturePo;
 import com.qiangu.keyu.po.ProvinceCoding;
 import com.qiangu.keyu.po.SchoolCoding;
 import com.qiangu.keyu.po.SchoolTypeCoding;
 import com.qiangu.keyu.po.UserPo;
 import com.qiangu.keyu.service.TestService;
+import com.qiangu.keyu.service.UserService;
 
 @Service
 public class TestServiceImpl implements TestService {
@@ -35,6 +40,15 @@ public class TestServiceImpl implements TestService {
 	
 	@Autowired
 	private LabelDao labelDao;
+	
+	@Autowired
+	private PictureDao pictureDao ;
+	
+	@Autowired
+	private MongodbDao mongodbDao;
+	
+	@Autowired
+	private UserDao userDao;
 	
 	public void setTestdao(TestDao testdao) {
 		this.testdao = testdao;
@@ -137,8 +151,19 @@ public class TestServiceImpl implements TestService {
 
 	@Override
 	public void getTest() {
-		testdao.getLike();
-		
+//		List<Integer> distanceId = new ArrayList<>();
+//		for(int i= 1 ; i <= 11 ;i++){
+//			distanceId.add(i);
+//		}
+//		long minOnlineTime = Long.valueOf("1456643744123");
+//		long maxOnlineTime = Long.valueOf("1456643744987");
+//		List<UserPo> userL = userDao.getUserByDistance(distanceId, minOnlineTime, maxOnlineTime, 1, 1);
+//		System.out.println("userL.size() = "+userL.size());
+//		for(UserPo u : userL){
+//			System.out.println(u.getId());
+//		}
+		long lastOnlineTime = Long.valueOf("1456643744123");
+		List<UserPo> ulist = userDao.getUserByLikeUserId(1, lastOnlineTime, 0);
 	}
 
 	

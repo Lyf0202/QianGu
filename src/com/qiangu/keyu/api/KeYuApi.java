@@ -124,8 +124,8 @@ public class KeYuApi {
 		return json;
 	}
 
-	public List<JSONObject> getLikeUserJSONList(Integer userId, Date lastOnlinetime) {
-		List<UserPo> likeUserList = userService.getMainUserByLike(userId, lastOnlinetime);
+	public List<JSONObject> getLikeUserJSONList(Integer userId, Long lastOnlinetime) {
+		List<UserPo> likeUserList = userService.getMainUserByLike(userId, lastOnlinetime,1);
 		List<JSONObject> likeUserJSONList = new ArrayList<>();
 		for (UserPo u : likeUserList) {
 			JSONObject uJSON = userPoToJSON(u);
@@ -139,7 +139,7 @@ public class KeYuApi {
 	public List<JSONObject> getDistanceUserJSONList(Integer userId, Double lng, Double lat, Integer minDistance,
 			Integer maxDistance, Long minOnlineTime, Long maxOnlineTime) {
 		List<UserPo> distanceUserList = userService.getMainUserByDistance(lng, lat, userId, minDistance, maxDistance,
-				minOnlineTime, maxOnlineTime);
+				minOnlineTime, maxOnlineTime,1);
 		List<JSONObject> distanceUserJSONList = new ArrayList<>();
 		for (UserPo u : distanceUserList) {
 			if (u.getId() != userId) {

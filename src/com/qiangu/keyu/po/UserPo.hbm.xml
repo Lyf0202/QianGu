@@ -80,5 +80,8 @@
         <property name="likeUserOrder" type="java.lang.Integer">
             <column name="likeUserOrder" />
         </property>
+        <property name="hasLoc" type="java.lang.Integer">
+            <column name="hasLoc" />
+        </property>
     </class>
 </hibernate-mapping>
