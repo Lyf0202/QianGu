@@ -66,15 +66,22 @@ public class UserDaoImpl extends BaseDaoImpl<UserPo> implements UserDao{
 			+ "order by U.lastOnlineTime desc";
 	@Override
 	public List<UserPo> getUserByDistance(List<Integer> distanceId, long minOnlineTime, long maxOnlineTime,
-			Integer userId,Integer sex) {
+			Integer userId,Integer sex,Integer selectNum,Integer firstSelectNum) {
+//		System.out.println("distanceId " + distanceId);
+//		System.out.println("minOnlineTime " + minOnlineTime);
+//		System.out.println("maxOnlineTime " + maxOnlineTime);
+//		System.out.println("sex " + sex);
+//		System.out.println("userId " + userId);
+//		System.out.println("firstSelectNum " + firstSelectNum);
+//		System.out.println("selectNum " + selectNum);
 		Query query = getSession().createQuery(getUserByDistanceHql2);
 		query.setParameterList("distanceId",distanceId);
 		query.setParameter("minOnlineTime", minOnlineTime);
 		query.setParameter("maxOnlineTime", maxOnlineTime);
 		query.setParameter("sex",sex);
 		query.setParameter("userId",userId);
-		query.setFirstResult(0);
-		query.setMaxResults(Values.onceUserNum);
+		query.setFirstResult(firstSelectNum);
+		query.setMaxResults(selectNum);
 		return query.list();
 	}
 
@@ -85,18 +92,25 @@ public class UserDaoImpl extends BaseDaoImpl<UserPo> implements UserDao{
 			+ "and U.sex = :sex "
 			+ "and L.likeUserId = :likeUserId "
 			+ "and L.isSuccess = :notLike "
-			+ "and L.likeTime > :lastOnlineTime "
-			+ "order by likeTime desc";
+			+ "and L.likeTime < :likeTime "
+			+ "order by L.likeTime desc";
 	String getUserByLikeUserIdHql1 = "select distinct U from UserPo as U ,LikePo as L where U.id = L.userId and L.likeUserId = :likeUserId and L.isSuccess = :notLike and L.likeTime > :lastOnlineTime order by likeTime";
 	@Override
-	public List<UserPo> getUserByLikeUserId(Integer userId, Long lastOnlineTime,Integer sex) {
+	public List<UserPo> getUserByLikeUserId(Integer userId, Long liketime,Integer sex,Integer selectNum,Integer firstSelectNum) {
 		Query query = getSession().createQuery(getUserByLikeUserIdHql);
+		System.out.println("sex "+sex);
+		System.out.println("userId "+userId);
+		System.out.println("Values.notLike "+Values.notLike);
+		System.out.println("liketime "+liketime);
+		System.out.println("firstSelectNum "+firstSelectNum);
+		System.out.println("selectNum "+selectNum);
+		
 		query.setParameter("sex", sex);
 		query.setParameter("likeUserId", userId);
 		query.setParameter("notLike",Values.notLike);
-		query.setParameter("lastOnlineTime",lastOnlineTime);
-		query.setFirstResult(0);
-		query.setMaxResults(Values.onceLikeUserNum);
+		query.setParameter("likeTime", liketime);
+		query.setFirstResult(firstSelectNum);
+		query.setMaxResults(selectNum);
 		return query.list();
 	}
 

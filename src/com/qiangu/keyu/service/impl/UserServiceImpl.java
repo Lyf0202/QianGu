@@ -91,7 +91,7 @@ public class UserServiceImpl implements UserService {
 		}
 		long minOnlineTime = System.currentTimeMillis() - 5 * 3600 * 1000;
 		long maxOnlineTime = System.currentTimeMillis();
-		List<UserPo> listU = userDao.getUserByDistance(distanceId, minOnlineTime, maxOnlineTime, 1,1);
+		List<UserPo> listU = userDao.getUserByDistance(distanceId, minOnlineTime, maxOnlineTime, 1, 1, 20, 0);
 
 		System.out.println("------------" + listU.size());
 		for (UserPo u : listU) {
@@ -103,56 +103,101 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public List<UserPo> getMainUserByDistance(Double lng, Double lat, Integer userId, Integer minDistance,
-			Integer maxDistance, long minOnlineTime, long maxOnlineTime,Integer sex) {
-		Map<Integer, Map<String, Object>> distanceUser = mongodbDao.findByDistance(minDistance, maxDistance, lng, lat);
-		List<Integer> distanceId = new ArrayList<Integer>(distanceUser.keySet());
-		List<UserPo> listU = userDao.getUserByDistance(distanceId, minOnlineTime, maxOnlineTime, userId,sex);
-		for (UserPo u : listU) {
-			Object lng_o = distanceUser.get(u.getId()).get(Keys.lng);
-			Object lat_o = distanceUser.get(u.getId()).get(Keys.lat);
-			if (lng_o != null && lat_o != null) {
-				u.setLng((Double) lng_o);
-				u.setLat((Double) lat_o);
-			}
-		}
-		return listU;
-	}
-
-	@Override
-	public List<UserPo> getMainUserByLike(Integer userId, Long lastOnlineTime,Integer sex) {
-		List<Integer> likeUserId = new ArrayList<>();
-		List<UserPo> listU = userDao.getUserByLikeUserId(userId, lastOnlineTime,1);
-		for (UserPo u : listU) {
-			likeUserId.add(u.getId());
-		}
-		Map<Integer, Map<String, Object>> distanceUser = mongodbDao.findByArray(likeUserId);
-		for (UserPo u : listU) {
-			Object lng_o = distanceUser.get(u.getId()).get(Keys.lng);
-			Object lat_o = distanceUser.get(u.getId()).get(Keys.lat);
-			if (lng_o != null && lat_o != null) {
-				u.setLng((Double) lng_o);
-				u.setLat((Double) lat_o);
-			}
-		}
-		return listU;
-	}
-
-	@Override
 	public List<UserPo> getMainUserBySchool(Integer userId, Integer schoolId, long minOnlineTime, long maxOnlineTime) {
 		return userDao.getUserBySchool(userId, schoolId, minOnlineTime, maxOnlineTime);
 	}
 
 	@Override
 	public Map<Integer, Map<String, Object>> getUserLoc(Integer userId) {
-		
+
 		return mongodbDao.findByUserId(userId);
 	}
 
 	@Override
 	public void addUserLoc(Integer userId, Double lng, Double lat) {
-		
+
 		mongodbDao.updateOrInsert(userId, lng, lat);
 	}
 
+	@Override
+	public Map<String, Object> getMainUserByDistance(Integer userId, Double lng, Double lat, Integer distance,
+			long onlineTime, Integer sex, long openTime) {
+		Map<String, Object> mainUser = new HashMap<>();
+		List<UserPo> listU = new ArrayList<>();
+		Integer firstSelectNum = 0;
+		Integer selectNum = Values.onceUserNum;
+		Integer minDistance = distance;
+		Integer maxDistance = minDistance + Values.onceDistance;
+		long maxOnlineTime = onlineTime;
+		long minOnlineTime = onlineTime - Values.halfHour;
+		Map<Integer, Map<String, Object>> distanceUser = distanceUser = mongodbDao.findByDistance(minDistance,
+				maxDistance, lng, lat);
+		List<Integer> distanceUserId = new ArrayList<Integer>(distanceUser.keySet());
+		System.out.println(minDistance + " "+maxDistance+" : "+new ArrayList<Integer>(distanceUser.keySet()));
+		while (listU.size() < Values.onceUserNum) {
+			if (maxDistance >= Values.Distance) {
+				break;
+			}
+			
+			if (distanceUserId.size() <= Values.onceUserNum) {
+				if (distanceUserId.size() <= 0) {
+					minDistance = maxDistance;
+					maxDistance = maxDistance + Values.onceDistance;
+					distanceUser = mongodbDao.findByDistance(minDistance, maxDistance, lng, lat);
+					distanceUserId = new ArrayList<Integer>(distanceUser.keySet());
+					System.out.println(minDistance + " "+maxDistance+" : "+new ArrayList<Integer>(distanceUser.keySet()));
+				} else {
+					minOnlineTime = onlineTime - Values.OnlineTime;
+					List<UserPo> listUser = userDao.getUserByDistance(distanceUserId, minOnlineTime, maxOnlineTime,
+							userId, sex, selectNum, firstSelectNum);
+					listU.addAll(listUser);
+					minDistance = maxDistance;
+					maxDistance = maxDistance + Values.onceDistance;
+					distanceUser = mongodbDao.findByDistance(minDistance, maxDistance, lng, lat);
+					distanceUserId = new ArrayList<Integer>(distanceUser.keySet());
+					System.out.println(minDistance + " "+maxDistance+" : "+new ArrayList<Integer>(distanceUser.keySet()));
+				}
+			} else {
+				if (minOnlineTime <= openTime - Values.OnlineTime) {
+					minDistance = maxDistance;
+					maxDistance = maxDistance + Values.onceDistance;
+					maxOnlineTime = openTime;
+					minOnlineTime = maxOnlineTime - Values.halfHour;
+					distanceUser = mongodbDao.findByDistance(minDistance, maxDistance, lng, lat);
+					distanceUserId = new ArrayList<Integer>(distanceUser.keySet());
+					System.out.println(minDistance + " "+maxDistance+" : "+new ArrayList<Integer>(distanceUser.keySet()));
+				}
+				List<UserPo> listUser = userDao.getUserByDistance(distanceUserId, minOnlineTime, maxOnlineTime, userId,
+						sex, selectNum, firstSelectNum);
+				listU.addAll(listUser);
+				maxOnlineTime = minOnlineTime;
+				minOnlineTime = minOnlineTime - Values.halfHour;
+			}
+			selectNum = Values.onceUserNum - listU.size();
+		}
+		mainUser.put(Keys.mainUser, listU);
+		mainUser.put(Keys.distance, minDistance);
+		if (listU.size() > 0) {
+			mainUser.put(Keys.onlineTime, listU.get(listU.size() - 1).getLastOnlineTime());
+		} else {
+			mainUser.put(Keys.onlineTime, 0);
+		}
+		return mainUser;
+	}
+
+	@Override
+	public Map<String, Object> getMainUserByLike(Integer userId, Long likeTime, Integer sex) {
+		Map<String, Object> likeUser = new HashMap<>();
+		Integer firstSelectNum = 0;
+		Integer selectNum = Values.onceLikeUserNum;
+		List<UserPo> listUser = userDao.getUserByLikeUserId(userId, likeTime, sex, selectNum, firstSelectNum);
+		likeUser.put(Keys.likeUser, listUser);
+		if (listUser.size() > 0) {
+			LikePo likePo = likeDao.getLikePoByUserIdAndLikeuserId(listUser.get(listUser.size() - 1).getId(), userId);
+			likeUser.put(Keys.likeTime, likePo.getLikeTime());
+		} else {
+			likeUser.put(Keys.likeTime, 0);
+		}
+		return likeUser;
+	}
 }

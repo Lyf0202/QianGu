@@ -22,9 +22,9 @@ public interface UserDao extends BaseDao<UserPo>{
 	 */
 	public List<UserPo> getUserByDistance(List<Integer> distanceId,List<Integer> likeUserId,long minOnlineTime,long maxOnlineTime);
 	
-	public List<UserPo> getUserByDistance(List<Integer> distanceId,long minOnlineTime,long maxOnlineTime,Integer userId ,Integer sex);
+	public List<UserPo> getUserByDistance(List<Integer> distanceId,long minOnlineTime,long maxOnlineTime,Integer userId ,Integer sex,Integer selectNum,Integer firstSelectNum);
 	
-	public List<UserPo> getUserByLikeUserId(Integer userId,Long lastOnlineTime,Integer sex);
+	public List<UserPo> getUserByLikeUserId(Integer userId,Long liketime,Integer sex,Integer selectNum,Integer firstSelectNum);
 	
 	/**
 	 * 根据学校和喜欢获取用户列表

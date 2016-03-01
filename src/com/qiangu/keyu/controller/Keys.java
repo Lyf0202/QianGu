@@ -36,7 +36,16 @@ public class Keys {
 	public static final String likeUser = "likeUser";
 	//没有开启定位功能时，同校的人
 	public static final String schoolUser = "schoolUser";
-
+	//
+	public static String mainUser = "mainUser";
+	//
+	public static String distance = "distance";
+	//
+	public static String onlineTime = "onlineTime";
+	//
+	public static String likeTime = "likeTime";
+	//
+	public static String isAllUser = "isAllUser";
 	/**
 	 * 用户基本信息key
 	 */
@@ -72,6 +81,8 @@ public class Keys {
 	 * 匹配用户的额外属性
 	 */
 	public static final String isLike = "isLike";
+	//
+	public static final String openTime = "openTime";
 	
 	public static final String minDistance = "minDistance";
 	public static final String maxDistance = "maxDistance";
@@ -102,4 +113,11 @@ public class Keys {
 	// 验证码
 	public static final String verificationCode = "verificationCode";
 	public static final String verificationCodeTime = "verificationCodeTime";
+	
+	
+	/*
+	 * 
+	 */
+	
+	
 }

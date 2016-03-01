@@ -44,6 +44,19 @@ public class LikeDaoImpl extends BaseDaoImpl<LikePo> implements LikeDao{
 		return query.list();
 	}
 	
+	String getLikePoByUserIdAndLikeuserIdHql = 
+			"select L "
+			+ "from LikePo as L "
+			+ "where L.userId = :userId "
+			+ "and L.likeUserId = :likeUserId";
+	@Override
+	public LikePo getLikePoByUserIdAndLikeuserId(Integer userId, Integer likeUserId) {
+		Query query = getSession().createQuery(getLikePoByUserIdAndLikeuserIdHql);
+		query.setParameter("userId", userId);
+		query.setParameter("likeUserId", likeUserId);
+		return (LikePo) query.uniqueResult();
+	}
+	
 	
 
 }

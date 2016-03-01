@@ -31,13 +31,17 @@ public class OtherTest {
 		// TODO Auto-generated method stub
 //		System.out.println("浙江理工大".contains("浙江理工大学"));
 //		System.out.println(URLEncoder.encode("学院"));
-		ApplicationContext ac = new ClassPathXmlApplicationContext("beans.xml");
-		YunPianWangApi yunPianWangApi = (YunPianWangApi) ac.getBean("yunPianWangApi");
-		yunPianWangApi.sendSms("123456", "18857117310");
+//		ApplicationContext ac = new ClassPathXmlApplicationContext("beans.xml");
+//		YunPianWangApi yunPianWangApi = (YunPianWangApi) ac.getBean("yunPianWangApi");
+//		yunPianWangApi.sendSms("123456", "18857117310");
 //		BaiduMapApi baiduMapApi = (BaiduMapApi) ac.getBean("baiduMapApi");
 //		System.out.println(baiduMapApi.getBaiduSchool("30.318659","120.352625"));
 //		ReadXmlApi readXmlApi = (ReadXmlApi) ac.getBean("readXmlApi");
 //		System.out.println(readXmlApi.getYunPianWangInfo().get("text"));
+		
+		Double o = 5.121;
+		Integer i = o.intValue();
+		System.out.println(i);
 	}
 
 }

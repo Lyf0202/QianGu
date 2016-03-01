@@ -151,19 +151,23 @@ public class TestServiceImpl implements TestService {
 
 	@Override
 	public void getTest() {
-//		List<Integer> distanceId = new ArrayList<>();
+		List<Integer> distanceId = new ArrayList<>();
 //		for(int i= 1 ; i <= 11 ;i++){
 //			distanceId.add(i);
 //		}
-//		long minOnlineTime = Long.valueOf("1456643744123");
-//		long maxOnlineTime = Long.valueOf("1456643744987");
-//		List<UserPo> userL = userDao.getUserByDistance(distanceId, minOnlineTime, maxOnlineTime, 1, 1);
-//		System.out.println("userL.size() = "+userL.size());
-//		for(UserPo u : userL){
+		long minOnlineTime = Long.valueOf("1456643744123");
+		long maxOnlineTime = Long.valueOf("1456643744987");
+		List<UserPo> userL = userDao.getUserByDistance(distanceId, minOnlineTime, maxOnlineTime, 1, 1,20,0);
+		System.out.println("userL.size() = "+userL.size());
+		for(UserPo u : userL){
+			System.out.println(u.getId());
+		}
+//		long lastOnlineTime = Long.valueOf("1456643744123");
+//		List<UserPo> ulist = userDao.getUserByLikeUserId(1, lastOnlineTime, 0,20,0);
+//		System.out.println("ulist.size() = "+ ulist.size());
+//		for(UserPo u : ulist){
 //			System.out.println(u.getId());
 //		}
-		long lastOnlineTime = Long.valueOf("1456643744123");
-		List<UserPo> ulist = userDao.getUserByLikeUserId(1, lastOnlineTime, 0);
 	}
 
 	

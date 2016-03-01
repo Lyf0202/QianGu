@@ -55,37 +55,53 @@ public class UserInfoToJSON {
 			chatUserList.add(chatUser);
 		}
 		resultJSON.put(Keys.chatUser, chatUserList);
-		
-		Long minOnlineTime = Long.valueOf(parameters.get(Keys.minOnlineTime)[0]);
-		Long maxOnlineTime = Long.valueOf(parameters.get(Keys.maxOnlineTime)[0]);
-		if(parameters.get(Keys.lat)[0].equals(Values.noLoc)){
-			List<JSONObject> schoolUserJSONList = keYuApi.getSchoolUserJSONList(userId,user.getSchoolId(), minOnlineTime, maxOnlineTime);
-			resultJSON.put(Keys.schoolUser, schoolUserJSONList);
+		Integer sex ;
+		if(user.getSex() == Values.female){
+			sex = Values.male;
 		}else{
-			Map<Integer,Map<String,Object>> userLoc = userService.getUserLoc(userId);
-			Double lng = (Double)userLoc.get(userId).get(Keys.lng);
-			Double lat = (Double)userLoc.get(userId).get(Keys.lat);
-			
-			//更新用户所在经纬度
-
-			
-			Integer minDistance = Integer.valueOf(parameters.get(Keys.minDistance)[0]);
-			Integer maxDistance = Integer.valueOf(parameters.get(Keys.maxDistance)[0]);
-			//获取附近的人
-			List<JSONObject> distanceUserJSONList = keYuApi.getDistanceUserJSONList(userId, lng, lat, minDistance, maxDistance, minOnlineTime, maxOnlineTime);
-			resultJSON.put(Keys.distanceUser,distanceUserJSONList);
+			sex = Values.female;
 		}
+		Long onlineTime = Long.valueOf(parameters.get(Keys.onlineTime)[0]);
+		Long openTime = Long.valueOf(parameters.get(Keys.openTime)[0]);
 		
-		List<JSONObject> likeUserJSONList = null;
-		//判断客户端本地是否已经有喜欢用户缓存    获取点击喜欢的用户列表
-		if(parameters.get(Keys.hasLikeUser)[0].equals(Values.hasLikeUser)){
-			likeUserJSONList = keYuApi.getLikeUserJSONList(userId,user.getLastOnlineTime());
+		List<JSONObject> distanceUserJSONList = new ArrayList<>();
+		
+		Map<Integer,Map<String,Object>> userLoc = userService.getUserLoc(userId);
+		Double lng = (Double)userLoc.get(userId).get(Keys.lng);
+		Double lat = (Double)userLoc.get(userId).get(Keys.lat);
+		
+		if(lng == Values.noLocLng){
+//			List<JSONObject> schoolUserJSONList = keYuApi.getSchoolUserJSONList(userId,user.getSchoolId(), minOnlineTime, maxOnlineTime);
+//			resultJSON.put(Keys.schoolUser, schoolUserJSONList);
 		}else{
-			likeUserJSONList = keYuApi.getLikeUserJSONList(userId,Long.valueOf("1456578500742"));
+			Integer distance = Integer.valueOf(parameters.get(Keys.distance)[0]);
+			
+			//获取附近的人
+			Map<String,Object> distanceResult = userService.getMainUserByDistance(userId, lng, lat, distance, onlineTime,sex, openTime);
+			List<UserPo> distanceUserList = (List<UserPo>) distanceResult.get(Keys.mainUser);
+			distanceUserJSONList = keYuApi.getDistanceUserJSONList(distanceUserList,userId);
+			resultJSON.accumulate(Keys.onlineTime, distanceResult.get(Keys.onlineTime));
+			resultJSON.accumulate(Keys.distance,distanceResult.get(Keys.distance));
+			resultJSON.accumulate(Keys.openTime, openTime);
+		}
+		/*
+		 * ------------------------------------------------------
+		 */
+		Long likeTime = Long.valueOf(parameters.get(Keys.likeTime)[0]);
+		Map<String,Object> likeResult = userService.getMainUserByLike(userId, likeTime, sex);
+		List<UserPo> likeUserList =  (List<UserPo>) likeResult.get(Keys.likeUser);
+		List<JSONObject> likeUserJSONList = keYuApi.getLikeUserJSONList(likeUserList);
+		resultJSON.accumulate(Keys.likeTime, likeResult.get(Keys.likeTime));
+		Integer distanceNum = distanceUserJSONList.size();
+		Integer likeNum = likeUserJSONList.size();
+		if(distanceNum < Values.onceUserNum && likeNum < Values.onceLikeUserNum){
+			resultJSON.accumulate(Keys.isAllUser, Values.isAll);
+		}else {
+			resultJSON.accumulate(Keys.isAllUser, Values.notIsAll);
 		}
 		
 		resultJSON.put(Keys.likeUser, likeUserJSONList);
-		resultJSON.put(Keys.likeUserOrder, user.getLikeUserOrder());
+		resultJSON.put(Keys.distanceUser, distanceUserJSONList);
 		
 		statusJSON.accumulate(Keys.status, Values.statusOfSuccess);
 		
@@ -100,22 +116,45 @@ public class UserInfoToJSON {
 		JSONObject resultJSON = new JSONObject();
 		
 		Integer userId = Integer.valueOf(parameters.get(Keys.userId)[0]);
-		Long minOnlineTime = Long.valueOf(parameters.get(Keys.minOnlineTime)[0]);
-		Long maxOnlineTime = Long.valueOf(parameters.get(Keys.maxOnlineTime)[0]);
-		if(parameters.get(Keys.lat)[0].equals(Values.noLoc)){
-			Integer schoolId = Integer.valueOf(parameters.get(Keys.school)[0]);
-			List<JSONObject> schoolUserJSONList = keYuApi.getSchoolUserJSONList(userId,schoolId, minOnlineTime, maxOnlineTime);
-			resultJSON.put(Keys.schoolUser, schoolUserJSONList);
-		}else{
-			Map<Integer,Map<String,Object>> userLoc = userService.getUserLoc(userId);
-			Double lng = (Double)userLoc.get(userId).get(Keys.lng);
-			Double lat = (Double)userLoc.get(userId).get(Keys.lat);
-			
-			Integer minDistance = Integer.valueOf(parameters.get(Keys.minDistance)[0]);
-			Integer maxDistance = Integer.valueOf(parameters.get(Keys.maxDistance)[0]);
-			List<JSONObject> distanceUserJSONList = keYuApi.getDistanceUserJSONList(userId, lng, lat, minDistance, maxDistance, minOnlineTime, maxOnlineTime);
-			resultJSON.put(Keys.distanceUser,distanceUserJSONList);
+		Long onlineTime = Long.valueOf(parameters.get(Keys.onlineTime)[0]);
+		Long openTime = Long.valueOf(parameters.get(Keys.openTime)[0]);
+		Integer sex = Integer.valueOf(parameters.get(Keys.sex)[0]);
+		if(sex == Values.female){
+			sex = Values.male;
+		}else {
+			sex = Values.female;
 		}
+		List<JSONObject> distanceUserJSONList = new ArrayList<>();
+		
+		Map<Integer,Map<String,Object>> userLoc = userService.getUserLoc(userId);
+		Double lng = (Double)userLoc.get(userId).get(Keys.lng);
+		Double lat = (Double)userLoc.get(userId).get(Keys.lat);
+		if(lat == Values.noLocLat){
+			Integer schoolId = Integer.valueOf(parameters.get(Keys.school)[0]);
+//			List<JSONObject> schoolUserJSONList = keYuApi.getSchoolUserJSONList(userId,schoolId, minOnlineTime, maxOnlineTime);
+//			resultJSON.put(Keys.schoolUser, schoolUserJSONList);
+		}else{
+			Integer distance = Integer.valueOf(parameters.get(Keys.distance)[0]);
+			Map<String,Object> distanceResult = userService.getMainUserByDistance(userId, lng, lat, distance, onlineTime, sex, openTime);
+			List<UserPo> distanceUserList = (List<UserPo>) distanceResult.get(Keys.mainUser);
+			distanceUserJSONList = keYuApi.getDistanceUserJSONList(distanceUserList,userId);			
+		}
+		
+		Long likeTime = Long.valueOf(parameters.get(Keys.likeTime)[0]);
+		Map<String,Object> likeResult = userService.getMainUserByLike(userId, likeTime, sex);
+		List<UserPo> likeUserList =  (List<UserPo>) likeResult.get(Keys.likeUser);
+		List<JSONObject> likeUserJSONList = keYuApi.getLikeUserJSONList(likeUserList);
+		resultJSON.accumulate(Keys.likeTime, likeResult.get(Keys.likeTime));
+		Integer distanceNum = distanceUserJSONList.size();
+		Integer likeNum = likeUserJSONList.size();
+		if(distanceNum < Values.onceUserNum && likeNum < Values.onceLikeUserNum){
+			resultJSON.accumulate(Keys.isAllUser, Values.isAll);
+		}else {
+			resultJSON.accumulate(Keys.isAllUser, Values.notIsAll);
+		}
+		
+		resultJSON.put(Keys.distanceUser,distanceUserJSONList);
+		resultJSON.put(Keys.likeUser, likeUserJSONList);
 		
 		statusJSON.accumulate(Keys.status, Values.statusOfSuccess);
 		

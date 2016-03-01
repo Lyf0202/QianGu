@@ -38,8 +38,12 @@ public class JUnitTest {
 
 	@Test
 	public void test1() {
-		System.out.println(java.net.URLEncoder.encode("教育"));
-		System.out.println("image/jpeg".split("/")[1]);
+//		System.out.println(java.net.URLEncoder.encode("教育"));
+//		System.out.println("image/jpeg".split("/")[1]);
+		Integer i = 5;
+		Integer g = i;
+		i = 7;
+		System.out.println(i == g);
 	}
 
 	@Test
@@ -151,7 +155,17 @@ public class JUnitTest {
 
 	@Test
 	public void test4() {
-		System.out.println(getDistance(-73.92, 40.79, -73.84, 40.79));
+//		System.out.println(getDistance(-73.92, 40.79, -73.84, 40.79));
+		List<Integer> l = new ArrayList<>();
+		List<Integer> li = new ArrayList<>();
+		l.add(1);
+		l.add(3);
+		li.add(5);
+		li.add(2);
+		l.addAll(li);
+		for(Integer i : l){
+			System.out.println(i);
+		}
 	}
 
 	@Test

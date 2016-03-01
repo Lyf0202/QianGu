@@ -25,9 +25,10 @@ public interface UserService {
 	 * @return
 	 */
 	
-	public List<UserPo> getMainUserByDistance(Double lng,Double lat,Integer userId,Integer minDistance,Integer maxDistance,long minOnlineTime,long maxOnlineTime,Integer sex);
+	public Map<String,Object> getMainUserByDistance(Integer userId,Double lng, Double lat,Integer distance,
+			long onlineTime,Integer sex,long openTime);
 	
-	public List<UserPo> getMainUserByLike(Integer userId,Long lastOnlineTime,Integer sex);
+	public Map<String,Object> getMainUserByLike(Integer userId,Long likeTime,Integer sex);
 	
 	public UserPo getOpenAppUser(Integer userId,Double lng,Double lat);
 	

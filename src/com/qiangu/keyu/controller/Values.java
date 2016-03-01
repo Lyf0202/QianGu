@@ -109,12 +109,22 @@ public class Values {
 	public static final Double noLocLng = -12.12;
 	//没给定位时存储的纬度
 	public static final Double noLocLat = -12.12;
+	//一次获取的最多用户量
+	public static final Integer onceUserNum = 5;
+	//一次获取的最多喜欢用户量
+	public static final Integer onceLikeUserNum = 2;
+	//最大与当前时间的时间差
+	public static final long OnlineTime = 500;
+	//最大匹配用户距离
+	public static final long Distance = 500000;
+	//每次减少的在线时间
+	public static final long halfHour = 100;
+	//每次增加的距离
+	public static final Integer onceDistance = 10000;
 	//
-	public static final Integer onceUserNum = 20;
+	public static final Integer isAll = 1;
 	//
-	public static final Integer onceLikeUserNum = 10;
-	
-	
+	public static final Integer notIsAll = 0;
 	
 	/**
 	 * 请求参数值
