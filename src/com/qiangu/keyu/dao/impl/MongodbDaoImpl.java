@@ -13,6 +13,7 @@ import com.mongodb.DBCursor;
 import com.mongodb.WriteResult;
 import com.qiangu.keyu.api.MongodbApi;
 import com.qiangu.keyu.controller.Keys;
+import com.qiangu.keyu.controller.Values;
 import com.qiangu.keyu.dao.MongodbDao;
 
 import net.sf.json.JSONArray;
@@ -62,23 +63,23 @@ public class MongodbDaoImpl implements MongodbDao {
 				new BasicDBObject().append(MongodbApi.near, nearB));
 
 		DBCursor dbCursor = mongodbApi.mongodbFind(searchB);
-		Map<Integer, Map<String, Object>> userM = new HashMap<>();
-		while (dbCursor.hasNext()) {
-			Map<String, Object> m = new HashMap<>();
-			JSONObject json = JSONObject.fromObject(dbCursor.next().toString());
-			m.put(Keys.userId, json.get(MongodbApi.userId));
-			JSONObject jsonLoc = (JSONObject) json.get(MongodbApi.loc);
-			JSONArray jsonArray = jsonLoc.getJSONArray(MongodbApi.coordinates);
-			m.put(Keys.lng, jsonArray.get(0));
-			m.put(Keys.lat, jsonArray.get(1));
-			if (json.get(MongodbApi.userId) instanceof Double) {
-				Double uId = (Double) json.get(MongodbApi.userId);
-				userM.put(uId.intValue(), m);
-			} else {
-				userM.put((Integer) json.get(MongodbApi.userId), m);
-			}
-		}
-		return userM;
+//		Map<Integer, Map<String, Object>> userM = new HashMap<>();
+//		while (dbCursor.hasNext()) {
+//			Map<String, Object> m = new HashMap<>();
+//			JSONObject json = JSONObject.fromObject(dbCursor.next().toString());
+//			m.put(Keys.userId, json.get(MongodbApi.userId));
+//			JSONObject jsonLoc = (JSONObject) json.get(MongodbApi.loc);
+//			JSONArray jsonArray = jsonLoc.getJSONArray(MongodbApi.coordinates);
+//			m.put(Keys.lng, jsonArray.get(0));
+//			m.put(Keys.lat, jsonArray.get(1));
+//			if (json.get(MongodbApi.userId) instanceof Double) {
+//				Double uId = (Double) json.get(MongodbApi.userId);
+//				userM.put(uId.intValue(), m);
+//			} else {
+//				userM.put((Integer) json.get(MongodbApi.userId), m);
+//			}
+//		}
+		return getResult(dbCursor);
 	}
 
 	@Override
@@ -91,23 +92,23 @@ public class MongodbDaoImpl implements MongodbDao {
 		searchB.put(MongodbApi.userId, inB);
 
 		DBCursor dbCursor = mongodbApi.mongodbFind(searchB);
-		Map<Integer, Map<String, Object>> userM = new HashMap<>();
-		while (dbCursor.hasNext()) {
-			Map<String, Object> m = new HashMap<>();
-			JSONObject json = JSONObject.fromObject(dbCursor.next().toString());
-			m.put(Keys.userId, json.get(MongodbApi.userId));
-			JSONObject jsonLoc = (JSONObject) json.get(MongodbApi.loc);
-			JSONArray jsonArray = jsonLoc.getJSONArray(MongodbApi.coordinates);
-			m.put(Keys.lng, jsonArray.get(0));
-			m.put(Keys.lat, jsonArray.get(1));
-			if (json.get(MongodbApi.userId) instanceof Double) {
-				Double uId = (Double) json.get(MongodbApi.userId);
-				userM.put(uId.intValue(), m);
-			} else {
-				userM.put((Integer) json.get(MongodbApi.userId), m);
-			}
-		}
-		return userM;
+//		Map<Integer, Map<String, Object>> userM = new HashMap<>();
+//		while (dbCursor.hasNext()) {
+//			Map<String, Object> m = new HashMap<>();
+//			JSONObject json = JSONObject.fromObject(dbCursor.next().toString());
+//			m.put(Keys.userId, json.get(MongodbApi.userId));
+//			JSONObject jsonLoc = (JSONObject) json.get(MongodbApi.loc);
+//			JSONArray jsonArray = jsonLoc.getJSONArray(MongodbApi.coordinates);
+//			m.put(Keys.lng, jsonArray.get(0));
+//			m.put(Keys.lat, jsonArray.get(1));
+//			if (json.get(MongodbApi.userId) instanceof Double) {
+//				Double uId = (Double) json.get(MongodbApi.userId);
+//				userM.put(uId.intValue(), m);
+//			} else {
+//				userM.put((Integer) json.get(MongodbApi.userId), m);
+//			}
+//		}
+		return getResult(dbCursor);
 	}
 
 	@Override
@@ -116,6 +117,40 @@ public class MongodbDaoImpl implements MongodbDao {
 		searchB.put(MongodbApi.userId, userId);
 
 		DBCursor dbCursor = mongodbApi.mongodbFind(searchB);
+//		Map<Integer, Map<String, Object>> userM = new HashMap<>();
+//		while (dbCursor.hasNext()) {
+//			Map<String, Object> m = new HashMap<>();
+//			JSONObject json = JSONObject.fromObject(dbCursor.next().toString());
+//			m.put(Keys.userId, json.get(MongodbApi.userId));
+//			JSONObject jsonLoc = (JSONObject) json.get(MongodbApi.loc);
+//			JSONArray jsonArray = jsonLoc.getJSONArray(MongodbApi.coordinates);
+//			m.put(Keys.lng, jsonArray.get(0));
+//			m.put(Keys.lat, jsonArray.get(1));
+//			if (json.get(MongodbApi.userId) instanceof Double) {
+//				Double uId = (Double) json.get(MongodbApi.userId);
+//				userM.put(uId.intValue(), m);
+//			} else {
+//				userM.put((Integer) json.get(MongodbApi.userId), m);
+//			}
+//		}
+		return getResult(dbCursor);
+	}
+
+	@Override
+	public Map<Integer, Map<String, Object>> findByNoLocAndSchool() {
+		BasicDBObject locB = new BasicDBObject();
+		locB.put(MongodbApi.type, MongodbApi.Point);
+		locB.put(MongodbApi.coordinates, new Double[] { Values.noLocLng, Values.noLocLat});
+		
+		BasicDBObject searchB = new BasicDBObject();
+		searchB.put(MongodbApi.loc, locB);
+		
+		DBCursor dbCursor = mongodbApi.mongodbFind(searchB);
+		return getResult(dbCursor);
+	}
+
+	
+	public Map<Integer, Map<String, Object>> getResult(DBCursor dbCursor){
 		Map<Integer, Map<String, Object>> userM = new HashMap<>();
 		while (dbCursor.hasNext()) {
 			Map<String, Object> m = new HashMap<>();
@@ -133,6 +168,6 @@ public class MongodbDaoImpl implements MongodbDao {
 			}
 		}
 		return userM;
+		
 	}
-
 }

@@ -14,7 +14,7 @@ import com.mongodb.WriteResult;
 
 public class MongodbApi {
 
-	private final static String DBNAME = "KeYu";
+	private final static String DBNAME = "KeYuApp";
 	private final static String COLLECTIONName = "testCollection";
 	private final static String HOST = "127.0.0.1";// 端口  
     private final static int PORT = 27017;// 端口  

@@ -14,4 +14,6 @@ public interface MongodbDao {
 	public Map<Integer,Map<String,Object>> findByArray(List<Integer> userIds);
 	
 	public Map<Integer,Map<String,Object>> findByUserId(Integer userId);
+	
+	public Map<Integer,Map<String,Object>> findByNoLocAndSchool();
 }

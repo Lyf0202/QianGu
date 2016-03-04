@@ -36,5 +36,7 @@ public interface TestService {
 	public void getMapUser();
 	
 	public void getTest();
+	
+	public void getTTTest();
 
 }

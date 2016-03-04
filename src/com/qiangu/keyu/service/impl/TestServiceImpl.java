@@ -151,23 +151,34 @@ public class TestServiceImpl implements TestService {
 
 	@Override
 	public void getTest() {
-		List<Integer> distanceId = new ArrayList<>();
-//		for(int i= 1 ; i <= 11 ;i++){
-//			distanceId.add(i);
-//		}
-		long minOnlineTime = Long.valueOf("1456643744123");
-		long maxOnlineTime = Long.valueOf("1456643744987");
-		List<UserPo> userL = userDao.getUserByDistance(distanceId, minOnlineTime, maxOnlineTime, 1, 1,20,0);
-		System.out.println("userL.size() = "+userL.size());
-		for(UserPo u : userL){
-			System.out.println(u.getId());
-		}
-//		long lastOnlineTime = Long.valueOf("1456643744123");
-//		List<UserPo> ulist = userDao.getUserByLikeUserId(1, lastOnlineTime, 0,20,0);
-//		System.out.println("ulist.size() = "+ ulist.size());
-//		for(UserPo u : ulist){
-//			System.out.println(u.getId());
-//		}
+				// 1.  -73.84  40.79
+				// 2.  -73.88  40.78    3550
+				// 3.  -73.92  40.79     6742
+				// 4.  -73.97  40.77     11182
+				// 5.  -73.824  40.729     6923
+				// 6.  -73.86   40.80     2019
+				// 7.  -73.82   40.80     2019
+				// 8.  -73.844785  40.792155   469
+				// 9.  -73.845480  40.799999    1205
+				// 10.  -73.839511  40.781452   952
+				// 11.  -73.850121  40.800012   1403
+		mongodbDao.updateOrInsert(1, -73.84, 40.79);
+		mongodbDao.updateOrInsert(2, -73.88, 40.78);
+		mongodbDao.updateOrInsert(3, -73.92, 40.79);
+		mongodbDao.updateOrInsert(4, -73.97, 40.77);
+		mongodbDao.updateOrInsert(5, -73.824, 40.729);
+		mongodbDao.updateOrInsert(6, -73.86, 40.80);
+		mongodbDao.updateOrInsert(7, -73.82, 40.80);
+		mongodbDao.updateOrInsert(8, -73.844785, 40.792155);
+		mongodbDao.updateOrInsert(9, -73.845480, 40.799999);
+		mongodbDao.updateOrInsert(10, -73.839511, 40.781452);
+		mongodbDao.updateOrInsert(11, -73.850121, 40.800012);
+	}
+
+	@Override
+	public void getTTTest() {
+		Map<Integer,Map<String,Object>> m = mongodbDao.findByDistance(0, 10, -12.12, -12.12);
+		System.out.println(m.keySet());
 	}
 
 	

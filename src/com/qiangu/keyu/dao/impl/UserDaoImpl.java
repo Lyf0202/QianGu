@@ -126,4 +126,26 @@ public class UserDaoImpl extends BaseDaoImpl<UserPo> implements UserDao{
 		return query.list();
 	}
 
+	String getUserBySchoolHql2 = "select distinct U "
+								+ "from UserPo as U "
+								+ "where U.id in (:userIds) "
+								+ "and U.schoolId = :schoolId "
+								+ "and U.sex = :sex "
+								+ "and U.lastOnlineTime > :minOnlineTime "
+								+ "and U.lastOnlineTime < :maxOnlineTime "
+								+ "order by U.lastOnlineTime desc";
+	@Override
+	public List<UserPo> getUserBySchool(Integer schoolId, List<Integer> userIds, long minOnlineTime, long maxOnlineTime,
+			Integer userId, Integer sex, Integer selectNum, Integer firstSelectNum) {
+		Query query = getSession().createQuery(getUserBySchoolHql2);
+		query.setParameterList("userIds", userIds);
+		query.setParameter("schoolId", schoolId);
+		query.setParameter("sex", sex);
+		query.setParameter("minOnlineTime", minOnlineTime);
+		query.setParameter("maxOnlineTime", maxOnlineTime);
+		query.setFirstResult(firstSelectNum);
+		query.setMaxResults(selectNum);
+		return query.list();
+	}
+
 }

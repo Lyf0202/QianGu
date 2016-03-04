@@ -84,6 +84,9 @@ public class KeYuApi {
 		json.accumulate(Keys.education, user.getEducation());
 		json.accumulate(Keys.weight, user.getWeight());
 		json.accumulate(Keys.height, user.getHeight());
+		json.accumulate(Keys.enterTime, user.getEnterTime());
+		json.accumulate(Keys.avatar, "http://7tsxtm.com1.z0.glb.clouddn.com/15757118214_1");
+		json.accumulate(Keys.AvatarLittleSizePicUrl, "http://7tsxtm.com1.z0.glb.clouddn.com/15757118214_1?imageView2/1/w/200/h/200");
 		SchoolCoding school = schoolService.getSchoolById(user.getSchoolId());
 		LoveManifestoPo loveManifestoPo = loveManifestoService.getLoveManifestoPoByUserId(user.getId());
 		json.accumulate(Keys.school, school.getSchool_name());
@@ -149,16 +152,17 @@ public class KeYuApi {
 	}
 
 	public List<JSONObject> getSchoolUserJSONList(Integer userId,Integer schoolId,long minOnlineTime, long maxOnlineTime) {
-		List<UserPo> schoolUserList = userService.getMainUserBySchool(userId, schoolId, minOnlineTime, maxOnlineTime);
-		List<JSONObject> schoolUserJSONList = new ArrayList<>();
-		for (UserPo u : schoolUserList) {
-			if (u.getId() != userId) {
-				JSONObject uJSON = userPoToJSON(u);
-				uJSON.accumulate(Keys.lng, u.getLng());
-				uJSON.accumulate(Keys.lat, u.getLat());
-				schoolUserJSONList.add(uJSON);
-			}
-		}
-		return schoolUserJSONList;
+//		List<UserPo> schoolUserList = userService.getMainUserBySchool(userId, schoolId, minOnlineTime, maxOnlineTime);
+//		List<JSONObject> schoolUserJSONList = new ArrayList<>();
+//		for (UserPo u : schoolUserList) {
+//			if (u.getId() != userId) {
+//				JSONObject uJSON = userPoToJSON(u);
+//				uJSON.accumulate(Keys.lng, u.getLng());
+//				uJSON.accumulate(Keys.lat, u.getLat());
+//				schoolUserJSONList.add(uJSON);
+//			}
+//		}
+//		return schoolUserJSONList;
+		return null;
 	}
 }

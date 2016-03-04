@@ -38,14 +38,16 @@ public class Keys {
 	public static final String schoolUser = "schoolUser";
 	//
 	public static String mainUser = "mainUser";
-	//
+	//上次获取用户的截止匹配距离
 	public static String distance = "distance";
-	//
+	//上次获取用户的截止在线时间
 	public static String onlineTime = "onlineTime";
-	//
+	//上次获取用户的截止点击喜欢时间
 	public static String likeTime = "likeTime";
-	//
+	//是否是所有的用户
 	public static String isAllUser = "isAllUser";
+	//是否构成聊天
+	public static String isCanChat = "isCanChat";
 	/**
 	 * 用户基本信息key
 	 */
@@ -66,6 +68,7 @@ public class Keys {
 	public static final String province = "province";
 	public static final String city = "city";
 	public static final String department = "department";
+	public static final String enterTime = "enterTime";
 	public static final String birthday = "birthday";
 	public static final String sex = "sex";
 	public static final String officialLabels = "officialLabels[]";
@@ -100,6 +103,7 @@ public class Keys {
 	public static final String hasChat = "hasChat";
 	public static final String endTime = "endTime";
 	public static final String deleteUserId = "deleteUserId";
+	public static final String likeUserId = "likeUserId";
 
 	/**
 	 * 登录用户的额外属性

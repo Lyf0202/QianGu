@@ -105,6 +105,10 @@ public class Values {
 	public static final String hasLikeUser = "1";
 	//本地未缓存喜欢用户 
 	public static final String noHasLikeUser = "0";
+	//已经开始聊天
+	public static final Integer startChat = 1;
+	//未开始聊天
+	public static final Integer notStartChat = 0;
 	//没给定位时存储的经度
 	public static final Double noLocLng = -12.12;
 	//没给定位时存储的纬度
@@ -125,7 +129,8 @@ public class Values {
 	public static final Integer isAll = 1;
 	//
 	public static final Integer notIsAll = 0;
-	
+	//
+	public static final Double startIntimacy = 0.0;
 	/**
 	 * 请求参数值
 	 */
@@ -161,5 +166,7 @@ public class Values {
 	public static final String methodOfOpenApp = "openApp";
 	//获取主页用户
 	public static final String methodOfGetUser = "getUser";
+	//
+	public static final String methodOfClickLike = "clickLike";
 	
 }

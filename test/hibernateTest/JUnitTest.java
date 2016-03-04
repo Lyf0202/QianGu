@@ -171,8 +171,19 @@ public class JUnitTest {
 	@Test
 	public void test5(){
 		
-//		System.out.println(new Date(Long.valueOf("1456578500742")));
-		System.out.println(System.currentTimeMillis());
+		// 1.  -73.84  40.79
+		// 2.  -73.88  40.78    3550
+		// 3.  -73.92  40.79     6742
+		// 4.  -73.97  40.77     11182
+		// 5.  -73.824  40.729     6923
+		// 6.  -73.86   40.80     2019
+		// 7.  -73.82   40.80     2019
+		// 8.  -73.844785  40.792155   469
+		// 9.  -73.845480  40.799999    1205
+		// 10.  -73.839511  40.781452   952
+		// 11.  -73.850121  40.800012   1403
+		//
+		System.out.println(getDistance(-73.84, 40.79, -74.12, 41.18));
 	}
 	
 	public Object getObject() {

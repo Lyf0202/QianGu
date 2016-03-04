@@ -15,23 +15,24 @@ import net.sf.json.JSONObject;
 public class UserResult {
 
 	@Autowired
-	private UserInfoToJSON userInfoToJSON ;
-	
-	public JSONObject getResult(Map<String,String[]> parameters){
+	private UserInfoToJSON userInfoToJSON;
+
+	public JSONObject getResult(Map<String, String[]> parameters) {
 		JSONObject result = null;
-		if(parameters.get(Keys.method)[0].equals(Values.methodOfOpenApp)){
+		if (parameters.get(Keys.method)[0].equals(Values.methodOfOpenApp)) {
 			result = userInfoToJSON.openAppInfoToJSON(parameters);
-		}else if(parameters.get(Keys.method)[0].equals(Values.methodOfGetUser)){
-		    result = userInfoToJSON.getUserInfoToJSON(parameters);
-		}else
-		{
+		} else if (parameters.get(Keys.method)[0].equals(Values.methodOfGetUser)) {
+			result = userInfoToJSON.getUserInfoToJSON(parameters);
+		} else if (parameters.get(Keys.method)[0].equals(Values.methodOfClickLike)) {
+			result = userInfoToJSON.getClickLikeInfoToJSON(parameters);
+		} else {
 			result = new JSONObject();
 			JSONObject statusJSON = new JSONObject();
 			statusJSON.accumulate(Keys.status, Values.statusOfNoMethod);
 			statusJSON.accumulate(Keys.message, Values.messageOfNoMethod);
 			result.put(Keys.status, statusJSON);
 		}
-		
+
 		return result;
 	}
 }

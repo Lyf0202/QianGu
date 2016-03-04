@@ -79,7 +79,8 @@ public class HibernateTest {
 	
 	@Test
 	public void testServiceTest(){
-		testService.getTest();
+//		testService.getTest();
+		testService.getTTTest();
 	}
 
 	@Test

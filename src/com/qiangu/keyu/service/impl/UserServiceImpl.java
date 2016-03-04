@@ -12,9 +12,11 @@ import org.springframework.stereotype.Service;
 
 import com.qiangu.keyu.controller.Keys;
 import com.qiangu.keyu.controller.Values;
+import com.qiangu.keyu.dao.ChatDao;
 import com.qiangu.keyu.dao.LikeDao;
 import com.qiangu.keyu.dao.MongodbDao;
 import com.qiangu.keyu.dao.UserDao;
+import com.qiangu.keyu.po.ChatPo;
 import com.qiangu.keyu.po.LikePo;
 import com.qiangu.keyu.po.UserPo;
 import com.qiangu.keyu.service.UserService;
@@ -30,6 +32,9 @@ public class UserServiceImpl implements UserService {
 
 	@Autowired
 	private LikeDao likeDao;
+	
+	@Autowired
+	private ChatDao chatDao;
 
 	@Override
 	public UserPo getLoginOrRegisterUserInfo(Map<String, String[]> parameters) {
@@ -102,10 +107,7 @@ public class UserServiceImpl implements UserService {
 		return str;
 	}
 
-	@Override
-	public List<UserPo> getMainUserBySchool(Integer userId, Integer schoolId, long minOnlineTime, long maxOnlineTime) {
-		return userDao.getUserBySchool(userId, schoolId, minOnlineTime, maxOnlineTime);
-	}
+	
 
 	@Override
 	public Map<Integer, Map<String, Object>> getUserLoc(Integer userId) {
@@ -199,5 +201,36 @@ public class UserServiceImpl implements UserService {
 			likeUser.put(Keys.likeTime, 0);
 		}
 		return likeUser;
+	}
+
+	@Override
+	public Map<String,Object> getMainUserBySchool(Integer userId,Integer sex,Integer schoolId,long maxLastOnlineTime) {
+		
+		return null;
+	}
+	
+	@Override
+	public Object findClickLikeResult(Integer userId, Integer likeUserId) {
+		LikePo likePo = likeDao.getLikePoByUserIdAndLikeuserId(likeUserId, userId);
+		if(likePo == null){
+			likePo = new LikePo();
+			likePo = new LikePo();
+			likePo.setLikeTime(System.currentTimeMillis());
+			likePo.setUserId(userId);
+			likePo.setLikeUserId(likeUserId);
+			likeDao.save(likePo);
+			return likePo;
+		}else {
+			likePo.setIsSuccess(Values.liked);
+			ChatPo chatPo = new ChatPo();
+			chatPo.setIsStartChat(Values.notStartChat);
+			chatPo.setStartTime(new Date());
+			chatPo.setUserAId(likeUserId);
+			chatPo.setUserBId(userId);
+			chatPo.setIntimacyA(Values.startIntimacy);
+			chatPo.setIntimacyB(Values.startIntimacy);
+			chatDao.save(chatPo);
+			return chatPo;
+		}
 	}
 }

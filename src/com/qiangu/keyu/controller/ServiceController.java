@@ -26,6 +26,7 @@ import com.qiangu.keyu.api.QiNiuYunApi;
 import com.qiangu.keyu.api.UtilsApi;
 import com.qiangu.keyu.api.YunPianWangApi;
 import com.qiangu.keyu.result.Result;
+import com.qiangu.keyu.service.TestService;
 import com.qiangu.keyu.service.UserService;
 
 import net.sf.json.JSONObject;
@@ -53,6 +54,9 @@ public class ServiceController {
 	
 	@Autowired
 	private UserService userService;
+	
+	@Autowired
+	private TestService testService;
 	
 	@RequestMapping("/keYuService.do")
 	public void keYuService(HttpServletRequest request, HttpServletResponse response){
@@ -159,7 +163,7 @@ public class ServiceController {
 //		}else if(parameters.get("type")[0].equals("2")){
 //			
 //		}
-		int a = 10 / 0;
+		testService.getTest();
 		return "123456";
 	}
 	
