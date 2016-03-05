@@ -29,7 +29,7 @@ public interface UserDao extends BaseDao<UserPo>{
 	/**
 	 * 根据学校和喜欢获取用户列表
 	 */
-	public List<UserPo> getUserBySchool(Integer userId,Integer schoolId,long minOnlineTime,long maxOnlineTime);
+	public List<UserPo> getUserBySchool(Integer userId,Integer schoolId,long maxLastOnlineTime,Integer sex,Integer selectNum,Integer firstSelectNum);
 	
-	public List<UserPo> getUserBySchool(Integer schoolId,List<Integer> userIds,long minOnlineTime,long maxOnlineTime,Integer userId ,Integer sex,Integer selectNum,Integer firstSelectNum);
+	public List<UserPo> getUserBySchool(Integer schoolId,List<Integer> userIds,long maxLastOnlineTime,Integer userId ,Integer sex,Integer selectNum,Integer firstSelectNum);
 }

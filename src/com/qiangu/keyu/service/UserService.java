@@ -31,8 +31,9 @@ public interface UserService {
 	//通过喜欢获取用户
 	public Map<String,Object> getMainUserByLike(Integer userId,Long likeTime,Integer sex);
 	
-	public Map<String,Object> getMainUserBySchool(Integer userId,Integer sex,Integer schoolId,long maxLastOnlineTime);
+	public Map<String,Object> getNoLocMainUserBySchool(Integer userId,Integer sex,Integer schoolId,long maxLastOnlineTime);
 	
+	public Map<String,Object> getMainUserBySchool(Integer userId,Integer sex,Integer schoolId,long maxLastOnlineTime);
 	public Map<Integer,Map<String,Object>> getUserLoc(Integer userId);
 	
 	public void addUserLoc(Integer userId,Double lng,Double lat);

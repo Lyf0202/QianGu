@@ -61,12 +61,17 @@ public class Keys {
 	public static final String lastLoginTime = "lastLoginTime";
 	public static final String verifyState = "verifyState";
 	public static final String school = "school";
+	public static final String schoolId = "schoolId";
 	public static final String education = "education";
 	public static final String labels = "labels";
+	public static final String labelContent = "labelContent";
+	public static final String labelId = "labelId";
 	public static final String height = "height";
 	public static final String weight = "weight";
 	public static final String province = "province";
 	public static final String city = "city";
+	public static final String county = "county";
+	public static final String hometown = "hometown";
 	public static final String department = "department";
 	public static final String enterTime = "enterTime";
 	public static final String birthday = "birthday";

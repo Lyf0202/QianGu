@@ -94,9 +94,9 @@ public class LoginAndRegisterInfoToJSON {
 			JSONObject me = keYuApi.userPoToJSON(user);
 			String avatarPicName = pictureService.getAvatar(user.getId()).getPictureName();
 			String meAvatarPicDownloadUrl = qiniuYunApi.getDownloadUrl(avatarPicName);
-			me.accumulate(Keys.avatar,meAvatarPicDownloadUrl);
+//			me.accumulate(Keys.avatar,meAvatarPicDownloadUrl);
 			String meLittlePicDownloadUrl = qiniuYunApi.getDownloadUrl(avatarPicName, QiNiuYunApi.width, QiNiuYunApi.height);
-			me.accumulate(Keys.AvatarLittleSizePicUrl,meLittlePicDownloadUrl);
+//			me.accumulate(Keys.AvatarLittleSizePicUrl,meLittlePicDownloadUrl);
 			resultJSON.put(Keys.me, me);
 			List<Map> chatMapList = chatService.getChatInfo(user.getId());
 			List<JSONObject> chatUserList = new ArrayList<>();

@@ -100,19 +100,38 @@ public class UserInfoToJSON {
 		Double lng = (Double)userLoc.get(userId).get(Keys.lng);
 		Double lat = (Double)userLoc.get(userId).get(Keys.lat);
 		
+		Integer noLocUserNum = 0;
+		
 		//判断该用户是否给了定位权限
 		if(lat == Values.noLocLat){
-			Integer schoolId = Integer.valueOf(parameters.get(Keys.school)[0]);
-//			List<JSONObject> schoolUserJSONList = keYuApi.getSchoolUserJSONList(userId,schoolId, minOnlineTime, maxOnlineTime);
-//			resultJSON.put(Keys.schoolUser, schoolUserJSONList);
+			Integer schoolId = user.getSchoolId();
+			Map<String,Object> schoolResult = userService.getNoLocMainUserBySchool(userId, sex, schoolId, onlineTime);
+			List<UserPo> schoolUser = (List<UserPo>) schoolResult.get(Keys.mainUser);
+			if(schoolUser != null){
+				 distanceUserJSONList = keYuApi.getDistanceUserJSONList(schoolUser, userId);
+				 resultJSON.accumulate(Keys.onlineTime, schoolResult.get(Keys.onlineTime));
+			}else {
+				resultJSON.accumulate(Keys.onlineTime, 0);
+			}
 		}else{
 			//根据距离和时间获取用户
 			Map<String,Object> distanceResult = userService.getMainUserByDistance(userId, lng, lat, distance, onlineTime, sex, openTime);
-			List<UserPo> distanceUserList = (List<UserPo>) distanceResult.get(Keys.mainUser);
+			List<UserPo> distanceUserList = new ArrayList<>(); 
+			distanceUserList =(List<UserPo>) distanceResult.get(Keys.mainUser);
+			
+			//根据学校获取位开启定位功能的用户
+			Map<String,Object> schoolResult = userService.getNoLocMainUserBySchool(userId, sex, user.getSchoolId(),onlineTime);
+			List<UserPo> schoolUserList = (List<UserPo>) schoolResult.get(Keys.school);
+			if(schoolUserList != null){
+				distanceUserList.addAll(schoolUserList);
+			}
+			noLocUserNum = Values.onceSchoolUserNum;
+			
 			distanceUserJSONList = keYuApi.getDistanceUserJSONList(distanceUserList,userId);
 			resultJSON.accumulate(Keys.onlineTime, distanceResult.get(Keys.onlineTime));
 			resultJSON.accumulate(Keys.distance,distanceResult.get(Keys.distance));
 			resultJSON.accumulate(Keys.openTime, openTime);
+			
 		}
 		
 		//获取点击喜欢的用户
@@ -124,7 +143,7 @@ public class UserInfoToJSON {
 		//判断返回的用户是否已经是全部用户
 		Integer distanceNum = distanceUserJSONList.size();
 		Integer likeNum = likeUserJSONList.size();
-		if(distanceNum < Values.onceUserNum && likeNum < Values.onceLikeUserNum){
+		if(distanceNum < Values.onceUserNum + noLocUserNum && likeNum < Values.onceLikeUserNum){
 			resultJSON.accumulate(Keys.isAllUser, Values.isAll);
 		}else {
 			resultJSON.accumulate(Keys.isAllUser, Values.notIsAll);

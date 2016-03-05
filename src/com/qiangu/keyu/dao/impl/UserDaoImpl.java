@@ -67,13 +67,6 @@ public class UserDaoImpl extends BaseDaoImpl<UserPo> implements UserDao{
 	@Override
 	public List<UserPo> getUserByDistance(List<Integer> distanceId, long minOnlineTime, long maxOnlineTime,
 			Integer userId,Integer sex,Integer selectNum,Integer firstSelectNum) {
-//		System.out.println("distanceId " + distanceId);
-//		System.out.println("minOnlineTime " + minOnlineTime);
-//		System.out.println("maxOnlineTime " + maxOnlineTime);
-//		System.out.println("sex " + sex);
-//		System.out.println("userId " + userId);
-//		System.out.println("firstSelectNum " + firstSelectNum);
-//		System.out.println("selectNum " + selectNum);
 		Query query = getSession().createQuery(getUserByDistanceHql2);
 		query.setParameterList("distanceId",distanceId);
 		query.setParameter("minOnlineTime", minOnlineTime);
@@ -114,35 +107,45 @@ public class UserDaoImpl extends BaseDaoImpl<UserPo> implements UserDao{
 		return query.list();
 	}
 
-	
-	String getUserBySchoolHql = "select distinct U from UserPo as U where U.schoolId = :schoolId and U.lastOnlineTime > :minOnlineTime and U.lastOnlineTime < :maxOnlineTime and U.id not in(select L.userId from LikePo as L where L.likeUserId = :userId)";
+	//未给定位的用户获取用户
+	String getUserBySchoolHql = "select distinct U "
+							+ "form UserPo as U "
+							+ "where U.id != :userId "
+							+ "and U.schoolId = :schoolId "
+							+ "and U.sex = :sex "
+							+ "and U.lastOnlineTime < :maxLastOnlineTime "
+							+ "order by U.lastOnlineTime desc";
+//	String getUserBySchoolHql = "select distinct U from UserPo as U where U.schoolId = :schoolId and U.lastOnlineTime > :minOnlineTime and U.lastOnlineTime < :maxOnlineTime and U.id not in(select L.userId from LikePo as L where L.likeUserId = :userId)";
 	@Override
-	public List<UserPo> getUserBySchool(Integer userId,Integer schoolId, long minOnlineTime, long maxOnlineTime) {
+	public List<UserPo> getUserBySchool(Integer userId,Integer schoolId,long maxLastOnlineTime,Integer sex,Integer selectNum,Integer firstSelectNum) {
 		Query query = getSession().createQuery(getUserBySchoolHql);
+		query.setParameter("userId", userId);
 		query.setParameter("schoolId", schoolId);
-		query.setParameter("minOnlineTime", minOnlineTime);
-		query.setParameter("maxOnlineTime", maxOnlineTime);
-		query.setParameter("userId",userId);
+		query.setParameter("sex", sex);
+		query.setParameter("maxLastOnlineTime",maxLastOnlineTime);
+		query.setFirstResult(firstSelectNum);
+		query.setMaxResults(selectNum);
 		return query.list();
 	}
 
+	//获取那些没给定位的用户
 	String getUserBySchoolHql2 = "select distinct U "
 								+ "from UserPo as U "
 								+ "where U.id in (:userIds) "
+								+ "and U.id != :userId "
 								+ "and U.schoolId = :schoolId "
 								+ "and U.sex = :sex "
-								+ "and U.lastOnlineTime > :minOnlineTime "
-								+ "and U.lastOnlineTime < :maxOnlineTime "
+								+ "and U.lastOnlineTime < :maxLastOnlineTime "
 								+ "order by U.lastOnlineTime desc";
 	@Override
-	public List<UserPo> getUserBySchool(Integer schoolId, List<Integer> userIds, long minOnlineTime, long maxOnlineTime,
+	public List<UserPo> getUserBySchool(Integer schoolId, List<Integer> userIds, long maxLastOnlineTime,
 			Integer userId, Integer sex, Integer selectNum, Integer firstSelectNum) {
 		Query query = getSession().createQuery(getUserBySchoolHql2);
 		query.setParameterList("userIds", userIds);
+		query.setParameter("userId", userId);
 		query.setParameter("schoolId", schoolId);
 		query.setParameter("sex", sex);
-		query.setParameter("minOnlineTime", minOnlineTime);
-		query.setParameter("maxOnlineTime", maxOnlineTime);
+		query.setParameter("maxLastOnlineTime", maxLastOnlineTime);
 		query.setFirstResult(firstSelectNum);
 		query.setMaxResults(selectNum);
 		return query.list();

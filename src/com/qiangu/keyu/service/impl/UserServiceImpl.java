@@ -32,7 +32,7 @@ public class UserServiceImpl implements UserService {
 
 	@Autowired
 	private LikeDao likeDao;
-	
+
 	@Autowired
 	private ChatDao chatDao;
 
@@ -107,8 +107,6 @@ public class UserServiceImpl implements UserService {
 		return str;
 	}
 
-	
-
 	@Override
 	public Map<Integer, Map<String, Object>> getUserLoc(Integer userId) {
 
@@ -135,29 +133,33 @@ public class UserServiceImpl implements UserService {
 		Map<Integer, Map<String, Object>> distanceUser = distanceUser = mongodbDao.findByDistance(minDistance,
 				maxDistance, lng, lat);
 		List<Integer> distanceUserId = new ArrayList<Integer>(distanceUser.keySet());
-		System.out.println(minDistance + " "+maxDistance+" : "+new ArrayList<Integer>(distanceUser.keySet()));
+		System.out.println(minDistance + " " + maxDistance + " : " + new ArrayList<Integer>(distanceUser.keySet()));
 		while (listU.size() < Values.onceUserNum) {
 			if (maxDistance >= Values.Distance) {
 				break;
 			}
-			
+
 			if (distanceUserId.size() <= Values.onceUserNum) {
 				if (distanceUserId.size() <= 0) {
 					minDistance = maxDistance;
 					maxDistance = maxDistance + Values.onceDistance;
 					distanceUser = mongodbDao.findByDistance(minDistance, maxDistance, lng, lat);
 					distanceUserId = new ArrayList<Integer>(distanceUser.keySet());
-					System.out.println(minDistance + " "+maxDistance+" : "+new ArrayList<Integer>(distanceUser.keySet()));
+					System.out.println(
+							minDistance + " " + maxDistance + " : " + new ArrayList<Integer>(distanceUser.keySet()));
 				} else {
 					minOnlineTime = onlineTime - Values.OnlineTime;
 					List<UserPo> listUser = userDao.getUserByDistance(distanceUserId, minOnlineTime, maxOnlineTime,
 							userId, sex, selectNum, firstSelectNum);
-					listU.addAll(listUser);
+					if(listUser != null && listUser.size() > 0){
+						listU.addAll(listUser);
+					}
 					minDistance = maxDistance;
 					maxDistance = maxDistance + Values.onceDistance;
 					distanceUser = mongodbDao.findByDistance(minDistance, maxDistance, lng, lat);
 					distanceUserId = new ArrayList<Integer>(distanceUser.keySet());
-					System.out.println(minDistance + " "+maxDistance+" : "+new ArrayList<Integer>(distanceUser.keySet()));
+					System.out.println(
+							minDistance + " " + maxDistance + " : " + new ArrayList<Integer>(distanceUser.keySet()));
 				}
 			} else {
 				if (minOnlineTime <= openTime - Values.OnlineTime) {
@@ -167,11 +169,16 @@ public class UserServiceImpl implements UserService {
 					minOnlineTime = maxOnlineTime - Values.halfHour;
 					distanceUser = mongodbDao.findByDistance(minDistance, maxDistance, lng, lat);
 					distanceUserId = new ArrayList<Integer>(distanceUser.keySet());
-					System.out.println(minDistance + " "+maxDistance+" : "+new ArrayList<Integer>(distanceUser.keySet()));
+					System.out.println(
+							minDistance + " " + maxDistance + " : " + new ArrayList<Integer>(distanceUser.keySet()));
 				}
-				List<UserPo> listUser = userDao.getUserByDistance(distanceUserId, minOnlineTime, maxOnlineTime, userId,
+				if(distanceUserId.size() > 0){
+					List<UserPo> listUser = userDao.getUserByDistance(distanceUserId, minOnlineTime, maxOnlineTime, userId,
 						sex, selectNum, firstSelectNum);
-				listU.addAll(listUser);
+					if(listUser != null && listUser.size() > 0){
+						listU.addAll(listUser);
+					}
+				}
 				maxOnlineTime = minOnlineTime;
 				minOnlineTime = minOnlineTime - Values.halfHour;
 			}
@@ -204,24 +211,37 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public Map<String,Object> getMainUserBySchool(Integer userId,Integer sex,Integer schoolId,long maxLastOnlineTime) {
-		
-		return null;
+	public Map<String, Object> getNoLocMainUserBySchool(Integer userId, Integer sex, Integer schoolId,
+			long maxLastOnlineTime) {
+		Map<String, Object> schoolUser = new HashMap<>();
+		Integer firstSelectNum = 0;
+		Integer selectNum = Values.onceSchoolUserNum;
+
+		Map<Integer, Map<String, Object>> noLocUser = mongodbDao.findByNoLocAndSchool();
+		List<Integer> noLocUserIds = new ArrayList<Integer>(noLocUser.keySet());
+		if (noLocUser.size() != 0) {
+			List<UserPo> listUser = userDao.getUserBySchool(schoolId, noLocUserIds, maxLastOnlineTime, userId, sex,
+					selectNum, firstSelectNum);
+			schoolUser.put(Keys.schoolUser, listUser);
+		} else {
+			schoolUser.put(Keys.schoolUser, null);
+		}
+		return schoolUser;
 	}
-	
+
 	@Override
 	public Object findClickLikeResult(Integer userId, Integer likeUserId) {
 		LikePo likePo = likeDao.getLikePoByUserIdAndLikeuserId(likeUserId, userId);
-		if(likePo == null){
+		if (likePo == null) {
 			likePo = new LikePo();
 			likePo = new LikePo();
 			likePo.setLikeTime(System.currentTimeMillis());
 			likePo.setUserId(userId);
 			likePo.setLikeUserId(likeUserId);
-			likeDao.save(likePo);
+			// likeDao.save(likePo);
 			return likePo;
-		}else {
-			likePo.setIsSuccess(Values.liked);
+		} else {
+			// likePo.setIsSuccess(Values.liked);
 			ChatPo chatPo = new ChatPo();
 			chatPo.setIsStartChat(Values.notStartChat);
 			chatPo.setStartTime(new Date());
@@ -229,8 +249,24 @@ public class UserServiceImpl implements UserService {
 			chatPo.setUserBId(userId);
 			chatPo.setIntimacyA(Values.startIntimacy);
 			chatPo.setIntimacyB(Values.startIntimacy);
-			chatDao.save(chatPo);
+			// chatDao.save(chatPo);
 			return chatPo;
 		}
+	}
+
+	@Override
+	public Map<String, Object> getMainUserBySchool(Integer userId, Integer sex, Integer schoolId,
+			long maxLastOnlineTime) {
+		Map<String, Object> mainUser = new HashMap<>();
+		Integer firstSelectNum = 0;
+		Integer selectNum = Values.onceDistance;
+		List<UserPo> listU = userDao.getUserBySchool(userId, schoolId, maxLastOnlineTime, sex, selectNum, firstSelectNum);
+		if(listU != null){
+			mainUser.put(Keys.mainUser, listU);
+			mainUser.put(Keys.onlineTime, listU.get(listU.size() - 1).getLastOnlineTime());
+		}else {
+			mainUser.put(Keys.mainUser,null);
+		}
+		return mainUser;
 	}
 }

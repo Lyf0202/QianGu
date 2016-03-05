@@ -40,10 +40,10 @@ public class JUnitTest {
 	public void test1() {
 //		System.out.println(java.net.URLEncoder.encode("教育"));
 //		System.out.println("image/jpeg".split("/")[1]);
-		Integer i = 5;
-		Integer g = i;
-		i = 7;
-		System.out.println(i == g);
+		Map<Integer,String> m = new HashMap<>();
+		List<Integer> l = new ArrayList<Integer>(m.keySet());
+		
+		System.out.println("------ "+ l.size());
 	}
 
 	@Test

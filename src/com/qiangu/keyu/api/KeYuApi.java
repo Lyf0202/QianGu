@@ -79,6 +79,7 @@ public class KeYuApi {
 		json.accumulate(Keys.sex, user.getSex());
 		json.accumulate(Keys.name, user.getName());
 		json.accumulate(Keys.birthday, user.getBirthday());
+		json.accumulate(Keys.hometown, user.getCountyId());
 		json.accumulate(Keys.chatId, user.getTalkId());
 		json.accumulate(Keys.lastLoginTime, user.getLastOnlineTime());
 		json.accumulate(Keys.education, user.getEducation());
@@ -94,16 +95,17 @@ public class KeYuApi {
 			json.accumulate(Keys.motto, loveManifestoPo.getLoveManifesto());
 		}
 		List<LabelPo> labels = labelService.getLabels(user.getId());
+		List<JSONObject> listLabels = new ArrayList<>();
 		if (labels != null) {
-
-			List<Map<Integer, String>> listLabels = new ArrayList<>();
 			for (LabelPo l : labels) {
-				Map<Integer, String> labelMap = new HashMap<>();
-				labelMap.put(l.getId(), l.getLabelContent());
-				listLabels.add(labelMap);
+				JSONObject labelJSON = new JSONObject();
+				labelJSON.accumulate(Keys.labelId, l.getId());
+				labelJSON.accumulate(Keys.labelContent, l.getLabelContent());
+				listLabels.add(labelJSON);
 			}
-			json.accumulate(Keys.labels, listLabels);
 		}
+		json.accumulate(Keys.labels, listLabels);
+		
 		return json;
 	}
 
