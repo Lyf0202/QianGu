@@ -18,7 +18,18 @@
     	<ACCESS_KEY>IGCzPkRT-ERu-Bwg2IrwjTju2niD4coWpT8TUNti</ACCESS_KEY>
     	<SECRET_KEY>mrHSKt6277WmJmEwYUHVZc3tOHZWT4-EuWYKHNY9</SECRET_KEY>
     	<bucket>bucket</bucket>
-	<url>http://7tsxtm.com1.z0.glb.clouddn.com/</url>
+		<url>http://7tsxtm.com1.z0.glb.clouddn.com/</url>
     	<photoSize>imageView2/1/w/200/h/200</photoSize>
     </qiniu>
+    <huanxin>
+    	<RestApi>
+    		<AppKey_1>20150904</AppKey_1>
+    		<AppKey_2>qianguapp</AppKey_2>
+    		<clientId>YXA6U-iCUFLQEeWV5X0sxk-O5g</clientId>
+    		<clientSecret>YXA6SiZouIHuo4pghnhMGhV6pn9SDIk</clientSecret>
+    	</RestApi>
+    	<time>
+    		<startTime></startTime>
+    	</time>
+    </huanxin>
 </QianGu>  

@@ -70,7 +70,7 @@ public class Keys {
 	public static final String weight = "weight";
 	public static final String province = "province";
 	public static final String city = "city";
-	public static final String county = "county";
+	public static final String area = "area";
 	public static final String hometown = "hometown";
 	public static final String department = "department";
 	public static final String enterTime = "enterTime";

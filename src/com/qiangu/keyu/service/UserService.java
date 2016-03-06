@@ -17,6 +17,7 @@ public interface UserService {
 	
 	public Serializable addUser(UserPo user);
 	
+	public String addUserToRegister(UserPo user,byte[] avatarContent) throws Exception;
 	/**
 	 * 获取主页匹配的用户信息
 	 * @param lng

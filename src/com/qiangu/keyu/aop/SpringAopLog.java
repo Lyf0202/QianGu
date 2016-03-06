@@ -69,6 +69,7 @@ public class SpringAopLog {
 		Object[] args = joinPoint.getArgs();
 		HttpServletRequest request = (HttpServletRequest) args[0];
 		String userId = "0";
+		String ip = request.getRemoteAddr();
 		boolean isMultipartContent = ServletFileUpload.isMultipartContent(request);
 		if(isMultipartContent){
 			
@@ -77,12 +78,14 @@ public class SpringAopLog {
 			userId = parameters.get(Keys.userId)[0];
 		}
 		StackTraceElement[] st = ex.getStackTrace();
-		String exclass = st[0].getClassName();
-		String method = st[0].getMethodName();
-		int lineNum = st[0].getLineNumber();
-		String error = "userId 为 " + userId +" 的用户在调用 "+exclass + " 类的 " + method + " 方法时,在第 "
-				+lineNum + " 行,发生异常,异常信息为 : "+ ex.toString();
-		LoggerApi.error(this, error);
+		StringBuilder fullError = new StringBuilder("ip 为 "+ip+" ;userId 为 " + userId +" 的用户发生异常\n");
+		for(StackTraceElement s : st){
+			String exclass = s.getClassName();
+			String method = s.getMethodName();
+			Integer lineNum = s.getLineNumber();
+			fullError.append(exclass + "."+ method + " : 第 " +lineNum + " 行 \n");
+		}
+		LoggerApi.error(this, fullError.toString());
 	}
 
 	/**

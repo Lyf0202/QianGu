@@ -63,8 +63,9 @@ public class LoginAndRegisterResult {
 	 * @param parameters
 	 * @param fileContents
 	 * @return
+	 * @throws Exception 
 	 */
-	public JSONObject getResult(Map<String,String> parameters,Map<String,byte[]> fileContents){
+	public JSONObject getResult(Map<String,String> parameters,Map<String,byte[]> fileContents) throws Exception{
 		JSONObject result ;
 		if(parameters.get(Keys.method).equals(Values.methodOfCompleteRegister)){
 			result = loginAndRegisterInfoToJSON.completeRegisterInfoToJSON(parameters, fileContents);

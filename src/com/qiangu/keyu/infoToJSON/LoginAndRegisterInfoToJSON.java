@@ -55,7 +55,7 @@ public class LoginAndRegisterInfoToJSON {
 		// String yunpianwangResult = yunPianWangApi.sendSms(verificationCode,
 		// parameters.get(Keys.telephone)[0]);
 		String yunpianwangResult = "0";
-//		System.out.println("yunpianwangResult = " + yunpianwangResult);
+		// System.out.println("yunpianwangResult = " + yunpianwangResult);
 		LoggerApi.info(this, "yunpianwangResult = " + yunpianwangResult);
 		// 发送成功情况
 		if (yunpianwangResult.equals(YunPianWangApi.okResult)) {
@@ -94,9 +94,10 @@ public class LoginAndRegisterInfoToJSON {
 			JSONObject me = keYuApi.userPoToJSON(user);
 			String avatarPicName = pictureService.getAvatar(user.getId()).getPictureName();
 			String meAvatarPicDownloadUrl = qiniuYunApi.getDownloadUrl(avatarPicName);
-//			me.accumulate(Keys.avatar,meAvatarPicDownloadUrl);
-			String meLittlePicDownloadUrl = qiniuYunApi.getDownloadUrl(avatarPicName, QiNiuYunApi.width, QiNiuYunApi.height);
-//			me.accumulate(Keys.AvatarLittleSizePicUrl,meLittlePicDownloadUrl);
+			// me.accumulate(Keys.avatar,meAvatarPicDownloadUrl);
+			String meLittlePicDownloadUrl = qiniuYunApi.getDownloadUrl(avatarPicName, QiNiuYunApi.width,
+					QiNiuYunApi.height);
+			// me.accumulate(Keys.AvatarLittleSizePicUrl,meLittlePicDownloadUrl);
 			resultJSON.put(Keys.me, me);
 			List<Map> chatMapList = chatService.getChatInfo(user.getId());
 			List<JSONObject> chatUserList = new ArrayList<>();
@@ -112,7 +113,8 @@ public class LoginAndRegisterInfoToJSON {
 		return returnJSON;
 	}
 
-	public JSONObject completeRegisterInfoToJSON(Map<String, String> parameters, Map<String, byte[]> fileContents) {
+	public JSONObject completeRegisterInfoToJSON(Map<String, String> parameters, Map<String, byte[]> fileContents)
+			throws Exception {
 		JSONObject returnJSON = new JSONObject();
 		JSONObject statusJSON = new JSONObject();
 		JSONObject resultJSON;
@@ -124,16 +126,12 @@ public class LoginAndRegisterInfoToJSON {
 		user.setSchoolId(Integer.valueOf(parameters.get(Keys.school)));
 		user.setLastOnlineTime(System.currentTimeMillis());
 		String avatarName = parameters.get(Keys.telephone) + "_" + 1;
-		Integer userId = Integer.valueOf(userService.addUser(user).toString());
-		if (userId > 0) {
-			if (pictureService.addAvatar(userId, avatarName, fileContents.get(Keys.avatar)).equals(Values.yes)) {
-				statusJSON.accumulate(Keys.status, Values.statusOfSuccess);
-
-			} else {
-				statusJSON.accumulate(Keys.status, Values.statusOfServiceError);
-				statusJSON.accumulate(Keys.message, Values.messageOfServiceError);
-			}
-
+		Double lng = Double.valueOf(parameters.get(Keys.lng));
+		Double lat = Double.valueOf(parameters.get(Keys.lat));
+		user.setLng(lng);
+		user.setLat(lat);
+		if (userService.addUserToRegister(user, fileContents.get(Keys.avatar)).equals(Values.yes)) {
+			statusJSON.accumulate(Keys.status, Values.statusOfSuccess);
 		} else {
 			statusJSON.accumulate(Keys.status, Values.statusOfServiceError);
 			statusJSON.accumulate(Keys.message, Values.messageOfServiceError);
@@ -143,5 +141,4 @@ public class LoginAndRegisterInfoToJSON {
 		return returnJSON;
 	}
 
-	
 }

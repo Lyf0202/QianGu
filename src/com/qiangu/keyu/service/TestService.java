@@ -38,5 +38,7 @@ public interface TestService {
 	public void getTest();
 	
 	public void getTTTest();
+	
+	public void updateTest() throws Exception;
 
 }

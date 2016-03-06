@@ -100,10 +100,11 @@ public class LoginAndRegisterController {
 	 * @param request
 	 * @param response
 	 * @return
+	 * @throws Exception 
 	 */
 	@RequestMapping(value = "completeRegisterService.do", produces = "text/json;charset=UTF-8")
 	@ResponseBody
-	public String completeRegister(HttpServletRequest request, HttpServletResponse response) {
+	public String completeRegister(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		LoggerApi.info(this, "completeRegisterService.do " + utilsApi.getCurrentTime());
 		JSONObject resultJSON = null;
 		Object object = utilsApi.getUploadParameters(request);

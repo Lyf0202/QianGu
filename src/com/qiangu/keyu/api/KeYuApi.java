@@ -14,6 +14,7 @@ import com.qiangu.keyu.po.LabelPo;
 import com.qiangu.keyu.po.LoveManifestoPo;
 import com.qiangu.keyu.po.SchoolCoding;
 import com.qiangu.keyu.po.UserPo;
+import com.qiangu.keyu.service.AreaService;
 import com.qiangu.keyu.service.LabelService;
 import com.qiangu.keyu.service.LoveManifestoService;
 import com.qiangu.keyu.service.SchoolService;
@@ -34,6 +35,9 @@ public class KeYuApi {
 
 	@Autowired
 	private LabelService labelService;
+	
+	@Autowired
+	private AreaService areaService;
 
 	// 到百分百所需的总聊天句数（单个人）
 	public static final double totalChatNum = 180;
@@ -82,12 +86,19 @@ public class KeYuApi {
 		json.accumulate(Keys.hometown, user.getCountyId());
 		json.accumulate(Keys.chatId, user.getTalkId());
 		json.accumulate(Keys.lastLoginTime, user.getLastOnlineTime());
+		json.accumulate(Keys.verifyState, user.getVerifyType());
 		json.accumulate(Keys.education, user.getEducation());
 		json.accumulate(Keys.weight, user.getWeight());
 		json.accumulate(Keys.height, user.getHeight());
 		json.accumulate(Keys.enterTime, user.getEnterTime());
 		json.accumulate(Keys.avatar, "http://7tsxtm.com1.z0.glb.clouddn.com/15757118214_1");
 		json.accumulate(Keys.AvatarLittleSizePicUrl, "http://7tsxtm.com1.z0.glb.clouddn.com/15757118214_1?imageView2/1/w/200/h/200");
+		if(user.getCountyId() != null){
+			Map<String,String> hometown = areaService.getHometownByAreaId(user.getCountyId() + "");
+			json.accumulate(Keys.province, hometown.get(Keys.province));
+			json.accumulate(Keys.city, hometown.get(Keys.city));
+			json.accumulate(Keys.area, hometown.get(Keys.area));
+		}
 		SchoolCoding school = schoolService.getSchoolById(user.getSchoolId());
 		LoveManifestoPo loveManifestoPo = loveManifestoService.getLoveManifestoPoByUserId(user.getId());
 		json.accumulate(Keys.school, school.getSchool_name());

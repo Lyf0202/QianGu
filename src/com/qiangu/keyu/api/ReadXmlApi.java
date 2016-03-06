@@ -20,6 +20,10 @@ public class ReadXmlApi {
 	public final String QiNiuBucket = "bucket";
 	public final String QiNiuPhotoSize = "photoSize";
 	public final String QiNiuURL = "url";
+	public final String AppKey_1 = "AppKey_1";
+	public final String AppKey_2 = "AppKey_2";
+	public final String clientId = "clientId";
+	public final String clientSecret = "clientSecret";
 	
 	private SAXReader reader;
 	private File file;
@@ -82,11 +86,23 @@ public class ReadXmlApi {
 		return resultMap;
 	}
 	
+	public Map<String,String> getHuanXinInfo(){
+		resultMap = new HashMap<String,String>();
+		List<Element> attrlist = childElements.get(4).elements();
+		resultMap.put(AppKey_1, attrlist.get(0).elementText(AppKey_1));
+		resultMap.put(AppKey_2, attrlist.get(0).elementText(AppKey_2));
+		resultMap.put(clientId, attrlist.get(0).elementText(clientId));
+		resultMap.put(clientSecret, attrlist.get(0).elementText(clientSecret));
+		return resultMap;
+	}
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		ReadXmlApi readXmlApi = new ReadXmlApi();
-		Map<String, String> m = readXmlApi.getQiNiuInfo();
-		System.out.println(m.get("bucket"));
+		Map<String, String> m = readXmlApi.getHuanXinInfo();
+		System.out.println(m.get(readXmlApi.AppKey_1));
+		System.out.println(m.get(readXmlApi.AppKey_2));
+		System.out.println(m.get(readXmlApi.clientId));
+		
 	}
 
 }

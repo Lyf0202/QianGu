@@ -13,7 +13,7 @@ import java.util.Vector;
 
 public class Sqlite {
 
-	String sqlitePath = "jdbc:sqlite:F:\\hometown.db";
+	String sqlitePath = "jdbc:sqlite:qiangu.db";
 
 	public void createSqlite() {
 		Connection c = null;
@@ -106,16 +106,13 @@ public class Sqlite {
 			c = DriverManager.getConnection(sqlitePath);
 			c.setAutoCommit(false);
 			sta = c.createStatement();
-			System.out.println("SQL:::::::  " + sql);
 			rs = sta.executeQuery(sql);
 			ResultSetMetaData metadata = rs.getMetaData();
 			int num = metadata.getColumnCount();
-
 			while (rs.next()) {
 				Map<String, String> map = new HashMap<String, String>();
 				for (int i = 0; i < num; i++) {
 					map.put(metadata.getColumnName(i + 1), rs.getString(i + 1));
-					System.out.println(metadata.getColumnName(i + 1) + " : " + rs.getString(i + 1));
 				}
 				list.add(map);
 			}
@@ -167,18 +164,10 @@ public class Sqlite {
 	 */
 	public static void main(String[] args) {
 		Sqlite sqlite = new Sqlite();
-		// sqlite.createSqlite();
-		// String createTablePro = "CREATE TABLE provinces(id INTEGER,province
-		// TEXT,provinceId TEXT,PRIMARY KEY(id));";
-		// String createTableCities = "CREATE TABLE cities(id INTEGER,cityId
-		// TEXT,city TEXT,provinceId TEXT,PRIMARY KEY(id))";
-		// String createTableAreas = "CREATE TABLE areas(id INTEGER,areaId
-		// TEXT,area TEXT,cityId TEXT,PRIMARY KEY(id))";
-		// sqlite.createTable(createTablePro);
-		// sqlite.createTable(createTableCities);
-		// sqlite.createTable(createTableAreas);
-		String insertSql = "insert into provinces values (1,'110000','北京市')";
-		sqlite.insert(insertSql);
+		String selectSql = "select * from huanxin where id = 1";
+		List<Map<String,String>> m = sqlite.select(selectSql);
+		System.out.println(m.get(0).get("access_token"));
+		System.out.println(m.get(0).get("expires_in"));
 	}
 
 }

@@ -10,14 +10,18 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.qiangu.keyu.api.QiNiuYunApi;
 import com.qiangu.keyu.controller.Keys;
 import com.qiangu.keyu.controller.Values;
 import com.qiangu.keyu.dao.ChatDao;
 import com.qiangu.keyu.dao.LikeDao;
 import com.qiangu.keyu.dao.MongodbDao;
+import com.qiangu.keyu.dao.PictureDao;
 import com.qiangu.keyu.dao.UserDao;
+import com.qiangu.keyu.po.AvatarPo;
 import com.qiangu.keyu.po.ChatPo;
 import com.qiangu.keyu.po.LikePo;
+import com.qiangu.keyu.po.PicturePo;
 import com.qiangu.keyu.po.UserPo;
 import com.qiangu.keyu.service.UserService;
 
@@ -35,6 +39,12 @@ public class UserServiceImpl implements UserService {
 
 	@Autowired
 	private ChatDao chatDao;
+	
+	@Autowired
+	private QiNiuYunApi qiniuYunApi;
+	
+	@Autowired
+	private PictureDao pictureDao;
 
 	@Override
 	public UserPo getLoginOrRegisterUserInfo(Map<String, String[]> parameters) {
@@ -66,7 +76,34 @@ public class UserServiceImpl implements UserService {
 	public Serializable addUser(UserPo user) {
 		return userDao.save(user);
 	}
-
+	
+	@Override
+	public String addUserToRegister(UserPo user, byte[] avatarContent) throws Exception {
+		//将用户数据写入数据库
+		userDao.save(user);
+		
+		//将头像信息保存到数据库
+		String avatarName = user.getTelephone() + "_" + 1;
+		PicturePo picture = new PicturePo();
+		picture.setPictureName(avatarName);
+		pictureDao.addPicture(picture);
+		
+		//将用户和该头像绑定起来
+		AvatarPo avatar = new AvatarPo();
+		avatar.setUserId(user.getId());
+		avatar.setPictureId(picture.getId());
+		pictureDao.addAvatar(avatar);
+		
+		//如果头像上传七牛云成功,则返回yes,否则抛出异常事务回滚
+		if (qiniuYunApi.pictureUpload(avatarName, avatarContent)) {
+			return Values.yes;
+		}else{
+//			throw new Exception();
+			int a = 10 / 0;
+		}
+		return Values.no;
+	}
+	
 	@Override
 	public UserPo getOpenAppUser(Integer userId, Double lng, Double lat) {
 		// mongodbDao.updateOrInsert(userId, lng, lat);
@@ -269,4 +306,6 @@ public class UserServiceImpl implements UserService {
 		}
 		return mainUser;
 	}
+
+
 }

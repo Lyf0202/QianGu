@@ -10,6 +10,8 @@ import org.springframework.stereotype.Service;
 
 import com.qiangu.keyu.api.BaiduMapApi;
 import com.qiangu.keyu.api.ReadXmlApi;
+import com.qiangu.keyu.controller.Keys;
+import com.qiangu.keyu.dao.AreaDao;
 import com.qiangu.keyu.dao.LabelDao;
 import com.qiangu.keyu.dao.MongodbDao;
 import com.qiangu.keyu.dao.PictureDao;
@@ -18,6 +20,8 @@ import com.qiangu.keyu.dao.UserDao;
 import com.qiangu.keyu.dao.UserUpdateDao;
 import com.qiangu.keyu.po.AreasCoding;
 import com.qiangu.keyu.po.CitiesCoding;
+import com.qiangu.keyu.po.LabelPo;
+import com.qiangu.keyu.po.LikePo;
 import com.qiangu.keyu.po.PicturePo;
 import com.qiangu.keyu.po.ProvinceCoding;
 import com.qiangu.keyu.po.SchoolCoding;
@@ -49,6 +53,9 @@ public class TestServiceImpl implements TestService {
 	
 	@Autowired
 	private UserDao userDao;
+	
+	@Autowired
+	private AreaDao areaDao;
 	
 	public void setTestdao(TestDao testdao) {
 		this.testdao = testdao;
@@ -177,8 +184,26 @@ public class TestServiceImpl implements TestService {
 
 	@Override
 	public void getTTTest() {
-		Map<Integer,Map<String,Object>> m = mongodbDao.findByDistance(0, 10, -12.12, -12.12);
-		System.out.println(m.keySet());
+//		Map<Integer,Map<String,Object>> m = mongodbDao.findByDistance(0, 10, -12.12, -12.12);
+//		System.out.println(m.keySet());
+		Map m = areaDao.getHometown("210602");
+		System.out.println(m.get(Keys.province));
+		System.out.println(m.get(Keys.city));
+		System.out.println(m.get(Keys.area));
+		
+//		int a = 10 / 0;
+		
+	}
+
+	@Override
+	public void updateTest() throws Exception {
+		LabelPo l = new LabelPo();
+		l.setTypeId(888);
+		l.setLabelContent("nanananan");
+		labelDao.save(l);
+		System.out.println("-----------");
+//		throw new Exception();
+		int a = 10 / 0;
 	}
 
 	

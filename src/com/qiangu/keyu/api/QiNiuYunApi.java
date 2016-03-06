@@ -91,6 +91,7 @@ public class QiNiuYunApi {
 
 			try {
 				// 响应的文本信息
+				LoggerApi.error(this, r.bodyString());
 				System.out.println(r.bodyString());
 			} catch (QiniuException e1) {
 				// ignore

@@ -32,7 +32,6 @@ public class PictureServiceImpl implements PictureService {
 			PicturePo picture = new PicturePo();
 			picture.setPictureName(avatarName);
 			pictureDao.addPicture(picture);
-			System.out.println("picture.getId() = " + picture.getId());
 			AvatarPo avatar = new AvatarPo();
 			avatar.setUserId(userId);
 			avatar.setPictureId(picture.getId());
