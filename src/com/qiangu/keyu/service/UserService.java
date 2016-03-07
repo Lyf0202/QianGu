@@ -39,7 +39,10 @@ public interface UserService {
 	
 	public void addUserLoc(Integer userId,Double lng,Double lat);
 	
+	//点击喜欢服务
 	public Object findClickLikeResult(Integer userId,Integer likeUserId);
+	
+	public String deleteChatUser(Integer userId,Integer chatUserId);
 	/**
 	 * 测试用
 	 */

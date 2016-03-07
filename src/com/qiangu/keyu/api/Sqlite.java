@@ -13,7 +13,8 @@ import java.util.Vector;
 
 public class Sqlite {
 
-	String sqlitePath = "jdbc:sqlite:qiangu.db";
+	String sqlitePath = "jdbc:sqlite:E:/qiangu.db";
+//	String sqlitePath = "jdbc:sqlite:/root/KeYu/qiangu.db";
 
 	public void createSqlite() {
 		Connection c = null;

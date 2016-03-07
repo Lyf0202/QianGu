@@ -12,6 +12,7 @@ import com.qiangu.keyu.api.BaiduMapApi;
 import com.qiangu.keyu.api.ReadXmlApi;
 import com.qiangu.keyu.controller.Keys;
 import com.qiangu.keyu.dao.AreaDao;
+import com.qiangu.keyu.dao.ChatDao;
 import com.qiangu.keyu.dao.LabelDao;
 import com.qiangu.keyu.dao.MongodbDao;
 import com.qiangu.keyu.dao.PictureDao;
@@ -56,6 +57,9 @@ public class TestServiceImpl implements TestService {
 	
 	@Autowired
 	private AreaDao areaDao;
+	
+	@Autowired
+	private ChatDao chatDao;
 	
 	public void setTestdao(TestDao testdao) {
 		this.testdao = testdao;
@@ -197,13 +201,15 @@ public class TestServiceImpl implements TestService {
 
 	@Override
 	public void updateTest() throws Exception {
-		LabelPo l = new LabelPo();
-		l.setTypeId(888);
-		l.setLabelContent("nanananan");
-		labelDao.save(l);
-		System.out.println("-----------");
-//		throw new Exception();
-		int a = 10 / 0;
+//		LabelPo l = new LabelPo();
+//		l.setTypeId(888);
+//		l.setLabelContent("nanananan");
+//		labelDao.save(l);
+//		System.out.println("-----------");
+////		throw new Exception();
+//		int a = 10 / 0;
+		Integer i = chatDao.deleteChatUser(-1, -2);
+		System.out.println("--- "+ i);
 	}
 
 	

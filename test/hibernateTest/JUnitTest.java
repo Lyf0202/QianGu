@@ -22,6 +22,7 @@ import com.mongodb.MongoException;
 import com.mongodb.WriteResult;
 import com.qiangu.keyu.api.MongodbApi;
 import com.qiangu.keyu.api.Sqlite;
+import com.qiangu.keyu.api.UtilsApi;
 
 import net.sf.json.JSON;
 import net.sf.json.JSONArray;
@@ -48,13 +49,12 @@ public class JUnitTest {
 
 	@Test
 	public void test2() {
-		List<Integer> li = new ArrayList<>();
-
-		li.add(2);
-		li.add(4);
-		li.add(1, 3);
-		for (Integer i : li)
-			System.out.println(i);
+		UtilsApi utilsApi = new UtilsApi();
+		String str = utilsApi.getUUID();
+		String chatId = str.substring(0, 16);
+		String chatPassword = str.substring(16, 32);
+		System.out.println(chatId);
+		System.out.println(chatPassword);
 	}
 
 	@Test

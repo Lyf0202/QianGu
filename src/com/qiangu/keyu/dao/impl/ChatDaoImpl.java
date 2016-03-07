@@ -1,5 +1,6 @@
 package com.qiangu.keyu.dao.impl;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -38,6 +39,25 @@ public class ChatDaoImpl extends BaseDaoImpl<ChatPo> implements ChatDao {
 		Map<String,Object> params = new HashMap<>();
 		params.put("userId", userId);
 		return findTs(hql, params);
+	}
+	
+	
+	String deleteChatUserHql = "update ChatPo "
+							+ "set endTime = :endTime , deleteUserId = :deleteUserId "
+							+ "where (userAId = :userId1 "
+							+ "and userBId = :chatUserId1) "
+							+ "or (userBId = :userId2 "
+							+ "and userAId = :chatUserId2)";
+	@Override
+	public Integer deleteChatUser(Integer userId, Integer chatUserId) {
+		Query query = getSession().createQuery(deleteChatUserHql);
+		query.setParameter("endTime", new Date());
+		query.setParameter("deleteUserId", userId);
+		query.setParameter("userId1", userId);
+		query.setParameter("chatUserId1", chatUserId);
+		query.setParameter("userId2", userId);
+		query.setParameter("chatUserId2", chatUserId);
+		return query.executeUpdate();
 	}
 
 }

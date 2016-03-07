@@ -10,6 +10,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.qiangu.keyu.api.HuanXinApi;
 import com.qiangu.keyu.api.QiNiuYunApi;
 import com.qiangu.keyu.controller.Keys;
 import com.qiangu.keyu.controller.Values;
@@ -39,12 +40,15 @@ public class UserServiceImpl implements UserService {
 
 	@Autowired
 	private ChatDao chatDao;
-	
+
 	@Autowired
 	private QiNiuYunApi qiniuYunApi;
-	
+
 	@Autowired
 	private PictureDao pictureDao;
+
+	@Autowired
+	private HuanXinApi huanXinApi;
 
 	@Override
 	public UserPo getLoginOrRegisterUserInfo(Map<String, String[]> parameters) {
@@ -76,34 +80,34 @@ public class UserServiceImpl implements UserService {
 	public Serializable addUser(UserPo user) {
 		return userDao.save(user);
 	}
-	
+
 	@Override
 	public String addUserToRegister(UserPo user, byte[] avatarContent) throws Exception {
-		//将用户数据写入数据库
+		// 将用户数据写入数据库
 		userDao.save(user);
-		
-		//将头像信息保存到数据库
+
+		// 将头像信息保存到数据库
 		String avatarName = user.getTelephone() + "_" + 1;
 		PicturePo picture = new PicturePo();
 		picture.setPictureName(avatarName);
 		pictureDao.addPicture(picture);
-		
-		//将用户和该头像绑定起来
+
+		// 将用户和该头像绑定起来
 		AvatarPo avatar = new AvatarPo();
 		avatar.setUserId(user.getId());
 		avatar.setPictureId(picture.getId());
 		pictureDao.addAvatar(avatar);
-		
-		//如果头像上传七牛云成功,则返回yes,否则抛出异常事务回滚
+
+		// 如果头像上传七牛云成功,则返回yes,否则抛出异常事务回滚
 		if (qiniuYunApi.pictureUpload(avatarName, avatarContent)) {
 			return Values.yes;
-		}else{
-//			throw new Exception();
+		} else {
+			// throw new Exception();
 			int a = 10 / 0;
 		}
 		return Values.no;
 	}
-	
+
 	@Override
 	public UserPo getOpenAppUser(Integer userId, Double lng, Double lat) {
 		// mongodbDao.updateOrInsert(userId, lng, lat);
@@ -188,7 +192,7 @@ public class UserServiceImpl implements UserService {
 					minOnlineTime = onlineTime - Values.OnlineTime;
 					List<UserPo> listUser = userDao.getUserByDistance(distanceUserId, minOnlineTime, maxOnlineTime,
 							userId, sex, selectNum, firstSelectNum);
-					if(listUser != null && listUser.size() > 0){
+					if (listUser != null && listUser.size() > 0) {
 						listU.addAll(listUser);
 					}
 					minDistance = maxDistance;
@@ -209,10 +213,10 @@ public class UserServiceImpl implements UserService {
 					System.out.println(
 							minDistance + " " + maxDistance + " : " + new ArrayList<Integer>(distanceUser.keySet()));
 				}
-				if(distanceUserId.size() > 0){
-					List<UserPo> listUser = userDao.getUserByDistance(distanceUserId, minOnlineTime, maxOnlineTime, userId,
-						sex, selectNum, firstSelectNum);
-					if(listUser != null && listUser.size() > 0){
+				if (distanceUserId.size() > 0) {
+					List<UserPo> listUser = userDao.getUserByDistance(distanceUserId, minOnlineTime, maxOnlineTime,
+							userId, sex, selectNum, firstSelectNum);
+					if (listUser != null && listUser.size() > 0) {
 						listU.addAll(listUser);
 					}
 				}
@@ -297,15 +301,35 @@ public class UserServiceImpl implements UserService {
 		Map<String, Object> mainUser = new HashMap<>();
 		Integer firstSelectNum = 0;
 		Integer selectNum = Values.onceDistance;
-		List<UserPo> listU = userDao.getUserBySchool(userId, schoolId, maxLastOnlineTime, sex, selectNum, firstSelectNum);
-		if(listU != null){
+		List<UserPo> listU = userDao.getUserBySchool(userId, schoolId, maxLastOnlineTime, sex, selectNum,
+				firstSelectNum);
+		if (listU != null) {
 			mainUser.put(Keys.mainUser, listU);
 			mainUser.put(Keys.onlineTime, listU.get(listU.size() - 1).getLastOnlineTime());
-		}else {
-			mainUser.put(Keys.mainUser,null);
+		} else {
+			mainUser.put(Keys.mainUser, null);
 		}
 		return mainUser;
 	}
 
+	@Override
+	public String deleteChatUser(Integer userId, Integer chatUserId) {
+		UserPo user = userDao.getUserByUserId(userId);
+		UserPo chatUser = userDao.getUserByUserId(chatUserId);
+		String msg = user.getName() + Values.messageOfDeleteUser;
+		String[] target = { chatUser.getTalkId() };
+		String postMsgResult = huanXinApi.postMessage(huanXinApi.target_type_users, target, user.getTalkId(), msg,
+				huanXinApi.extAttr1, Values.postMsgExtDeleteUser);
+		if(postMsgResult.equals(Values.yes)){
+			Integer deleteUserResult = chatDao.deleteChatUser(userId, chatUserId);
+			if(deleteUserResult == 1){
+				return Values.yes;
+			}else{
+				return Values.no;
+			}
+		}else{
+			return Values.no;
+		}
+	}
 
 }

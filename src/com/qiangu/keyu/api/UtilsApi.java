@@ -10,6 +10,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
+import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -63,6 +64,19 @@ public class UtilsApi {
 	}
 
 	/**
+	 * 
+	 * @return
+	 */
+	public String getUUID() {
+		UUID uuid = UUID.randomUUID();
+		String str = uuid.toString();
+		// 去掉"-"符号
+		String temp = str.substring(0, 8) + str.substring(9, 13) + str.substring(14, 18) + str.substring(19, 23)
+				+ str.substring(24);
+		return temp;
+	}
+
+	/**
 	 * 获取num位随机数
 	 * 
 	 * @param num
@@ -92,14 +106,14 @@ public class UtilsApi {
 			}
 			str.append(keySet);
 			str.append(" : ");
-//			System.out.print(keySet + " : ");
+			// System.out.print(keySet + " : ");
 			for (String s : parameters.get(keySet)) {
 				str.append(s);
 				str.append(" , ");
-//				System.out.print(s + " , ");
+				// System.out.print(s + " , ");
 			}
 			str.append("\n");
-//			System.out.println();
+			// System.out.println();
 		}
 		LoggerApi.info(this, str.toString());
 		if (parameters.size() == 0)
@@ -156,7 +170,8 @@ public class UtilsApi {
 		HttpSession session = request.getSession();
 		Object sendVerificationCodeTime = session.getAttribute(Keys.verificationCodeTime);
 		LoggerApi.info(this, "sendVerificationCodeTime = " + sendVerificationCodeTime);
-//		System.out.println("sendVerificationCodeTime = " + sendVerificationCodeTime);
+		// System.out.println("sendVerificationCodeTime = " +
+		// sendVerificationCodeTime);
 		Object verificationCodeService = session.getAttribute(Keys.verificationCode);
 		if (verificationCodeService != null && sendVerificationCodeTime != null) {
 			long startTime = Long.valueOf(String.valueOf(sendVerificationCodeTime)).longValue();
@@ -190,8 +205,9 @@ public class UtilsApi {
 	public JSONObject parametersIsValid(String contentType, Map<String, String[]> parameters) {
 		JSONObject returnJSON = null;
 		JSONObject statusJSON = new JSONObject();
-//		if (contentType != null && contentType.equals("application/x-www-form-urlencoded")) {
-		if(true){
+		// if (contentType != null &&
+		// contentType.equals("application/x-www-form-urlencoded")) {
+		if (true) {
 			if (isHasNull(parameters)) {
 				returnJSON = new JSONObject();
 				statusJSON.accumulate(Keys.status, Values.statusOfNullParameter);
@@ -223,7 +239,7 @@ public class UtilsApi {
 			str.append(" : ");
 			str.append(parameters.get(keySet));
 			str.append("\n");
-//			System.out.println(keySet + " : " + parameters.get(keySet));
+			// System.out.println(keySet + " : " + parameters.get(keySet));
 		}
 		LoggerApi.info(this, str.toString());
 		if (parameters.size() == 0) {

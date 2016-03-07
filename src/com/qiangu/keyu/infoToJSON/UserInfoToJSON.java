@@ -188,4 +188,13 @@ public class UserInfoToJSON {
 		returnJSON.put(Keys.result, resultJSON);
 		return returnJSON;
 	}
+	
+	public JSONObject getDeleteUserInfoToJSON(Map<String,String[]> parameters){
+		JSONObject returnJSON = new JSONObject();
+		JSONObject statusJSON = new JSONObject();
+		JSONObject resultJSON = new JSONObject();
+		
+		
+		return returnJSON;
+	}
 }

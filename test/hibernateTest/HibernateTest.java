@@ -80,8 +80,8 @@ public class HibernateTest {
 	@Test
 	public void testServiceTest() throws Exception{
 //		testService.getTest();
-//		testService.updateTest();
-		testService.getTTTest();
+		testService.updateTest();
+//		testService.getTTTest();
 	}
 
 	@Test

@@ -20,4 +20,6 @@ public interface ChatDao extends BaseDao<ChatPo>{
 	 * @return
 	 */
 	public List<ChatPo> getChatPo(Integer userId);
+	
+	public Integer deleteChatUser(Integer userId,Integer chatUserId);
 }

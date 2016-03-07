@@ -78,7 +78,7 @@ public class SpringAopLog {
 			userId = parameters.get(Keys.userId)[0];
 		}
 		StackTraceElement[] st = ex.getStackTrace();
-		StringBuilder fullError = new StringBuilder("ip 为 "+ip+" ;userId 为 " + userId +" 的用户发生异常\n");
+		StringBuilder fullError = new StringBuilder("ip 为 "+ip+" ;userId 为 " + userId +" 的用户发生异常 : "+ex.getMessage()+"\n");
 		for(StackTraceElement s : st){
 			String exclass = s.getClassName();
 			String method = s.getMethodName();

@@ -59,6 +59,12 @@ public class Values {
 	//
 	public static final String messageOfNoSchools = "附近没有匹配学校";
 	
+	//
+	public static final Integer postMsgExtDeleteUser = 1;
+	//
+	public static final String messageOfDeleteUser = " 已经无情把你踢了";
+	//
+	
 	
 	/**
 	 * 基本参数值

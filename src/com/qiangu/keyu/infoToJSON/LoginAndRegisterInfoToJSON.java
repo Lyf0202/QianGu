@@ -8,9 +8,11 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.qiangu.keyu.api.HuanXinApi;
 import com.qiangu.keyu.api.KeYuApi;
 import com.qiangu.keyu.api.LoggerApi;
 import com.qiangu.keyu.api.QiNiuYunApi;
+import com.qiangu.keyu.api.UtilsApi;
 import com.qiangu.keyu.api.YunPianWangApi;
 import com.qiangu.keyu.controller.Keys;
 import com.qiangu.keyu.controller.Values;
@@ -47,6 +49,10 @@ public class LoginAndRegisterInfoToJSON {
 	private KeYuApi keYuApi;
 	@Autowired
 	private QiNiuYunApi qiniuYunApi;
+	@Autowired
+	private HuanXinApi huanXinApi;
+	@Autowired
+	private UtilsApi utilsApi;
 
 	public JSONObject sendMessageInfoToJSON(Map<String, String[]> parameters, String verificationCode) {
 		JSONObject returnJSON = new JSONObject();
@@ -118,7 +124,18 @@ public class LoginAndRegisterInfoToJSON {
 		JSONObject returnJSON = new JSONObject();
 		JSONObject statusJSON = new JSONObject();
 		JSONObject resultJSON;
+		String str = utilsApi.getUUID();
+		String chatId = str.substring(0, 16);
+		String chatPassword = str.substring(16, 32);
+		if(huanXinApi.registerHuanXinId(chatId, chatPassword).equals(Values.no)){
+			statusJSON.accumulate(Keys.status, Values.statusOfServiceError);
+			statusJSON.accumulate(Keys.message, Values.messageOfServiceError);
+			returnJSON.put(Keys.status, statusJSON);
+			return returnJSON;
+		}
 		UserPo user = new UserPo();
+		user.setTalkId(chatId);
+		user.setTalkPassword(chatPassword);
 		user.setTelephone(parameters.get(Keys.telephone));
 		user.setSex(Integer.valueOf(parameters.get(Keys.sex)));
 		user.setName(parameters.get(Keys.name));
