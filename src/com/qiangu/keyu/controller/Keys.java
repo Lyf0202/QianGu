@@ -22,6 +22,8 @@ public class Keys {
 	public static final String message = "message";
 	// 返回结果
 	public static final String result = "result";
+	//
+	public static final String appInfo = "appInfo";
 	// 登录用户的信息
 	public static final String me = "me";
 	// 聊天用户的信息
@@ -48,6 +50,14 @@ public class Keys {
 	public static String isAllUser = "isAllUser";
 	//是否构成聊天
 	public static String isCanChat = "isCanChat";
+	//
+	public static String timePercentage = "timePercentage";
+	//
+	public static String chatNumPercentage = "chatNumPercentage";
+	//
+	public static String totalTime = "totalTime";
+	//
+	public static String totalChatNum = "totalChatNum";
 	/**
 	 * 用户基本信息key
 	 */
@@ -58,6 +68,7 @@ public class Keys {
 	public static final String thumbnailAvatar = "thumbnailAvatar";
 	public static final String motto = "motto";
 	public static final String photos = "photos";
+	public static final String iDVerifyPicture = "idVerifyPicture";
 	public static final String lastLoginTime = "lastLoginTime";
 	public static final String verifyState = "verifyState";
 	public static final String school = "school";
@@ -83,6 +94,8 @@ public class Keys {
 	public static final String likeUserOrder = "likeUserOrder";
 	public static final String AvatarLittleSizePicUrl = "littleSizePicUrl"; 
 	public static final String AvatarDimPicUrl = "dimPicUrl";
+	public static final String userIntimacy = "userIntimacy";
+	public static final String talkId = "talkId";
 	
 	
 	/**
@@ -109,6 +122,9 @@ public class Keys {
 	public static final String endTime = "endTime";
 	public static final String deleteUserId = "deleteUserId";
 	public static final String likeUserId = "likeUserId";
+	public static final String chatUserId = "chatUserId";
+	public static final String chatUserIntimacy = "chatUserIntimacy";
+	public static final String conversationId = "conversationId";
 
 	/**
 	 * 登录用户的额外属性

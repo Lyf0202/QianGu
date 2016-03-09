@@ -81,10 +81,20 @@ public class UserServiceImpl implements UserService {
 		return userDao.save(user);
 	}
 
+	/**
+	 * 注册用户
+	 */
 	@Override
 	public String addUserToRegister(UserPo user, byte[] avatarContent) throws Exception {
+		//判断地理位置是否认证
+		if(user.getLng() == Values.noLocLng){
+			user.setVerifyType(Values.notVerify);
+		}else {
+			user.setVerifyType(Values.verifyed);
+		}		
 		// 将用户数据写入数据库
 		userDao.save(user);
+		
 
 		// 将头像信息保存到数据库
 		String avatarName = user.getTelephone() + "_" + 1;
@@ -100,9 +110,10 @@ public class UserServiceImpl implements UserService {
 
 		// 如果头像上传七牛云成功,则返回yes,否则抛出异常事务回滚
 		if (qiniuYunApi.pictureUpload(avatarName, avatarContent)) {
+			//将地理位置写入mongodb数据库
+			mongodbDao.updateOrInsert(user.getUserId(), user.getLng(), user.getLat());
 			return Values.yes;
 		} else {
-			// throw new Exception();
 			int a = 10 / 0;
 		}
 		return Values.no;
@@ -160,27 +171,36 @@ public class UserServiceImpl implements UserService {
 		mongodbDao.updateOrInsert(userId, lng, lat);
 	}
 
+	/**
+	 * 按距离和时间获取匹配用户
+	 */
 	@Override
 	public Map<String, Object> getMainUserByDistance(Integer userId, Double lng, Double lat, Integer distance,
 			long onlineTime, Integer sex, long openTime) {
 		Map<String, Object> mainUser = new HashMap<>();
 		List<UserPo> listU = new ArrayList<>();
 		Integer firstSelectNum = 0;
+		//一次最多获取的用户数
 		Integer selectNum = Values.onceUserNum;
+		//
 		Integer minDistance = distance;
 		Integer maxDistance = minDistance + Values.onceDistance;
+		//
 		long maxOnlineTime = onlineTime;
 		long minOnlineTime = onlineTime - Values.halfHour;
+		//
 		Map<Integer, Map<String, Object>> distanceUser = distanceUser = mongodbDao.findByDistance(minDistance,
 				maxDistance, lng, lat);
 		List<Integer> distanceUserId = new ArrayList<Integer>(distanceUser.keySet());
 		System.out.println(minDistance + " " + maxDistance + " : " + new ArrayList<Integer>(distanceUser.keySet()));
 		while (listU.size() < Values.onceUserNum) {
+			//取用户范围大于最大范围
 			if (maxDistance >= Values.Distance) {
 				break;
 			}
-
+			//如果该地理位置内的用户数小于一次需要获取的用户数
 			if (distanceUserId.size() <= Values.onceUserNum) {
+				//
 				if (distanceUserId.size() <= 0) {
 					minDistance = maxDistance;
 					maxDistance = maxDistance + Values.onceDistance;
@@ -235,6 +255,9 @@ public class UserServiceImpl implements UserService {
 		return mainUser;
 	}
 
+	/**
+	 * 根据喜欢获取匹配用户
+	 */
 	@Override
 	public Map<String, Object> getMainUserByLike(Integer userId, Long likeTime, Integer sex) {
 		Map<String, Object> likeUser = new HashMap<>();
@@ -251,6 +274,9 @@ public class UserServiceImpl implements UserService {
 		return likeUser;
 	}
 
+	/**
+	 * 获取没有开启定位的匹配用户
+	 */
 	@Override
 	public Map<String, Object> getNoLocMainUserBySchool(Integer userId, Integer sex, Integer schoolId,
 			long maxLastOnlineTime) {
@@ -270,6 +296,9 @@ public class UserServiceImpl implements UserService {
 		return schoolUser;
 	}
 
+	/**
+	 * 点击喜欢动作
+	 */
 	@Override
 	public Object findClickLikeResult(Integer userId, Integer likeUserId) {
 		LikePo likePo = likeDao.getLikePoByUserIdAndLikeuserId(likeUserId, userId);
@@ -279,10 +308,12 @@ public class UserServiceImpl implements UserService {
 			likePo.setLikeTime(System.currentTimeMillis());
 			likePo.setUserId(userId);
 			likePo.setLikeUserId(likeUserId);
-			// likeDao.save(likePo);
+			//需要取消注释
+			 likeDao.save(likePo); 
 			return likePo;
 		} else {
-			// likePo.setIsSuccess(Values.liked);
+			//需要取消注释
+			likePo.setIsSuccess(Values.liked); 
 			ChatPo chatPo = new ChatPo();
 			chatPo.setIsStartChat(Values.notStartChat);
 			chatPo.setStartTime(new Date());
@@ -290,11 +321,15 @@ public class UserServiceImpl implements UserService {
 			chatPo.setUserBId(userId);
 			chatPo.setIntimacyA(Values.startIntimacy);
 			chatPo.setIntimacyB(Values.startIntimacy);
-			// chatDao.save(chatPo);
+			//需要取消注释
+			chatDao.save(chatPo); 
 			return chatPo;
 		}
 	}
 
+	/**
+	 * 通过学校获取用户（未开启定位功能的用户使用该方法）
+	 */
 	@Override
 	public Map<String, Object> getMainUserBySchool(Integer userId, Integer sex, Integer schoolId,
 			long maxLastOnlineTime) {
@@ -312,16 +347,29 @@ public class UserServiceImpl implements UserService {
 		return mainUser;
 	}
 
+	/**
+	 * 删除聊天用户
+	 */
 	@Override
-	public String deleteChatUser(Integer userId, Integer chatUserId) {
+	public String deleteChatUser(Integer chatId,Integer userId, Integer chatUserId) {
+		ChatPo chat = chatDao.getT(ChatPo.class, chatId);
 		UserPo user = userDao.getUserByUserId(userId);
 		UserPo chatUser = userDao.getUserByUserId(chatUserId);
 		String msg = user.getName() + Values.messageOfDeleteUser;
 		String[] target = { chatUser.getTalkId() };
-		String postMsgResult = huanXinApi.postMessage(huanXinApi.target_type_users, target, user.getTalkId(), msg,
+		String postMsgResult = Values.yes;
+		if(chat.getDeleteUserId() == null){
+			postMsgResult = huanXinApi.postMessage(huanXinApi.target_type_users, target, user.getTalkId(), msg,
 				huanXinApi.extAttr1, Values.postMsgExtDeleteUser);
+		}
 		if(postMsgResult.equals(Values.yes)){
-			Integer deleteUserResult = chatDao.deleteChatUser(userId, chatUserId);
+			//需要取消注释
+			if(chat.getDeleteUserId() == null){
+				chat.setDeleteUserId(userId);
+			}else{
+				chat.setEndTime(new Date());
+			}
+			Integer deleteUserResult = 1;
 			if(deleteUserResult == 1){
 				return Values.yes;
 			}else{

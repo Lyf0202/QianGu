@@ -47,7 +47,7 @@ public class ReadXmlApi {
 		}
 		root = document.getRootElement();
 		childElements = root.elements();
-		System.out.println("ReadXmlApi()...");
+		System.out.println("ReadXmlApi()... " + System.currentTimeMillis());
 	}
 	
 	/**

@@ -88,6 +88,7 @@ public class HuanXinApi {
 		String response = "";
 		try {
 			response = post.getResponseBodyAsString();
+			LoggerApi.info(this, "注册环信账号结果 : "+response);
 		} catch (IOException e) {
 			e.printStackTrace();
 			return Values.no;
@@ -126,6 +127,7 @@ public class HuanXinApi {
 		String str = "";
 		try {
 			str = post.getResponseBodyAsString();
+			LoggerApi.info(this, "更新环信token结果 : "+str);
 		} catch (IOException e) {
 			e.printStackTrace();
 			return null;
@@ -186,6 +188,7 @@ public class HuanXinApi {
 		String response = "";
 		try {
 			response = post.getResponseBodyAsString();
+			LoggerApi.info(this, "环信postMessage结果 : "+response);
 		} catch (IOException e) {
 			e.printStackTrace();
 			return Values.no;

@@ -153,16 +153,23 @@ public class ServiceController {
 	@RequestMapping(value = "testService.do", produces = "text/json;charset=UTF-8")
 	@ResponseBody
 	public String testController(HttpServletRequest request, HttpServletResponse response){
-//		Map<String, String[]> parameters = request.getParameterMap();
-//		Integer t = Integer.valueOf(parameters.get("t")[0]);
-//		if(parameters.get("type")[0].equals("0")){
-//			userService.getOpenAppUser(1,1.2,2.453);
-//			return "success";
-//		}else if(parameters.get("type")[0].equals("1")){
-//			return (String) userService.addUserLoc(1,2.124,6.24546,t);
-//		}else if(parameters.get("type")[0].equals("2")){
-//			
-//		}
+		Map<String, String[]> parameters = request.getParameterMap();
+		if(parameters.get("type")[0].equals("0")){
+			testService.addUsers();
+			return "success";
+		}else if(parameters.get("type")[0].equals("1")){
+			Integer first = Integer.valueOf(parameters.get("first")[0]);
+			Integer last = Integer.valueOf(parameters.get("last")[0]);
+			testService.updateResetLikePo(first, last);
+		}else if(parameters.get("type")[0].equals("2")){
+			Integer first = Integer.valueOf(parameters.get("first")[0]);
+			Integer last = Integer.valueOf(parameters.get("last")[0]);
+			testService.updateResetChatPo(first, last);
+		} else if(parameters.get("type")[0].equals("3")){
+			Integer first = Integer.valueOf(parameters.get("first")[0]);
+			Integer last = Integer.valueOf(parameters.get("last")[0]);
+			testService.updateTime(first, last);
+		}
 		testService.getTest();
 		return "123456";
 	}

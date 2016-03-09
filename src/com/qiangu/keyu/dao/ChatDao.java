@@ -21,5 +21,31 @@ public interface ChatDao extends BaseDao<ChatPo>{
 	 */
 	public List<ChatPo> getChatPo(Integer userId);
 	
+	/**
+	 * 
+	 * @param userId
+	 * @param chatUserId
+	 * @return
+	 */
 	public Integer deleteChatUser(Integer userId,Integer chatUserId);
+	
+	/**
+	 * 
+	 * @param isUserA
+	 * @param chatId
+	 * @param userId
+	 * @param userIntimacy
+	 * @param chatUserIntimacy
+	 * @return
+	 */
+	public Integer updateIntimacy(Integer isUserA,Integer chatId,Integer userId,Double userIntimacy,Double chatUserIntimacy);
+	
+	/**
+	 * 
+	 * @param chatId
+	 * @return
+	 */
+	public Integer deleteChatForNotStartChat(Integer chatId);
+	
+	public Integer updateForStartChat(Integer chatId);
 }

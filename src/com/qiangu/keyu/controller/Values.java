@@ -2,7 +2,12 @@ package com.qiangu.keyu.controller;
 
 public class Values {
 
+	public static final Integer officeId = -1;
+	public static final String IDVerifyPicture = "_IDVerifyPicture_";
 	
+	//小图大小
+	public static final Integer littleSizeWidth = 200;
+	public static final Integer littleSizeHeight = 200;
 	/**
 	 * 返回状态值
 	 */
@@ -126,19 +131,34 @@ public class Values {
 	//一次获取的最多没有开启定位的用户量
 	public static final Integer onceSchoolUserNum = 5;
 	//最大与当前时间的时间差
-	public static final long OnlineTime = 500;
+	public static final long OnlineTime = 3 * 3600 * 1000;
 	//最大匹配用户距离
-	public static final long Distance = 50000;
+	public static final long Distance = 2000;
 	//每次减少的在线时间
-	public static final long halfHour = 100;
+	public static final long halfHour = 1800 * 1000;
 	//每次增加的距离
-	public static final Integer onceDistance = 10000;
+	public static final Integer onceDistance = 500;
 	//全部用户
 	public static final Integer isAll = 1;
 	//还未到全部用户
 	public static final Integer notIsAll = 0;
 	//起始亲密度
 	public static final Double startIntimacy = 0.0;
+	//
+	public static final Integer isUserA = 1;
+	//
+	public static final Integer notIsUserA = 0;
+	//每天增加的百分比
+	public static final Double timePercentage = 5.0;
+	//每句话增加的百分比
+	public static final Double chatNumPercentage = 0.25;
+	//
+	public static final Integer totalTime = 2;
+	//
+	public static final Integer totalChatNum = 180;
+	//
+	public static final long maxTimeForNotStartChat = 24 * 3600 * 1000;
+	
 	/**
 	 * 请求参数值
 	 */
@@ -174,7 +194,14 @@ public class Values {
 	public static final String methodOfOpenApp = "openApp";
 	//获取主页用户
 	public static final String methodOfGetUser = "getUser";
-	//
+	//点击喜欢
 	public static final String methodOfClickLike = "clickLike";
-	
+	//删除聊天用户
+	public static final String methodOfDeleteChatUser = "deleteChatUser";
+	//更新亲密度
+	public static final String methodOfUpdateIntimacy = "updateIntimacy";
+	//开始聊天接口
+	public static final String methodOfStartChat = "startChat";
+	//
+	public static final String methodOfUploadIDVerifyPicture = "uploadIdVerifyPicture";
 }

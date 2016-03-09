@@ -41,4 +41,12 @@ public interface TestService {
 	
 	public void updateTest() throws Exception;
 
+	//增加测试数据
+	public void addUsers();
+	
+	public void updateTime(Integer first,Integer last);
+	
+	public void updateResetLikePo(Integer first,Integer last);
+	
+	public void updateResetChatPo(Integer first,Integer last);
 }

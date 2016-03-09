@@ -10,5 +10,6 @@ public interface PictureService {
 	
 	public PicturePo getAvatar(Integer userId);
 	
-	public void getpicturePo();
+	
+	public String addIDVerifyPicture(Integer userId,Map<String,byte[]> fileContents);
 }

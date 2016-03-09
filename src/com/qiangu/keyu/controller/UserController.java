@@ -1,5 +1,6 @@
 package com.qiangu.keyu.controller;
 
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -54,6 +55,25 @@ public class UserController {
 		LoggerApi.info(this, "resultStr = " + resultStr);
 		return resultStr;
 		
+	}
+	
+	@RequestMapping(value = "userPicService.do", produces = "text/json;charset=UTF-8")
+	@ResponseBody
+	public String userPicController(HttpServletRequest request, HttpServletResponse response){
+		LoggerApi.info(this, "userPicService.do " + utilsApi.getCurrentTime());
+		JSONObject resultJSON = null;
+		Object object = utilsApi.getUploadParameters(request);
+		if (object instanceof JSONObject) {
+			resultJSON = (JSONObject) object;
+		} else {
+			List<Object> parametersList = (List<Object>) object;
+			Map<String, String> parameters = (Map<String, String>) parametersList.get(0);
+			Map<String, byte[]> fileContents = (Map<String, byte[]>) parametersList.get(1);
+			resultJSON = userResult.getResult(parameters, fileContents);
+		}
+		String resultStr = resultJSON.toString();
+		LoggerApi.info(this, "resultStr = " + resultStr);
+		return resultStr;
 	}
 	
 }

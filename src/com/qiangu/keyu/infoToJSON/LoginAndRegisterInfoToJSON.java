@@ -108,8 +108,16 @@ public class LoginAndRegisterInfoToJSON {
 			List<Map> chatMapList = chatService.getChatInfo(user.getId());
 			List<JSONObject> chatUserList = new ArrayList<>();
 			for (int i = 1; i <= chatMapList.size(); i++) {
-				JSONObject chatUser = keYuApi.chatUserInfoToJSON(chatMapList.get(i - 1));
-				chatUserList.add(chatUser);
+				Integer chatId = (Integer) chatMapList.get(i - 1).get(Keys.chatId);
+				Date startChatTime = (Date) chatMapList.get(i - 1).get(Keys.startChatDate);
+				long startChatTimestamp = startChatTime.getTime();
+				Integer isStartChat = (Integer) chatMapList.get(i - 1).get(Keys.hasChat);
+				if (isStartChat == Values.startChat || System.currentTimeMillis() - startChatTimestamp < Values.maxTimeForNotStartChat) {
+					JSONObject chatUser = keYuApi.chatUserInfoToJSON(chatMapList.get(i - 1));
+					chatUserList.add(chatUser);
+				}else{
+					chatService.deleteChatForNotStartChat(chatId);
+				}
 			}
 			resultJSON.put(Keys.chatUser, chatUserList);
 			returnJSON.put(Keys.result, resultJSON);

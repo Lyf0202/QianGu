@@ -33,4 +33,10 @@ public interface TestDao extends BaseDao<UserPo>{
 	public List<UserPo> getMapUser();
 	
 	public void getLike();
+	
+	public void updateLastOnlinetime(long time,Integer userId);
+	
+	public void updateResetLikePo(Integer first,Integer last);
+	
+	public void updateResetChatPo(Integer first,Integer last);
 }

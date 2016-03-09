@@ -106,4 +106,38 @@ public class TestDaoImpl extends BaseDaoImpl<UserPo> implements TestDao {
 		
 	}
 
+	String hql1 = "update UserPo "
+				+ "set lastOnlineTime = :lastOnlineTime "
+				+ "where id = :userId";
+	@Override
+	public void updateLastOnlinetime(long time,Integer userId) {
+		Query query = getSession().createQuery(hql1);
+		query.setParameter("lastOnlineTime", time);
+		query.setParameter("userId", userId);
+		query.executeUpdate();
+		
+	}
+
+	String hql2 = "delete from LikePo "
+			+ "where id <= :last and id >= :first";
+	@Override
+	public void updateResetLikePo(Integer first, Integer last) {
+		// TODO Auto-generated method stub
+		Query query = getSession().createQuery(hql2);
+		query.setParameter("last", last);
+		query.setParameter("first", first);
+		query.executeUpdate();
+	}
+
+	String hql3 = "delete from ChatPo "
+			+ "where id <= :last and id >= :first";
+	@Override
+	public void updateResetChatPo(Integer first, Integer last) {
+		// TODO Auto-generated method stub
+		Query query = getSession().createQuery(hql3);
+		query.setParameter("last", last);
+		query.setParameter("first", first);
+		query.executeUpdate();
+	}
+
 }

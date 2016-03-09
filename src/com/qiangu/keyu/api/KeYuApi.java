@@ -9,6 +9,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.qiangu.keyu.controller.Keys;
+import com.qiangu.keyu.controller.Values;
 import com.qiangu.keyu.po.ChatPo;
 import com.qiangu.keyu.po.LabelPo;
 import com.qiangu.keyu.po.LoveManifestoPo;
@@ -17,6 +18,7 @@ import com.qiangu.keyu.po.UserPo;
 import com.qiangu.keyu.service.AreaService;
 import com.qiangu.keyu.service.LabelService;
 import com.qiangu.keyu.service.LoveManifestoService;
+import com.qiangu.keyu.service.PictureService;
 import com.qiangu.keyu.service.SchoolService;
 import com.qiangu.keyu.service.UserService;
 
@@ -38,6 +40,12 @@ public class KeYuApi {
 	
 	@Autowired
 	private AreaService areaService;
+	
+	@Autowired
+	private QiNiuYunApi qiniuYunApi;
+	
+	@Autowired
+	private PictureService pictureService;
 
 	// 到百分百所需的总聊天句数（单个人）
 	public static final double totalChatNum = 180;
@@ -84,15 +92,16 @@ public class KeYuApi {
 		json.accumulate(Keys.name, user.getName());
 		json.accumulate(Keys.birthday, user.getBirthday());
 		json.accumulate(Keys.hometown, user.getCountyId());
-		json.accumulate(Keys.chatId, user.getTalkId());
+		json.accumulate(Keys.talkId, user.getTalkId());
 		json.accumulate(Keys.lastLoginTime, user.getLastOnlineTime());
 		json.accumulate(Keys.verifyState, user.getVerifyType());
 		json.accumulate(Keys.education, user.getEducation());
 		json.accumulate(Keys.weight, user.getWeight());
 		json.accumulate(Keys.height, user.getHeight());
 		json.accumulate(Keys.enterTime, user.getEnterTime());
-		json.accumulate(Keys.avatar, "http://7tsxtm.com1.z0.glb.clouddn.com/15757118214_1");
-		json.accumulate(Keys.AvatarLittleSizePicUrl, "http://7tsxtm.com1.z0.glb.clouddn.com/15757118214_1?imageView2/1/w/200/h/200");
+		String avatarName = pictureService.getAvatar(user.getId()).getPictureName();
+		json.accumulate(Keys.avatar, qiniuYunApi.getDownloadUrl(avatarName));
+		json.accumulate(Keys.AvatarLittleSizePicUrl, qiniuYunApi.getDownloadUrl(avatarName, Values.littleSizeWidth, Values.littleSizeHeight));
 		if(user.getCountyId() != null){
 			Map<String,String> hometown = areaService.getHometownByAreaId(user.getCountyId() + "");
 			json.accumulate(Keys.province, hometown.get(Keys.province));
@@ -136,7 +145,8 @@ public class KeYuApi {
 		json.accumulate(Keys.hasChat, m.get(Keys.hasChat));
 		// json.accumulate(Keys.endTime, ((Date)m.get(Keys.endTime)).getTime());
 		json.accumulate(Keys.deleteUserId, m.get(Keys.deleteUserId));
-		json.accumulate(Keys.intimacy, m.get(Keys.intimacy));
+		json.accumulate(Keys.userIntimacy, m.get(Keys.userIntimacy));
+		json.accumulate(Keys.chatUserIntimacy, m.get(Keys.chatUserIntimacy));
 		return json;
 	}
 

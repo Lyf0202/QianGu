@@ -25,7 +25,28 @@ public class UserResult {
 			result = userInfoToJSON.getUserInfoToJSON(parameters);
 		} else if (parameters.get(Keys.method)[0].equals(Values.methodOfClickLike)) {
 			result = userInfoToJSON.getClickLikeInfoToJSON(parameters);
+		} else if (parameters.get(Keys.method)[0].equals(Values.methodOfDeleteChatUser)) {
+			result = userInfoToJSON.getDeleteChatUserInfoToJSON(parameters);
+		} else if (parameters.get(Keys.method)[0].equals(Values.methodOfUpdateIntimacy)) {
+			result = userInfoToJSON.getUpdateIntimacyInfoToJSON(parameters);
+		} else if (parameters.get(Keys.method)[0].equals(Values.methodOfStartChat)) {
+			result = userInfoToJSON.getUpdateForStartChatInfoToJSON(parameters);
 		} else {
+			result = new JSONObject();
+			JSONObject statusJSON = new JSONObject();
+			statusJSON.accumulate(Keys.status, Values.statusOfNoMethod);
+			statusJSON.accumulate(Keys.message, Values.messageOfNoMethod);
+			result.put(Keys.status, statusJSON);
+		}
+
+		return result;
+	}
+	
+	public JSONObject getResult(Map<String,String> parameters,Map<String,byte[]> fileContents){
+		JSONObject result = null;
+		if(parameters.get(Keys.method).equals(Values.methodOfUploadIDVerifyPicture)){
+			result = userInfoToJSON.getUploadIDVerifyPicInfoToJSON(parameters, fileContents);
+		}else {
 			result = new JSONObject();
 			JSONObject statusJSON = new JSONObject();
 			statusJSON.accumulate(Keys.status, Values.statusOfNoMethod);

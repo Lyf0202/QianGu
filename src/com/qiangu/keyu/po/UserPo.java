@@ -60,7 +60,7 @@ public class UserPo {
 	private Long lastOnlineTime;
 	//
 	private String sk;
-	//
+	//接口认证码
 	private String identifyCode;
 	//
 	private Integer likeUserOrder;

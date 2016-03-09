@@ -42,7 +42,7 @@ public interface UserService {
 	//点击喜欢服务
 	public Object findClickLikeResult(Integer userId,Integer likeUserId);
 	
-	public String deleteChatUser(Integer userId,Integer chatUserId);
+	public String deleteChatUser(Integer chatId,Integer userId,Integer chatUserId);
 	/**
 	 * 测试用
 	 */

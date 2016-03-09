@@ -49,12 +49,7 @@ public class JUnitTest {
 
 	@Test
 	public void test2() {
-		UtilsApi utilsApi = new UtilsApi();
-		String str = utilsApi.getUUID();
-		String chatId = str.substring(0, 16);
-		String chatPassword = str.substring(16, 32);
-		System.out.println(chatId);
-		System.out.println(chatPassword);
+		System.out.println(Double.valueOf("0.001234"));
 	}
 
 	@Test
@@ -183,7 +178,7 @@ public class JUnitTest {
 		// 10.  -73.839511  40.781452   952
 		// 11.  -73.850121  40.800012   1403
 		//
-		System.out.println(getDistance(-73.84, 40.79, -74.12, 41.18));
+		System.out.println(getDistance(120.006685, 30.290539, 120.106685, 30.290539));
 	}
 	
 	public Object getObject() {

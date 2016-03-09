@@ -80,14 +80,14 @@ public class HibernateTest {
 	@Test
 	public void testServiceTest() throws Exception{
 //		testService.getTest();
-		testService.updateTest();
+//		testService.updateTest();
 //		testService.getTTTest();
+		testService.addUsers();
 	}
 
 	@Test
 	public void tt() throws HttpException, IOException {
 		//
-		pic.getpicturePo();
 	}
 
 	@Test
