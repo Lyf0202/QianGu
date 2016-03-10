@@ -151,4 +151,15 @@ public class UserDaoImpl extends BaseDaoImpl<UserPo> implements UserDao{
 		return query.list();
 	}
 
+	String updateLastOnlineTimeHql = "update UserPo "
+							+ "set lastOnlineTime = :lastOnlineTime "
+							+ "where id = :userId";
+	@Override
+	public Integer updateLastOnlineTime(Integer userId) {
+		Query query = getSession().createQuery(updateLastOnlineTimeHql);
+		query.setParameter("lastOnlineTime", new Date());
+		query.setParameter("userId", userId);
+		return query.executeUpdate();
+	}
+
 }

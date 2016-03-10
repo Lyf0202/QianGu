@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.qiangu.keyu.api.HuanXinApi;
+import com.qiangu.keyu.api.LoggerApi;
 import com.qiangu.keyu.api.QiNiuYunApi;
 import com.qiangu.keyu.controller.Keys;
 import com.qiangu.keyu.controller.Values;
@@ -119,45 +120,7 @@ public class UserServiceImpl implements UserService {
 		return Values.no;
 	}
 
-	@Override
-	public UserPo getOpenAppUser(Integer userId, Double lng, Double lat) {
-		// mongodbDao.updateOrInsert(userId, lng, lat);
-		// 11182
-		// mongodbDao.updateOrInsert(-1,-73.97,40.77);
-		// //3550
-		// mongodbDao.updateOrInsert(-2, -73.88,40.78);
-		// //6742
-		// mongodbDao.updateOrInsert(-3,-73.92,40.79);
-		List<Integer> userIds = new ArrayList<>();
-		userIds.add(-1);
-		userIds.add(-2);
-		Map<Integer, Map<String, Object>> m = mongodbDao.findByArray(userIds);
-		System.out.println("m.size() = " + m.size());
-		for (Integer i : m.keySet()) {
-			System.out.println("-----");
-			System.out.println(i);
-		}
-		return null;
-	}
-
-	@Override
-	public Object addUserLoc(Integer userId, Double lng, Double lat, Integer type) {
-		List<Integer> distanceId = new ArrayList<>();
-		for (int i = 1; i < 10; i += 2) {
-			distanceId.add(i);
-		}
-		long minOnlineTime = System.currentTimeMillis() - 5 * 3600 * 1000;
-		long maxOnlineTime = System.currentTimeMillis();
-		List<UserPo> listU = userDao.getUserByDistance(distanceId, minOnlineTime, maxOnlineTime, 1, 1, 20, 0);
-
-		System.out.println("------------" + listU.size());
-		for (UserPo u : listU) {
-			System.out.println(u.getId());
-		}
-		String str = "result = ";
-
-		return str;
-	}
+	
 
 	@Override
 	public Map<Integer, Map<String, Object>> getUserLoc(Integer userId) {
@@ -192,7 +155,7 @@ public class UserServiceImpl implements UserService {
 		Map<Integer, Map<String, Object>> distanceUser = distanceUser = mongodbDao.findByDistance(minDistance,
 				maxDistance, lng, lat);
 		List<Integer> distanceUserId = new ArrayList<Integer>(distanceUser.keySet());
-		System.out.println(minDistance + " " + maxDistance + " : " + new ArrayList<Integer>(distanceUser.keySet()));
+		LoggerApi.info(this, minDistance + " " + maxDistance + " : " + new ArrayList<Integer>(distanceUser.keySet()));
 		while (listU.size() < Values.onceUserNum) {
 			//取用户范围大于最大范围
 			if (maxDistance >= Values.Distance) {
@@ -206,8 +169,7 @@ public class UserServiceImpl implements UserService {
 					maxDistance = maxDistance + Values.onceDistance;
 					distanceUser = mongodbDao.findByDistance(minDistance, maxDistance, lng, lat);
 					distanceUserId = new ArrayList<Integer>(distanceUser.keySet());
-					System.out.println(
-							minDistance + " " + maxDistance + " : " + new ArrayList<Integer>(distanceUser.keySet()));
+					LoggerApi.info(this, minDistance + " " + maxDistance + " : " + new ArrayList<Integer>(distanceUser.keySet()));
 				} else {
 					minOnlineTime = onlineTime - Values.OnlineTime;
 					List<UserPo> listUser = userDao.getUserByDistance(distanceUserId, minOnlineTime, maxOnlineTime,
@@ -219,8 +181,7 @@ public class UserServiceImpl implements UserService {
 					maxDistance = maxDistance + Values.onceDistance;
 					distanceUser = mongodbDao.findByDistance(minDistance, maxDistance, lng, lat);
 					distanceUserId = new ArrayList<Integer>(distanceUser.keySet());
-					System.out.println(
-							minDistance + " " + maxDistance + " : " + new ArrayList<Integer>(distanceUser.keySet()));
+					LoggerApi.info(this, minDistance + " " + maxDistance + " : " + new ArrayList<Integer>(distanceUser.keySet()));
 				}
 			} else {
 				if (minOnlineTime <= openTime - Values.OnlineTime) {
@@ -230,8 +191,7 @@ public class UserServiceImpl implements UserService {
 					minOnlineTime = maxOnlineTime - Values.halfHour;
 					distanceUser = mongodbDao.findByDistance(minDistance, maxDistance, lng, lat);
 					distanceUserId = new ArrayList<Integer>(distanceUser.keySet());
-					System.out.println(
-							minDistance + " " + maxDistance + " : " + new ArrayList<Integer>(distanceUser.keySet()));
+					LoggerApi.info(this, minDistance + " " + maxDistance + " : " + new ArrayList<Integer>(distanceUser.keySet()));
 				}
 				if (distanceUserId.size() > 0) {
 					List<UserPo> listUser = userDao.getUserByDistance(distanceUserId, minOnlineTime, maxOnlineTime,
@@ -378,6 +338,11 @@ public class UserServiceImpl implements UserService {
 		}else{
 			return Values.no;
 		}
+	}
+
+	@Override
+	public Integer updateLastOnlineTime(Integer userId) {
+		return userDao.updateLastOnlineTime(userId);
 	}
 
 }

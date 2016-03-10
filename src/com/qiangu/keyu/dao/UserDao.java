@@ -32,4 +32,6 @@ public interface UserDao extends BaseDao<UserPo>{
 	public List<UserPo> getUserBySchool(Integer userId,Integer schoolId,long maxLastOnlineTime,Integer sex,Integer selectNum,Integer firstSelectNum);
 	
 	public List<UserPo> getUserBySchool(Integer schoolId,List<Integer> userIds,long maxLastOnlineTime,Integer userId ,Integer sex,Integer selectNum,Integer firstSelectNum);
+	
+	public Integer updateLastOnlineTime(Integer userId);
 }

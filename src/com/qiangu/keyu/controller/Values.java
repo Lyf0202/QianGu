@@ -133,7 +133,7 @@ public class Values {
 	//最大与当前时间的时间差
 	public static final long OnlineTime = 3 * 3600 * 1000;
 	//最大匹配用户距离
-	public static final long Distance = 2000;
+	public static final long Distance = 2500;
 	//每次减少的在线时间
 	public static final long halfHour = 1800 * 1000;
 	//每次增加的距离
@@ -144,7 +144,7 @@ public class Values {
 	public static final Integer notIsAll = 0;
 	//起始亲密度
 	public static final Double startIntimacy = 0.0;
-	//
+	//聊天信息里UserA
 	public static final Integer isUserA = 1;
 	//
 	public static final Integer notIsUserA = 0;

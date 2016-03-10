@@ -8,6 +8,7 @@ import java.util.Map;
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.HttpException;
 import org.apache.commons.httpclient.NameValuePair;
+import org.apache.commons.httpclient.SimpleHttpConnectionManager;
 import org.apache.commons.httpclient.methods.PostMethod;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -41,7 +42,7 @@ public class HuanXinApi {
 	public HuanXinApi() {
 		httpClient = new HttpClient();
 		sqlite = new Sqlite();
-//		readXmlApi = new ReadXmlApi();
+		readXmlApi = new ReadXmlApi();
 	}
 	
 	public String getToken(){
@@ -76,23 +77,21 @@ public class HuanXinApi {
 		jsonObject.accumulate("username", username)
 				.accumulate("password", password);
 		post.setRequestBody(jsonObject.toString());
+		String response = "";
 		try {
 			httpClient.executeMethod(post);
+			response = post.getResponseBodyAsString();
+			LoggerApi.info(this, "注册环信账号结果 : "+response);
 		} catch (HttpException e) {
 			e.printStackTrace();
 			return Values.no;
 		} catch (IOException e) {
 			e.printStackTrace();
 			return Values.no;
+		}finally{
+			post.releaseConnection();
 		}
-		String response = "";
-		try {
-			response = post.getResponseBodyAsString();
-			LoggerApi.info(this, "注册环信账号结果 : "+response);
-		} catch (IOException e) {
-			e.printStackTrace();
-			return Values.no;
-		}
+		
 		JSONObject jsonObject1 = JSONObject.fromObject(response);
 		if(jsonObject1.get("error") == null){
 			return Values.yes;
@@ -114,24 +113,22 @@ public class HuanXinApi {
 		jsonObject.accumulate("grant_type", "client_credentials")
 				.accumulate("client_id", map.get(readXmlApi.clientId))
 				.accumulate("client_secret", map.get(readXmlApi.clientSecret));
-		post.setRequestBody(jsonObject.toString());		
+		post.setRequestBody(jsonObject.toString());
+		String str = "";
 		try {
 			httpClient.executeMethod(post);
+			str = post.getResponseBodyAsString();
+			LoggerApi.info(this, "更新环信token结果 : "+str);
 		} catch (HttpException e) {
 			e.printStackTrace();
 			return null;
 		} catch (IOException e) {
 			e.printStackTrace();
 			return null;
+		}finally{
+			post.releaseConnection();
 		}
-		String str = "";
-		try {
-			str = post.getResponseBodyAsString();
-			LoggerApi.info(this, "更新环信token结果 : "+str);
-		} catch (IOException e) {
-			e.printStackTrace();
-			return null;
-		}
+		
 		//获取token
 		JSONObject getTokenResult = JSONObject.fromObject(str);
 		if(getTokenResult.get("error") == null){
@@ -175,23 +172,19 @@ public class HuanXinApi {
 		bodyJSON.put("ext", extJSON);
 		
 		post.setRequestBody(bodyJSON.toString());
-		
+		String response = "";
 		try {
 			httpClient.executeMethod(post);
+			response = post.getResponseBodyAsString();
+			LoggerApi.info(this, "环信postMessage结果 : "+response);
 		} catch (HttpException e) {
 			e.printStackTrace();
 			return Values.no;
 		} catch (IOException e) {
 			e.printStackTrace();
 			return Values.no;
-		}
-		String response = "";
-		try {
-			response = post.getResponseBodyAsString();
-			LoggerApi.info(this, "环信postMessage结果 : "+response);
-		} catch (IOException e) {
-			e.printStackTrace();
-			return Values.no;
+		}finally{
+			post.releaseConnection();
 		}
 		JSONObject jsonObject1 = JSONObject.fromObject(response);
 		if(jsonObject1.get("error") == null){

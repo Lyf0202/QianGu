@@ -43,10 +43,6 @@ public interface UserService {
 	public Object findClickLikeResult(Integer userId,Integer likeUserId);
 	
 	public String deleteChatUser(Integer chatId,Integer userId,Integer chatUserId);
-	/**
-	 * 测试用
-	 */
-	public UserPo getOpenAppUser(Integer userId,Double lng,Double lat);
-	//测试用
-	public Object addUserLoc(Integer userId,Double lng,Double lat,Integer type);
+	
+	public Integer updateLastOnlineTime(Integer userId);
 }

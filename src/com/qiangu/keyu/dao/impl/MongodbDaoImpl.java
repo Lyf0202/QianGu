@@ -11,6 +11,7 @@ import org.springframework.stereotype.Repository;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBCursor;
 import com.mongodb.WriteResult;
+import com.qiangu.keyu.api.LoggerApi;
 import com.qiangu.keyu.api.MongodbApi;
 import com.qiangu.keyu.controller.Keys;
 import com.qiangu.keyu.controller.Values;
@@ -160,6 +161,7 @@ public class MongodbDaoImpl implements MongodbDao {
 			JSONArray jsonArray = jsonLoc.getJSONArray(MongodbApi.coordinates);
 			m.put(Keys.lng, jsonArray.get(0));
 			m.put(Keys.lat, jsonArray.get(1));
+			LoggerApi.info(this, "mongodb result = "+json.toString());
 			if (json.get(MongodbApi.userId) instanceof Double) {
 				Double uId = (Double) json.get(MongodbApi.userId);
 				userM.put(uId.intValue(), m);

@@ -7,7 +7,9 @@ import java.util.Map;
 
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.HttpException;
+import org.apache.commons.httpclient.SimpleHttpConnectionManager;
 import org.apache.commons.httpclient.methods.PostMethod;
+import org.apache.commons.httpclient.params.HttpClientParams;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import net.sf.json.JSONObject;
@@ -47,7 +49,7 @@ public class BaiduMapApi {
 		String url = "http://api.map.baidu.com/geoconv/v1/";
 		fullURL = url + "?coords=" + lat + "," + lon + "&from=" + coordsFrom + "&to=" + coordsTo + "&ak=" + ak;
 		JSONObject jsonObject = getBaiduResult(fullURL);
-		System.out.println("jsonObject.toString() ==== "+jsonObject.toString());
+		LoggerApi.info(this, "jsonObject.toString() ==== "+jsonObject.toString());
 		List<JSONObject> coordsList = jsonObject.getJSONArray("result");
 		Map<String, String> coords = new HashMap<String, String>();
 		coords.put("lat", String.valueOf(coordsList.get(0).get("x")));
@@ -74,6 +76,7 @@ public class BaiduMapApi {
 		fullURL = url + "?ak=" + ak + "&location=" + lat + "," + lng + "&output="
 				+ output + "&pois=" + pois;
 		JSONObject jsonObject = getBaiduResult(fullURL);
+		LoggerApi.info(this, "jsonObject.toString() ==== "+jsonObject.toString());
 		JSONObject address = jsonObject.getJSONObject("result");
 		JSONObject province = address.getJSONObject("addressComponent");
 		return province.getString("province");
@@ -100,7 +103,7 @@ public class BaiduMapApi {
 				+ lng+"&radius=2000&output=json&ak=" + ak;
 		
 		JSONObject jsonObject = getBaiduResult(fullURL);
-		System.out.println(jsonObject);
+		LoggerApi.info(this, "jsonObject.toString() ==== "+jsonObject.toString());
 		return jsonObject;
 	}
 	
@@ -111,12 +114,19 @@ public class BaiduMapApi {
 	 * @throws IOException 
 	 * @throws HttpException 
 	 */
-	public JSONObject getBaiduResult(String url) throws HttpException, IOException{
+	public JSONObject getBaiduResult(String url){
 		ak = readXmlApi.getBaiduMapAk().get(readXmlApi.BaiduAk);
-		PostMethod post = new PostMethod(url);
-		client.executeMethod(post);
 		String response = "";
-		response = post.getResponseBodyAsString();
+		PostMethod post = new PostMethod(url);
+		try {
+			client.executeMethod(post);
+			response = post.getResponseBodyAsString();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally{
+			post.releaseConnection();
+		}
 		JSONObject jsonObject = JSONObject.fromObject(response);
 		return jsonObject;
 	}

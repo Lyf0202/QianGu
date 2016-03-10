@@ -119,6 +119,7 @@ public class LoginAndRegisterInfoToJSON {
 					chatService.deleteChatForNotStartChat(chatId);
 				}
 			}
+			userService.updateLastOnlineTime(user.getId());
 			resultJSON.put(Keys.chatUser, chatUserList);
 			returnJSON.put(Keys.result, resultJSON);
 		}

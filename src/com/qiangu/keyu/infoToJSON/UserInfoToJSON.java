@@ -37,10 +37,6 @@ public class UserInfoToJSON {
 	@Autowired
 	private PictureService pictureService;
 
-	public JSONObject openAppInfoToJSON_1(Map<String, String[]> parameters) {
-
-		return null;
-	}
 
 	public JSONObject openAppInfoToJSON(Map<String, String[]> parameters) {
 		JSONObject returnJSON = new JSONObject();
@@ -67,6 +63,7 @@ public class UserInfoToJSON {
 				chatService.deleteChatForNotStartChat(chatId);
 			}
 		}
+		userService.updateLastOnlineTime(userId);
 		resultJSON.put(Keys.chatUser, chatUserList);
 
 		JSONObject appJSON = new JSONObject();
@@ -238,7 +235,7 @@ public class UserInfoToJSON {
 		Double chatUserIntimacy = Double.valueOf(parameters.get(Keys.chatUserIntimacy)[0]);
 		chatService.updateIntimacy(userId, chatId, userIntimacy, chatUserIntimacy);
 		statusJSON.accumulate(Keys.status, Values.statusOfSuccess);
-		returnJSON.put(Keys.status, Values.statusOfSuccess);
+		returnJSON.put(Keys.status, statusJSON);
 		return returnJSON;
 	}
 	
