@@ -8,6 +8,7 @@ import java.util.Map;
 import org.hibernate.Query;
 import org.springframework.stereotype.Repository;
 
+import com.qiangu.keyu.controller.Keys;
 import com.qiangu.keyu.dao.TestDao;
 import com.qiangu.keyu.model.ChatUserModel;
 import com.qiangu.keyu.po.AreasCoding;
@@ -86,19 +87,18 @@ public class TestDaoImpl extends BaseDaoImpl<UserPo> implements TestDao {
 
 	@Override
 	public List<UserPo> getMapUser() {
-		String hql = "select U from UserPo as U where U.id in (:ids) and U.lastOnlineTime > :t";
-		List<Integer> ids = new ArrayList<>();
-//		for(int i = 1;i<15;i++){
-//			ids.add(i);
-//		}
-		ids.add(9);
-		ids.add(2);
-		ids.add(12);
-		long t = System.currentTimeMillis() - 1800*1000;
+		String hql = "select new Map(id as chatId,userBId as userId,startTime as startChatDate,isStartChat as hasChat,endTime as endTime,deleteUserId as deleteUserId,intimacyA as userIntimacy,intimacyB as chatUserIntimacy) from ChatPo "
+				+ "where (userAId = :userAId and endTime = null) or "
+				+ "(userBId = :userBId and endTime = null)";
 		Query query = getSession().createQuery(hql);
-		query.setParameterList("ids",ids);
-		query.setParameter("t", t);
-		return query.list();
+		query.setParameter("userAId", -12);
+		query.setParameter("userBId", -12);
+		List<Map> list = query.list();
+		System.out.println("------------- "+list.size());
+		for(Map m : list){
+			System.out.println(m.get(Keys.userId));
+		}
+		return null;
 	}
 
 	@Override

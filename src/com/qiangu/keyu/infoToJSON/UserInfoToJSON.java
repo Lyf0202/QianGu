@@ -187,18 +187,22 @@ public class UserInfoToJSON {
 		if (clickResult instanceof LikePo) {
 			resultJSON.accumulate(Keys.isCanChat, Values.notLike);
 		} else {
-			UserPo user = userService.getUserByUserId(likeUserId);
-			JSONObject userInfoJSON = keYuApi.userPoToJSON(user);
 			ChatPo chatPo = (ChatPo) clickResult;
-			JSONObject chatInfo = new JSONObject();
-			chatInfo.accumulate(Keys.hasChat, chatPo.getIsStartChat());
-			chatInfo.accumulate(Keys.intimacy, chatPo.getIntimacyB());
-			chatInfo.accumulate(Keys.startChatDate, chatPo.getStartTime().getTime());
-			chatInfo.accumulate(Keys.chatId, chatPo.getId());
-			chatInfo.accumulate(Keys.deleteUserId, chatPo.getDeleteUserId());
-			userInfoJSON.put(Keys.chatInfo, chatInfo);
-			resultJSON.put(Keys.chatUser, userInfoJSON);
-			resultJSON.accumulate(Keys.isCanChat, Values.liked);
+			if (chatPo.getStartTime() != null) {
+				UserPo user = userService.getUserByUserId(likeUserId);
+				JSONObject userInfoJSON = keYuApi.userPoToJSON(user);
+				JSONObject chatInfo = new JSONObject();
+				chatInfo.accumulate(Keys.hasChat, chatPo.getIsStartChat());
+				chatInfo.accumulate(Keys.intimacy, chatPo.getIntimacyB());
+				chatInfo.accumulate(Keys.startChatDate, chatPo.getStartTime().getTime());
+				chatInfo.accumulate(Keys.chatId, chatPo.getId());
+				chatInfo.accumulate(Keys.deleteUserId, chatPo.getDeleteUserId());
+				userInfoJSON.put(Keys.chatInfo, chatInfo);
+				resultJSON.put(Keys.chatUser, userInfoJSON);
+				resultJSON.accumulate(Keys.isCanChat, Values.liked);
+			}else{
+				resultJSON.accumulate(Keys.isCanChat, Values.notLike);
+			}
 		}
 		statusJSON.accumulate(Keys.status, Values.statusOfSuccess);
 
@@ -214,13 +218,20 @@ public class UserInfoToJSON {
 		Integer userId = Integer.valueOf(parameters.get(Keys.userId)[0]);
 		Integer chatUserId = Integer.valueOf(parameters.get(Keys.chatUserId)[0]);
 		Integer chatId = Integer.valueOf(parameters.get(Keys.chatId)[0]);
-		String deleteResult = userService.deleteChatUser(chatId, userId, chatUserId);
-		if (deleteResult.equals(Values.yes)) {
-			statusJSON.accumulate(Keys.status, Values.statusOfSuccess);
+		Object deleteResult = userService.deleteChatUser(chatId, userId, chatUserId);
+		if (deleteResult instanceof String) {
+			if (deleteResult.equals(Values.yes)) {
+				statusJSON.accumulate(Keys.status, Values.statusOfSuccess);
+			}else {
+				statusJSON.accumulate(Keys.status, Values.statusOfServiceError);
+				statusJSON.accumulate(Keys.message, Values.messageOfServiceError);
+			}
 		} else {
-			statusJSON.accumulate(Keys.status, Values.statusOfServiceError);
-			statusJSON.accumulate(Keys.message, Values.messageOfServiceError);
+			Map chatUserInfo = (Map) deleteResult;
+			JSONObject chatUserInfoJSON = keYuApi.chatUserInfoToJSON(chatUserInfo);
+			resultJSON.put(Keys.chatUser, chatUserInfoJSON);
 		}
+		returnJSON.put(Keys.result, resultJSON);
 		returnJSON.put(Keys.status, statusJSON);
 		return returnJSON;
 	}

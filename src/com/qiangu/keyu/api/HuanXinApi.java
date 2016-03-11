@@ -42,7 +42,7 @@ public class HuanXinApi {
 	public HuanXinApi() {
 		httpClient = new HttpClient();
 		sqlite = new Sqlite();
-		readXmlApi = new ReadXmlApi();
+//		readXmlApi = new ReadXmlApi();
 	}
 	
 	public String getToken(){

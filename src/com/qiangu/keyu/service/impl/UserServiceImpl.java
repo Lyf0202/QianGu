@@ -264,10 +264,10 @@ public class UserServiceImpl implements UserService {
 		LikePo likePo = likeDao.getLikePoByUserIdAndLikeuserId(likeUserId, userId);
 		if (likePo == null) {
 			likePo = new LikePo();
-			likePo = new LikePo();
 			likePo.setLikeTime(System.currentTimeMillis());
 			likePo.setUserId(userId);
 			likePo.setLikeUserId(likeUserId);
+			likePo.setIsSuccess(Values.notLike);
 			//需要取消注释
 			 likeDao.save(likePo); 
 			return likePo;
@@ -276,12 +276,16 @@ public class UserServiceImpl implements UserService {
 			likePo.setIsSuccess(Values.liked); 
 			ChatPo chatPo = new ChatPo();
 			chatPo.setIsStartChat(Values.notStartChat);
-			chatPo.setStartTime(new Date());
+//			chatPo.setStartTime(new Date());
 			chatPo.setUserAId(likeUserId);
 			chatPo.setUserBId(userId);
 			chatPo.setIntimacyA(Values.startIntimacy);
 			chatPo.setIntimacyB(Values.startIntimacy);
-			//需要取消注释
+
+			List<Map> chatUser = chatDao.getChatUsersById(likeUserId);
+			if (chatUser.size() < Values.chatNum) {
+				chatPo.setStartTime(new Date());
+			} 
 			chatDao.save(chatPo); 
 			return chatPo;
 		}
@@ -309,9 +313,13 @@ public class UserServiceImpl implements UserService {
 
 	/**
 	 * 删除聊天用户
+	 * return Values.yes 删除成功，没有排队聊天用户
+	 *        Map 删除成功，有排队聊天用户
+	 *        Values.no 删除失败
 	 */
 	@Override
-	public String deleteChatUser(Integer chatId,Integer userId, Integer chatUserId) {
+	public Object deleteChatUser(Integer chatId,Integer userId, Integer chatUserId) {
+		String result ;
 		ChatPo chat = chatDao.getT(ChatPo.class, chatId);
 		UserPo user = userDao.getUserByUserId(userId);
 		UserPo chatUser = userDao.getUserByUserId(chatUserId);
@@ -329,14 +337,27 @@ public class UserServiceImpl implements UserService {
 			}else{
 				chat.setEndTime(new Date());
 			}
-			Integer deleteUserResult = 1;
-			if(deleteUserResult == 1){
-				return Values.yes;
-			}else{
-				return Values.no;
+			//查询是否有排队的聊天用户
+			Map map = getNewChatUserInfo(userId);
+			if (map == null) {
+				result = Values.yes;
+			}else {
+				return map;
 			}
+			result = Values.yes;
 		}else{
-			return Values.no;
+			result = Values.no;
+		}
+		
+		return result;
+	}
+	
+	public Map getNewChatUserInfo(Integer userId){
+		List<Map> chatUserList = chatDao.getNewChatUserById(userId);
+		if (chatUserList.size() > 0) {
+			return chatUserList.get(0);
+		}else {
+			return null;
 		}
 	}
 

@@ -107,16 +107,19 @@ public class LoginAndRegisterInfoToJSON {
 			resultJSON.put(Keys.me, me);
 			List<Map> chatMapList = chatService.getChatInfo(user.getId());
 			List<JSONObject> chatUserList = new ArrayList<>();
-			for (int i = 1; i <= chatMapList.size(); i++) {
-				Integer chatId = (Integer) chatMapList.get(i - 1).get(Keys.chatId);
-				Date startChatTime = (Date) chatMapList.get(i - 1).get(Keys.startChatDate);
-				long startChatTimestamp = startChatTime.getTime();
-				Integer isStartChat = (Integer) chatMapList.get(i - 1).get(Keys.hasChat);
-				if (isStartChat == Values.startChat || System.currentTimeMillis() - startChatTimestamp < Values.maxTimeForNotStartChat) {
-					JSONObject chatUser = keYuApi.chatUserInfoToJSON(chatMapList.get(i - 1));
-					chatUserList.add(chatUser);
-				}else{
-					chatService.deleteChatForNotStartChat(chatId);
+			if (chatMapList != null) {
+				for (int i = 1; i <= chatMapList.size(); i++) {
+					Integer chatId = (Integer) chatMapList.get(i - 1).get(Keys.chatId);
+					Date startChatTime = (Date) chatMapList.get(i - 1).get(Keys.startChatDate);
+					long startChatTimestamp = startChatTime.getTime();
+					Integer isStartChat = (Integer) chatMapList.get(i - 1).get(Keys.hasChat);
+					if (isStartChat == Values.startChat
+							|| System.currentTimeMillis() - startChatTimestamp < Values.maxTimeForNotStartChat) {
+						JSONObject chatUser = keYuApi.chatUserInfoToJSON(chatMapList.get(i - 1));
+						chatUserList.add(chatUser);
+					} else {
+						chatService.deleteChatForNotStartChat(chatId);
+					}
 				}
 			}
 			userService.updateLastOnlineTime(user.getId());
@@ -136,7 +139,7 @@ public class LoginAndRegisterInfoToJSON {
 		String str = utilsApi.getUUID();
 		String chatId = str.substring(0, 16);
 		String chatPassword = str.substring(16, 32);
-		if(huanXinApi.registerHuanXinId(chatId, chatPassword).equals(Values.no)){
+		if (huanXinApi.registerHuanXinId(chatId, chatPassword).equals(Values.no)) {
 			statusJSON.accumulate(Keys.status, Values.statusOfServiceError);
 			statusJSON.accumulate(Keys.message, Values.messageOfServiceError);
 			returnJSON.put(Keys.status, statusJSON);

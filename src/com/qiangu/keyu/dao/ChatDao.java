@@ -13,7 +13,12 @@ public interface ChatDao extends BaseDao<ChatPo>{
 	 * @return
 	 */
 	public List<Map> getChatUsersById(Integer userId);
-	
+	/**
+	 * 根据userId获取队列里面已经匹配到的信息
+	 * @param userId
+	 * @return
+	 */
+	public List<Map> getNewChatUserById(Integer userId);
 	/**
 	 * 根据userId获取该用户当前正在聊天的ChatPo
 	 * @param userId

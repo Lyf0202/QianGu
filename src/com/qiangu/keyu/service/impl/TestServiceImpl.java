@@ -215,16 +215,10 @@ public class TestServiceImpl implements TestService {
 
 	@Override
 	public void getTTTest() {
-		// Map<Integer,Map<String,Object>> m = mongodbDao.findByDistance(0, 10,
-		// -12.12, -12.12);
-		// System.out.println(m.keySet());
-		Map m = areaDao.getHometown("210602");
-		System.out.println(m.get(Keys.province));
-		System.out.println(m.get(Keys.city));
-		System.out.println(m.get(Keys.area));
-
-		// int a = 10 / 0;
-
+		List<Map> list = chatDao.getChatUsersById(215);
+		System.out.println("----- "+list);
+		for(Map m: list)
+		System.out.println(m.get(Keys.chatId));
 	}
 
 	@Override
@@ -236,10 +230,13 @@ public class TestServiceImpl implements TestService {
 		// System.out.println("-----------");
 		//// throw new Exception();
 		// int a = 10 / 0;
-		Integer i = chatDao.updateIntimacy(0, 9, 11, 12.125, 21.15);
-		System.out.println("--- " + i);
+//		Integer i = chatDao.updateIntimacy(0, 9, 11, 12.125, 21.15);
+//		System.out.println("--- " + i);
 		// ChatPo c = chatDao.getT(ChatPo.class,9);
 		// System.out.println(c);
+		System.out.println(System.currentTimeMillis());
+		Integer  i =userDao.updateLastOnlineTime(2);
+		System.out.println("count = "+i);
 	}
 
 	@Override

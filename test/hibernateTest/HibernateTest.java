@@ -81,8 +81,8 @@ public class HibernateTest {
 	public void testServiceTest() throws Exception{
 //		testService.getTest();
 //		testService.updateTest();
-//		testService.getTTTest();
-		testService.addUsers();
+		testService.getTTTest();
+//		testService.addUsers();
 	}
 
 	@Test

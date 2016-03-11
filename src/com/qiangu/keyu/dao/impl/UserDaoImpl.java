@@ -92,7 +92,7 @@ public class UserDaoImpl extends BaseDaoImpl<UserPo> implements UserDao{
 	public List<UserPo> getUserByLikeUserId(Integer userId, Long liketime,Integer sex,Integer selectNum,Integer firstSelectNum) {
 		Query query = getSession().createQuery(getUserByLikeUserIdHql);
 		System.out.println("sex "+sex);
-		System.out.println("userId "+userId);
+		System.out.println("likeUserId "+userId);
 		System.out.println("Values.notLike "+Values.notLike);
 		System.out.println("liketime "+liketime);
 		System.out.println("firstSelectNum "+firstSelectNum);
@@ -157,7 +157,7 @@ public class UserDaoImpl extends BaseDaoImpl<UserPo> implements UserDao{
 	@Override
 	public Integer updateLastOnlineTime(Integer userId) {
 		Query query = getSession().createQuery(updateLastOnlineTimeHql);
-		query.setParameter("lastOnlineTime", new Date());
+		query.setParameter("lastOnlineTime", System.currentTimeMillis());
 		query.setParameter("userId", userId);
 		return query.executeUpdate();
 	}

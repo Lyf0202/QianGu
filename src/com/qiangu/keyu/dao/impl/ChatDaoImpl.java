@@ -1,5 +1,6 @@
 package com.qiangu.keyu.dao.impl;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -8,6 +9,7 @@ import java.util.Map;
 import org.hibernate.Query;
 import org.springframework.stereotype.Repository;
 
+import com.qiangu.keyu.controller.Keys;
 import com.qiangu.keyu.controller.Values;
 import com.qiangu.keyu.dao.ChatDao;
 import com.qiangu.keyu.po.ChatPo;
@@ -15,9 +17,14 @@ import com.qiangu.keyu.po.ChatPo;
 @Repository
 public class ChatDaoImpl extends BaseDaoImpl<ChatPo> implements ChatDao {
 
-	String getChatUsersByIdHql = "select new Map(id as chatId,userBId as userId,startTime as startChatDate,isStartChat as hasChat,endTime as endTime,deleteUserId as deleteUserId,intimacyA as userIntimacy,intimacyB as chatUserIntimacy) from ChatPo where userAId = :userAId and endTime = null";
-	String getChatUsersByIdHql2 = "select new Map(id as chatId,userAId as userId,startTime as startChatDate,isStartChat as hasChat,endTime as endTime,deleteUserId as deleteUserId,intimacyB as userIntimacy,intimacyA as chatUserIntimacy) from ChatPo where userBId = :userBId and endTime = null";
-//	String getChatUsersByIdHql3 = "select new Map(id as chatId,userBId as userId,startTime as startChatDate,isStartChat as hasChat,endTime as endTime,deleteUserId as deleteUserId,intimacyA as intimacy) from ChatPo where userAId = :userAId and endTime != null and userAId != deleteUserId";
+	String getChatUsersByIdHql = "select new Map(id as chatId,userBId as userId,startTime as startChatDate,isStartChat as hasChat,endTime as endTime,deleteUserId as deleteUserId,intimacyA as userIntimacy,intimacyB as chatUserIntimacy) from ChatPo "
+			+ "where userAId = :userAId "
+			+ "and endTime = null "
+			+ "and startTime != null";
+	String getChatUsersByIdHql2 = "select new Map(id as chatId,userAId as userId,startTime as startChatDate,isStartChat as hasChat,endTime as endTime,deleteUserId as deleteUserId,intimacyB as userIntimacy,intimacyA as chatUserIntimacy) from ChatPo "
+			+ "where userBId = :userBId "
+			+ "and endTime = null "
+			+ "and startTime != null";
 	@Override
 	public List<Map> getChatUsersById(Integer userId) {
 		Query query = getSession().createQuery(getChatUsersByIdHql);
@@ -27,13 +34,41 @@ public class ChatDaoImpl extends BaseDaoImpl<ChatPo> implements ChatDao {
 		query = getSession().createQuery(getChatUsersByIdHql2);
 		query.setInteger("userBId", userId);
 		List<Map> list2 = query.list();
-		for(Map m : list2){
-			list1.add(m);
-		}
+		
+		list1.addAll(list2);
 		return list1;
 	}
+	
+	String getNewChatUserByIdHql1 = "select new Map(id as chatId,userBId as userId,startTime as startChatDate,isStartChat as hasChat,endTime as endTime,deleteUserId as deleteUserId,intimacyA as userIntimacy,intimacyB as chatUserIntimacy) from ChatPo "
+			+ "where userAId = :userAId "
+			+ "and endTime = null "
+			+ "and startTime = null";
+	String getNewChatUserByIdHql2 = "select new Map(id as chatId,userAId as userId,startTime as startChatDate,isStartChat as hasChat,endTime as endTime,deleteUserId as deleteUserId,intimacyB as userIntimacy,intimacyA as chatUserIntimacy) from ChatPo "
+			+ "where userBId = :userBId "
+			+ "and endTime = null "
+			+ "and startTime = null";
+	@Override
+	public List<Map> getNewChatUserById(Integer userId){
+		Query query = getSession().createQuery(getNewChatUserByIdHql1);
+		query.setInteger("userAId", userId);
+		List<Map> list1 = query.list();
+		
+		query = getSession().createQuery(getNewChatUserByIdHql2);
+		query.setInteger("userBId", userId);
+		List<Map> list2 = query.list();
+		
+		if (list1.size() == 0 && list2.size() == 0) {
+			return list1;
+		}else if (list1.size() == 0) {
+			return list2;
+		}else if (list2.size() == 0) {
+			return list1;
+		}else {
+			return (Integer)list1.get(0).get(Keys.chatId) > (Integer)list2.get(0).get(Keys.chatId) ?
+				list2 : list1;
+		}
+	}
 
-//	String hql = "select C from ChatPo as C where C.endTime = null";
 	String hql = "from ChatPo where userAId = :userId and endTime != null and userAId != deleteUserId";
 	@Override
 	public List<ChatPo> getChatPo(Integer userId) {

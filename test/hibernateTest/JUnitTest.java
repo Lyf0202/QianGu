@@ -4,12 +4,14 @@ import static org.junit.Assert.*;
 
 import java.net.UnknownHostException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.catalina.util.URLEncoder;
+import org.hibernate.annotations.Sort;
 import org.junit.Test;
 
 import com.mongodb.BasicDBObject;
@@ -41,10 +43,47 @@ public class JUnitTest {
 	public void test1() {
 //		System.out.println(java.net.URLEncoder.encode("教育"));
 //		System.out.println("image/jpeg".split("/")[1]);
-		Map<Integer,String> m = new HashMap<>();
-		List<Integer> l = new ArrayList<Integer>(m.keySet());
+		Map<String, Integer> m1 = new HashMap<>();
+		m1.put("userId", 4);
+		Map<String, Integer> m2 = new HashMap<>();
+		m2.put("userId", 6);
+		Map<String, Integer> m3 = new HashMap<>();
+		m3.put("userId", 2);
+		Map<String, Integer> m4 = new HashMap<>();
+		m4.put("userId", 3);
+		List<Map> list1 = new ArrayList<>();
+		list1.add(m1);
+		list1.add(m2);
+		list1.add(m3);
+		list1.add(m4);
+		Map<String, Integer> m5 = new HashMap<>();
+		m5.put("userId", 1);
+		Map<String, Integer> m6 = new HashMap<>();
+		m6.put("userId", 7);
+		Map<String, Integer> m7 = new HashMap<>();
+		m7.put("userId", 5);
+		Map<String, Integer> m8 = new HashMap<>();
+		m8.put("userId", 8);
+		List<Map> list2 = new ArrayList<>();
+		list2.add(m5);
+		list2.add(m6);
+		list2.add(m7);
+		list2.add(m8);
+		System.out.println("-------");
+		List<Map> list = null;
+		list1.addAll(list);
 		
-		System.out.println("------ "+ l.size());
+	}
+	
+	public void sortListT(List<Map> list1){
+		List<Map> list = new ArrayList<>();
+		list.add(list1.get(0));
+//		for(int i = 1 ; i < list1.size() ;i++){
+//			if (condition) {
+//				
+//			}
+//		}
+		
 	}
 
 	@Test
