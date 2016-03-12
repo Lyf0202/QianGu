@@ -17,6 +17,7 @@ import com.qiangu.keyu.po.ChatPo;
 import com.qiangu.keyu.po.LikePo;
 import com.qiangu.keyu.po.UserPo;
 import com.qiangu.keyu.service.ChatService;
+import com.qiangu.keyu.service.InformService;
 import com.qiangu.keyu.service.PictureService;
 import com.qiangu.keyu.service.UserService;
 
@@ -36,6 +37,9 @@ public class UserInfoToJSON {
 	
 	@Autowired
 	private PictureService pictureService;
+	
+	@Autowired
+	private InformService informService;
 
 
 	public JSONObject openAppInfoToJSON(Map<String, String[]> parameters) {
@@ -113,6 +117,7 @@ public class UserInfoToJSON {
 		}
 		List<JSONObject> distanceUserJSONList = new ArrayList<>();
 		Map<Integer, Map<String, Object>> userLoc = userService.getUserLoc(userId);
+		System.out.println("userLoc : --------------- "+userLoc.size());
 		Double lng = (Double) userLoc.get(userId).get(Keys.lng);
 		Double lat = (Double) userLoc.get(userId).get(Keys.lat);
 
@@ -185,7 +190,7 @@ public class UserInfoToJSON {
 		Integer likeUserId = Integer.valueOf(parameters.get(Keys.likeUserId)[0]);
 		Object clickResult = userService.findClickLikeResult(userId, likeUserId);
 		if (clickResult instanceof LikePo) {
-			resultJSON.accumulate(Keys.isCanChat, Values.notLike);
+			resultJSON.accumulate(Keys.isCanChat, Values.canNotChat);
 		} else {
 			ChatPo chatPo = (ChatPo) clickResult;
 			if (chatPo.getStartTime() != null) {
@@ -199,9 +204,9 @@ public class UserInfoToJSON {
 				chatInfo.accumulate(Keys.deleteUserId, chatPo.getDeleteUserId());
 				userInfoJSON.put(Keys.chatInfo, chatInfo);
 				resultJSON.put(Keys.chatUser, userInfoJSON);
-				resultJSON.accumulate(Keys.isCanChat, Values.liked);
+				resultJSON.accumulate(Keys.isCanChat, Values.canChat);
 			}else{
-				resultJSON.accumulate(Keys.isCanChat, Values.notLike);
+				resultJSON.accumulate(Keys.isCanChat, Values.canNotChat);
 			}
 		}
 		statusJSON.accumulate(Keys.status, Values.statusOfSuccess);
@@ -222,14 +227,18 @@ public class UserInfoToJSON {
 		if (deleteResult instanceof String) {
 			if (deleteResult.equals(Values.yes)) {
 				statusJSON.accumulate(Keys.status, Values.statusOfSuccess);
+				resultJSON.accumulate(Keys.isCanChat, Values.canNotChat);
 			}else {
 				statusJSON.accumulate(Keys.status, Values.statusOfServiceError);
 				statusJSON.accumulate(Keys.message, Values.messageOfServiceError);
+				resultJSON.accumulate(Keys.isCanChat, Values.canNotChat);
 			}
 		} else {
 			Map chatUserInfo = (Map) deleteResult;
 			JSONObject chatUserInfoJSON = keYuApi.chatUserInfoToJSON(chatUserInfo);
 			resultJSON.put(Keys.chatUser, chatUserInfoJSON);
+			resultJSON.accumulate(Keys.isCanChat, Values.canChat);
+			statusJSON.accumulate(Keys.status, Values.statusOfSuccess);
 		}
 		returnJSON.put(Keys.result, resultJSON);
 		returnJSON.put(Keys.status, statusJSON);
@@ -279,6 +288,33 @@ public class UserInfoToJSON {
 			statusJSON.accumulate(Keys.message, Values.messageOfServiceError);
 		}
 		returnJSON.put(Keys.status, statusJSON);
+		return returnJSON;
+	}
+	
+	public JSONObject getUserFeedbackInfoToJSON(Map<String, String[]> parameters){
+		JSONObject returnJSON = new JSONObject();
+		JSONObject statusJSON = new JSONObject();
+		
+		Integer userId = Integer.valueOf(parameters.get(Keys.userId)[0]);
+		String feedbackContent = parameters.get(Keys.userFeedback)[0];
+		userService.addUserFeedback(userId, feedbackContent);
+		
+		statusJSON.accumulate(Keys.status, Values.statusOfSuccess);
+		returnJSON.put(Keys.status, statusJSON);
+		
+		return returnJSON;
+	}
+	
+	public JSONObject getUserInformInfoToJSON(Map<String, String> parameters,Map<String, byte[]> fileContents){
+		JSONObject returnJSON = new JSONObject();
+		JSONObject statusJSON = new JSONObject();
+		
+		Integer userId = Integer.valueOf(parameters.get(Keys.userId));
+		Integer informedUserId = Integer.valueOf(parameters.get(Keys.informedUserId));
+		String informContent = parameters.get(Keys.informContent);
+		informService.addUserInform(userId, informedUserId, informContent, fileContents);
+		statusJSON.accumulate(Keys.status, Values.statusOfSuccess);
+		returnJSON.put(Keys.status,statusJSON );
 		return returnJSON;
 	}
 }

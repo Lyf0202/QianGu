@@ -21,6 +21,7 @@ import com.qiangu.keyu.controller.Keys;
 import com.qiangu.keyu.controller.Values;
 import com.qiangu.keyu.dao.AreaDao;
 import com.qiangu.keyu.dao.ChatDao;
+import com.qiangu.keyu.dao.InformDao;
 import com.qiangu.keyu.dao.LabelDao;
 import com.qiangu.keyu.dao.LoveManifestoDao;
 import com.qiangu.keyu.dao.MongodbDao;
@@ -85,6 +86,9 @@ public class TestServiceImpl implements TestService {
 
 	@Autowired
 	private LoveManifestoDao loveManifestoDao;
+	
+	@Autowired
+	private InformDao informDao;
 
 	public void setTestdao(TestDao testdao) {
 		this.testdao = testdao;
@@ -215,10 +219,7 @@ public class TestServiceImpl implements TestService {
 
 	@Override
 	public void getTTTest() {
-		List<Map> list = chatDao.getChatUsersById(215);
-		System.out.println("----- "+list);
-		for(Map m: list)
-		System.out.println(m.get(Keys.chatId));
+		System.out.println(informDao.getLastInformPicture(1));
 	}
 
 	@Override

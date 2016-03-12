@@ -31,7 +31,12 @@ public class UserResult {
 			result = userInfoToJSON.getUpdateIntimacyInfoToJSON(parameters);
 		} else if (parameters.get(Keys.method)[0].equals(Values.methodOfStartChat)) {
 			result = userInfoToJSON.getUpdateForStartChatInfoToJSON(parameters);
-		} else {
+		} else if (parameters.get(Keys.method)[0].equals(Values.methodOfUserFeedback)) {
+			result = userInfoToJSON.getUserFeedbackInfoToJSON(parameters);
+		} 
+		
+		
+		else {
 			result = new JSONObject();
 			JSONObject statusJSON = new JSONObject();
 			statusJSON.accumulate(Keys.status, Values.statusOfNoMethod);
@@ -46,7 +51,12 @@ public class UserResult {
 		JSONObject result = null;
 		if(parameters.get(Keys.method).equals(Values.methodOfUploadIDVerifyPicture)){
 			result = userInfoToJSON.getUploadIDVerifyPicInfoToJSON(parameters, fileContents);
-		}else {
+		}else if (parameters.get(Keys.method).equals(Values.methodOfUserInform)) {
+			result = userInfoToJSON.getUserInformInfoToJSON(parameters, fileContents);
+		}
+		
+		
+		else {
 			result = new JSONObject();
 			JSONObject statusJSON = new JSONObject();
 			statusJSON.accumulate(Keys.status, Values.statusOfNoMethod);

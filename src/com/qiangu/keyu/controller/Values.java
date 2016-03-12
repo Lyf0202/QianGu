@@ -1,9 +1,12 @@
 package com.qiangu.keyu.controller;
 
+import com.sun.beans.editors.IntegerEditor;
+
 public class Values {
 
 	public static final Integer officeId = -1;
 	public static final String IDVerifyPicture = "_IDVerifyPicture_";
+	public static final String informPicture = "_informPicture_";
 	
 	//小图大小
 	public static final Integer littleSizeWidth = 200;
@@ -82,10 +85,16 @@ public class Values {
 	public static final Integer notVerify = 0;
 	//用户已认证
 	public static final Integer verifyed = 1;
+	//等待认证中
+	public static final Integer waitVerifye = 2;
 	//不喜欢 / 单方喜欢(聊天表中用)
 	public static final Integer notLike = 0;
 	//喜欢 / 已经双方喜欢(聊天表中用)
 	public static final Integer liked = 1;
+	//
+	public static final Integer login = 1;
+	//
+	public static final Integer logout = 0;
 	//聊天被删除
 	public static final Integer relationDeleted = 0;
 	//聊天未删除
@@ -130,6 +139,8 @@ public class Values {
 	public static final Integer onceLikeUserNum = 2;
 	//一次获取的最多没有开启定位的用户量
 	public static final Integer onceSchoolUserNum = 5;
+	//
+	public static final Integer onceUserNumWithoutVerifyed = 3;
 	//最大与当前时间的时间差
 	public static final long OnlineTime = 3 * 3600 * 1000;
 	//最大匹配用户距离
@@ -152,13 +163,16 @@ public class Values {
 	public static final Double timePercentage = 5.0;
 	//每句话增加的百分比
 	public static final Double chatNumPercentage = 0.25;
-	//
+	//聊天到百分之百清晰所需的天数
 	public static final Integer totalTime = 2;
-	//
+	//聊天到百分之百清晰所需的聊天句数
 	public static final Integer totalChatNum = 180;
-	//
+	//自动删除聊天最大的未开始聊天时间限制
 	public static final long maxTimeForNotStartChat = 24 * 3600 * 1000;
-	
+	//能够开始聊天
+	public static final Integer canChat = 1;
+	//不能开始聊天
+	public static final Integer canNotChat = 0;
 	/**
 	 * 请求参数值
 	 */
@@ -180,6 +194,8 @@ public class Values {
 	public static final String methodOfUpdateDepartment = "updateDepartment";
 	//更新标签
 	public static final String methodOfUpdateLabel = "updateLabel";
+	//
+	public static final String methodOfExit = "userExit";
 	//更新用户查看了点击喜欢用户的序号
 	public static final String methodOfUpdateLikeUserOrder = "updateLikeUserOrder";
 	//发送验证码
@@ -204,4 +220,9 @@ public class Values {
 	public static final String methodOfStartChat = "startChat";
 	//
 	public static final String methodOfUploadIDVerifyPicture = "uploadIdVerifyPicture";
+	//
+	public static final String methodOfUserFeedback = "userFeedback";
+	//
+	public static final String methodOfUserInform = "userInform";
+	
 }

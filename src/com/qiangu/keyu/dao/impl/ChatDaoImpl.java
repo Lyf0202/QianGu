@@ -17,6 +17,10 @@ import com.qiangu.keyu.po.ChatPo;
 @Repository
 public class ChatDaoImpl extends BaseDaoImpl<ChatPo> implements ChatDao {
 
+	
+	/**
+	 * 获取目前正在聊天的用户信息
+	 */
 	String getChatUsersByIdHql = "select new Map(id as chatId,userBId as userId,startTime as startChatDate,isStartChat as hasChat,endTime as endTime,deleteUserId as deleteUserId,intimacyA as userIntimacy,intimacyB as chatUserIntimacy) from ChatPo "
 			+ "where userAId = :userAId "
 			+ "and endTime = null "
@@ -39,14 +43,19 @@ public class ChatDaoImpl extends BaseDaoImpl<ChatPo> implements ChatDao {
 		return list1;
 	}
 	
+	/**
+	 * 获取在排队等候聊天的用户信息
+	 */
 	String getNewChatUserByIdHql1 = "select new Map(id as chatId,userBId as userId,startTime as startChatDate,isStartChat as hasChat,endTime as endTime,deleteUserId as deleteUserId,intimacyA as userIntimacy,intimacyB as chatUserIntimacy) from ChatPo "
 			+ "where userAId = :userAId "
 			+ "and endTime = null "
-			+ "and startTime = null";
+			+ "and startTime = null "
+			+ "order by id";
 	String getNewChatUserByIdHql2 = "select new Map(id as chatId,userAId as userId,startTime as startChatDate,isStartChat as hasChat,endTime as endTime,deleteUserId as deleteUserId,intimacyB as userIntimacy,intimacyA as chatUserIntimacy) from ChatPo "
 			+ "where userBId = :userBId "
 			+ "and endTime = null "
-			+ "and startTime = null";
+			+ "and startTime = null "
+			+ "order by id";
 	@Override
 	public List<Map> getNewChatUserById(Integer userId){
 		Query query = getSession().createQuery(getNewChatUserByIdHql1);
@@ -69,6 +78,8 @@ public class ChatDaoImpl extends BaseDaoImpl<ChatPo> implements ChatDao {
 		}
 	}
 
+	
+	
 	String hql = "from ChatPo where userAId = :userId and endTime != null and userAId != deleteUserId";
 	@Override
 	public List<ChatPo> getChatPo(Integer userId) {
@@ -136,11 +147,22 @@ public class ChatDaoImpl extends BaseDaoImpl<ChatPo> implements ChatDao {
 	
 	String updateForStartChatHql = "update ChatPo "
 								+ "set isStartChat = :startChat "
-								+ "where chatId = :chatId";
+								+ "where id = :chatId";
 	@Override
 	public Integer updateForStartChat(Integer chatId) {
 		Query query = getSession().createQuery(updateForStartChatHql);
 		query.setParameter("startChat", Values.startChat);
+		query.setParameter("chatId", chatId);
+		return query.executeUpdate();
+	}
+	
+	String updateChatStartTimeHql = "update ChatPo "
+								+ "set startTime = :startTime "
+								+ "where id = :chatId";
+	@Override
+	public Integer updateChatStartTime(Integer chatId) {
+		Query query = getSession().createQuery(updateChatStartTimeHql);
+		query.setParameter("startTime", new Date());
 		query.setParameter("chatId", chatId);
 		return query.executeUpdate();
 	}

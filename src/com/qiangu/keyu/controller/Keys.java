@@ -58,6 +58,15 @@ public class Keys {
 	public static String totalTime = "totalTime";
 	//
 	public static String totalChatNum = "totalChatNum";
+	//举报图片
+	public static String informPicture = "informPicture";
+	//反馈信息
+	public static String userFeedback = "feedback";
+	//被举报用户的id
+	public static String informedUserId = "informedUserId";
+	//
+	public static String informContent = "informContent";
+	//
 	/**
 	 * 用户基本信息key
 	 */

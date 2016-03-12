@@ -45,4 +45,6 @@ public interface UserService {
 	public Object deleteChatUser(Integer chatId,Integer userId,Integer chatUserId);
 	
 	public Integer updateLastOnlineTime(Integer userId);
+	
+	public void addUserFeedback(Integer userId,String feedbackContent);
 }

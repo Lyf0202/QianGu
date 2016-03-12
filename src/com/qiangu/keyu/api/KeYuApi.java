@@ -94,7 +94,14 @@ public class KeYuApi {
 		json.accumulate(Keys.hometown, user.getCountyId());
 		json.accumulate(Keys.talkId, user.getTalkId());
 		json.accumulate(Keys.lastLoginTime, user.getLastOnlineTime());
-		json.accumulate(Keys.verifyState, user.getVerifyType());
+		Integer verifyState = user.getVerifyType();
+		if(verifyState == Values.notVerify){
+			if (user.getIDVerifyPicId() != null) {
+				verifyState = Values.waitVerifye;
+			}
+		}
+		
+		json.accumulate(Keys.verifyState, verifyState);
 		json.accumulate(Keys.education, user.getEducation());
 		json.accumulate(Keys.weight, user.getWeight());
 		json.accumulate(Keys.height, user.getHeight());
@@ -102,6 +109,7 @@ public class KeYuApi {
 		String avatarName = pictureService.getAvatar(user.getId()).getPictureName();
 		json.accumulate(Keys.avatar, qiniuYunApi.getDownloadUrl(avatarName));
 		json.accumulate(Keys.AvatarLittleSizePicUrl, qiniuYunApi.getDownloadUrl(avatarName, Values.littleSizeWidth, Values.littleSizeHeight));
+		//判断是否填了家乡信息
 		if(user.getCountyId() != null){
 			Map<String,String> hometown = areaService.getHometownByAreaId(user.getCountyId() + "");
 			json.accumulate(Keys.province, hometown.get(Keys.province));
@@ -111,6 +119,7 @@ public class KeYuApi {
 		SchoolCoding school = schoolService.getSchoolById(user.getSchoolId());
 		LoveManifestoPo loveManifestoPo = loveManifestoService.getLoveManifestoPoByUserId(user.getId());
 		json.accumulate(Keys.school, school.getSchool_name());
+		//判断是否设置了个人描述
 		if (loveManifestoPo != null) {
 			json.accumulate(Keys.motto, loveManifestoPo.getLoveManifesto());
 		}
@@ -141,9 +150,11 @@ public class KeYuApi {
 	public JSONObject chatInfoToJSON(Map m) {
 		JSONObject json = new JSONObject();
 		json.accumulate(Keys.chatId, m.get(Keys.chatId));
-		json.accumulate(Keys.startChatDate, ((Date) m.get(Keys.startChatDate)).getTime());
+		Object startChatDate = m.get(Keys.startChatDate);
+		if (startChatDate != null) {
+			json.accumulate(Keys.startChatDate, ((Date) startChatDate).getTime());
+		} 
 		json.accumulate(Keys.hasChat, m.get(Keys.hasChat));
-		// json.accumulate(Keys.endTime, ((Date)m.get(Keys.endTime)).getTime());
 		json.accumulate(Keys.deleteUserId, m.get(Keys.deleteUserId));
 		json.accumulate(Keys.userIntimacy, m.get(Keys.userIntimacy));
 		json.accumulate(Keys.chatUserIntimacy, m.get(Keys.chatUserIntimacy));

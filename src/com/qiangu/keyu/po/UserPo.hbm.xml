@@ -8,9 +8,6 @@
             <column name="id" />
             <generator class="native" />
         </id>
-        <property name="userId" type="java.lang.Integer">
-            <column name="userId" />
-        </property>
         <property name="telephone" type="java.lang.String">
             <column name="telephone" />
         </property>
@@ -77,11 +74,8 @@
         <property name="identifyCode" type="java.lang.String">
             <column name="identifyCode" />
         </property>
-        <property name="likeUserOrder" type="java.lang.Integer">
-            <column name="likeUserOrder" />
-        </property>
-        <property name="hasLoc" type="java.lang.Integer">
-            <column name="hasLoc" />
+        <property name="isLogin" type="java.lang.Integer">
+        	<column name="isLogin"></column>
         </property>
     </class>
 </hibernate-mapping>

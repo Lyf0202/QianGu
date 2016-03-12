@@ -24,4 +24,6 @@ public interface UserUpdateService {
 	public List<Object> updateLabel(Integer userId ,String[] oldLabel, String[] officialLabels,String[] userLabels);
 	
 	public Boolean updateLikeUserOrder(Integer userId,Integer likeUserOrder);
+	
+	public Boolean updateUserState(Integer userId,Integer state);
 }

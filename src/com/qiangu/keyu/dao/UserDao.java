@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+import com.qiangu.keyu.po.FeedbackPo;
 import com.qiangu.keyu.po.UserPo;
 
 public interface UserDao extends BaseDao<UserPo>{
@@ -34,4 +35,7 @@ public interface UserDao extends BaseDao<UserPo>{
 	public List<UserPo> getUserBySchool(Integer schoolId,List<Integer> userIds,long maxLastOnlineTime,Integer userId ,Integer sex,Integer selectNum,Integer firstSelectNum);
 	
 	public Integer updateLastOnlineTime(Integer userId);
+	
+	public void addUserFeedback(FeedbackPo feedbackPo);
+	
 }

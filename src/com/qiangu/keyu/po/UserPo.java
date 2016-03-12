@@ -14,8 +14,6 @@ public class UserPo {
 	
 	//id
 	private Integer id;
-	//用户id
-	private Integer userId;
 	//用户登录手机号
 	private String telephone;
 	//用户登录密码
@@ -63,9 +61,7 @@ public class UserPo {
 	//接口认证码
 	private String identifyCode;
 	//
-	private Integer likeUserOrder;
-	//
-	private Integer hasLoc;
+	private Integer isLogin;
 	//
 	private Double lng;
 	//
@@ -82,12 +78,6 @@ public class UserPo {
 	}
 	public void setId(Integer id) {
 		this.id = id;
-	}
-	public Integer getUserId() {
-		return userId;
-	}
-	public void setUserId(Integer userId) {
-		this.userId = userId;
 	}
 	public String getTelephone() {
 		return telephone;
@@ -233,19 +223,10 @@ public class UserPo {
 	public void setLat(Double lat) {
 		this.lat = lat;
 	}
-	public Integer getLikeUserOrder() {
-		return likeUserOrder;
+	public Integer getIsLogin() {
+		return isLogin;
 	}
-	public void setLikeUserOrder(Integer likeUserOrder) {
-		this.likeUserOrder = likeUserOrder;
+	public void setIsLogin(Integer isLogin) {
+		this.isLogin = isLogin;
 	}
-	public Integer getHasLoc() {
-		return hasLoc;
-	}
-	public void setHasLoc(Integer hasLoc) {
-		this.hasLoc = hasLoc;
-	}
-	
-	
-	
 }

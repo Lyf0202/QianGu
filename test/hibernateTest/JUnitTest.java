@@ -25,6 +25,7 @@ import com.mongodb.WriteResult;
 import com.qiangu.keyu.api.MongodbApi;
 import com.qiangu.keyu.api.Sqlite;
 import com.qiangu.keyu.api.UtilsApi;
+import com.qiangu.keyu.controller.Keys;
 
 import net.sf.json.JSON;
 import net.sf.json.JSONArray;
@@ -36,13 +37,14 @@ public class JUnitTest {
 	public void test() {
 		Long t = System.currentTimeMillis();
 		System.out.println(t);
-//		System.out.println(getDistance(120.352625, 30.318659, 120.349070, 30.315232));
+		// System.out.println(getDistance(120.352625, 30.318659, 120.349070,
+		// 30.315232));
 	}
 
 	@Test
 	public void test1() {
-//		System.out.println(java.net.URLEncoder.encode("教育"));
-//		System.out.println("image/jpeg".split("/")[1]);
+		// System.out.println(java.net.URLEncoder.encode("教育"));
+		// System.out.println("image/jpeg".split("/")[1]);
 		Map<String, Integer> m1 = new HashMap<>();
 		m1.put("userId", 4);
 		Map<String, Integer> m2 = new HashMap<>();
@@ -72,19 +74,15 @@ public class JUnitTest {
 		System.out.println("-------");
 		List<Map> list = null;
 		list1.addAll(list);
+
+	}
+
+	public void sortListT(List<Map> list1) {
+		List<Map> list2 = new ArrayList<>();
 		
 	}
+
 	
-	public void sortListT(List<Map> list1){
-		List<Map> list = new ArrayList<>();
-		list.add(list1.get(0));
-//		for(int i = 1 ; i < list1.size() ;i++){
-//			if (condition) {
-//				
-//			}
-//		}
-		
-	}
 
 	@Test
 	public void test2() {
@@ -95,11 +93,11 @@ public class JUnitTest {
 	public void testMongodb() {
 		MongodbApi m = new MongodbApi();
 		BasicDBObject b = new BasicDBObject();
-		Double[] d = { -73.80, 40.70};
+		Double[] d = { -73.80, 40.70 };
 		JSONObject json = new JSONObject();
-		json.put("type","Point");
+		json.put("type", "Point");
 		json.put("coordinates", d);
-		
+
 		b.put("loc", json);
 		b.put("name", "HZNU");
 		WriteResult w = m.mongodbInsert(b);
@@ -107,41 +105,40 @@ public class JUnitTest {
 	}
 
 	@Test
-	public void mongodbUpdate(){
+	public void mongodbUpdate() {
 		MongodbApi m = new MongodbApi();
-		
+
 		BasicDBObject updateCondition = new BasicDBObject();
 		updateCondition.put("name", "杭师大");
-		
+
 		BasicDBObject updateSetValue = new BasicDBObject();
-		Double[] d = { -88.88,66.66};
+		Double[] d = { -88.88, 66.66 };
 		JSONObject json = new JSONObject();
-		json.put("type","Point");
+		json.put("type", "Point");
 		json.put("coordinates", d);
 		updateSetValue.put("loc", json);
-		
+
 		m.mongodbUpdateOrInsert(updateCondition, updateSetValue);
 		System.out.println("success !");
 	}
-	
+
 	@Test
-	public void mongodbQuery(){
+	public void mongodbQuery() {
 		String near = "$near";
 		String geometry = "$geometry";
 		String maxDistance = "$maxDistance";
-		long distance =  15000;
+		long distance = 15000;
 		MongodbApi m = new MongodbApi();
 		BasicDBObject geovalueB = new BasicDBObject();
 		geovalueB.put("type", "Point");
-		geovalueB.put("coordinates", new Double[] {-73.80, 40.79});
+		geovalueB.put("coordinates", new Double[] { -73.80, 40.79 });
 		BasicDBObject nearB = new BasicDBObject();
 		nearB.put(geometry, geovalueB);
 		nearB.put(maxDistance, distance);
-		BasicDBObject b = new BasicDBObject().append("loc", 
-				new BasicDBObject().append(near, nearB));
+		BasicDBObject b = new BasicDBObject().append("loc", new BasicDBObject().append(near, nearB));
 		m.mongodbFind(b);
 	}
-	
+
 	@Test
 	public void test3() {
 		try {
@@ -159,26 +156,26 @@ public class JUnitTest {
 			Float[] f = { (float) 121.1251, (float) 1255.15 };
 			document.put("msg", f);
 			// 将新建立的document保存到collection中去
-//			collection.insert(document);
+			// collection.insert(document);
 			// 创建要查询的document
 			BasicDBObject searchQuery = new BasicDBObject();
-			searchQuery.put("name","HZNU");
+			searchQuery.put("name", "HZNU");
 			// 使用collection的find方法查找document
 			DBCursor cursor = collection.find();
-			
+
 			// 循环输出结果
 			while (cursor.hasNext()) {
 				JSONObject json = JSONObject.fromObject(cursor.next());
-//				System.out.println(json.get("name"));
+				// System.out.println(json.get("name"));
 				JSONObject j = (JSONObject) json.get("loc");
 				JSONArray d = j.getJSONArray("coordinates");
-				System.out.println(d.get(0)+"  "+d.get(1));
+				System.out.println(d.get(0) + "  " + d.get(1));
 			}
-//			System.out.println("---------");
-//			List<DBObject> l = cursor.toArray();
-//			for(DBObject d :l){
-//				System.out.println(d);
-//			}
+			// System.out.println("---------");
+			// List<DBObject> l = cursor.toArray();
+			// for(DBObject d :l){
+			// System.out.println(d);
+			// }
 			System.out.println("Done");
 		} catch (UnknownHostException e) {
 			e.printStackTrace();
@@ -189,7 +186,7 @@ public class JUnitTest {
 
 	@Test
 	public void test4() {
-//		System.out.println(getDistance(-73.92, 40.79, -73.84, 40.79));
+		// System.out.println(getDistance(-73.92, 40.79, -73.84, 40.79));
 		List<Integer> l = new ArrayList<>();
 		List<Integer> li = new ArrayList<>();
 		l.add(1);
@@ -197,29 +194,29 @@ public class JUnitTest {
 		li.add(5);
 		li.add(2);
 		l.addAll(li);
-		for(Integer i : l){
+		for (Integer i : l) {
 			System.out.println(i);
 		}
 	}
 
 	@Test
-	public void test5(){
-		
-		// 1.  -73.84  40.79
-		// 2.  -73.88  40.78    3550
-		// 3.  -73.92  40.79     6742
-		// 4.  -73.97  40.77     11182
-		// 5.  -73.824  40.729     6923
-		// 6.  -73.86   40.80     2019
-		// 7.  -73.82   40.80     2019
-		// 8.  -73.844785  40.792155   469
-		// 9.  -73.845480  40.799999    1205
-		// 10.  -73.839511  40.781452   952
-		// 11.  -73.850121  40.800012   1403
+	public void test5() {
+
+		// 1. -73.84 40.79
+		// 2. -73.88 40.78 3550
+		// 3. -73.92 40.79 6742
+		// 4. -73.97 40.77 11182
+		// 5. -73.824 40.729 6923
+		// 6. -73.86 40.80 2019
+		// 7. -73.82 40.80 2019
+		// 8. -73.844785 40.792155 469
+		// 9. -73.845480 40.799999 1205
+		// 10. -73.839511 40.781452 952
+		// 11. -73.850121 40.800012 1403
 		//
 		System.out.println(getDistance(120.006685, 30.290539, 120.106685, 30.290539));
 	}
-	
+
 	public Object getObject() {
 		JSONObject j = new JSONObject();
 		j.accumulate("4132", "4545");

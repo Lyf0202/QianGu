@@ -118,22 +118,6 @@ public class MongodbDaoImpl implements MongodbDao {
 		searchB.put(MongodbApi.userId, userId);
 
 		DBCursor dbCursor = mongodbApi.mongodbFind(searchB);
-//		Map<Integer, Map<String, Object>> userM = new HashMap<>();
-//		while (dbCursor.hasNext()) {
-//			Map<String, Object> m = new HashMap<>();
-//			JSONObject json = JSONObject.fromObject(dbCursor.next().toString());
-//			m.put(Keys.userId, json.get(MongodbApi.userId));
-//			JSONObject jsonLoc = (JSONObject) json.get(MongodbApi.loc);
-//			JSONArray jsonArray = jsonLoc.getJSONArray(MongodbApi.coordinates);
-//			m.put(Keys.lng, jsonArray.get(0));
-//			m.put(Keys.lat, jsonArray.get(1));
-//			if (json.get(MongodbApi.userId) instanceof Double) {
-//				Double uId = (Double) json.get(MongodbApi.userId);
-//				userM.put(uId.intValue(), m);
-//			} else {
-//				userM.put((Integer) json.get(MongodbApi.userId), m);
-//			}
-//		}
 		return getResult(dbCursor);
 	}
 

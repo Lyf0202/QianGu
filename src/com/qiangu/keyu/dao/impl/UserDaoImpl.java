@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 
 import com.qiangu.keyu.controller.Values;
 import com.qiangu.keyu.dao.UserDao;
+import com.qiangu.keyu.po.FeedbackPo;
 import com.qiangu.keyu.po.UserPo;
 
 @Repository
@@ -160,6 +161,13 @@ public class UserDaoImpl extends BaseDaoImpl<UserPo> implements UserDao{
 		query.setParameter("lastOnlineTime", System.currentTimeMillis());
 		query.setParameter("userId", userId);
 		return query.executeUpdate();
+	}
+
+	
+	@Override
+	public void addUserFeedback(FeedbackPo feedbackPo) {
+		// TODO Auto-generated method stub
+		getSession().save(feedbackPo);
 	}
 
 }

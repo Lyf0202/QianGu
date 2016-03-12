@@ -33,7 +33,11 @@ public class UpdateResult {
 			result = updateInfoToJSON.updateLabelsInfoToJSON(parameters);
 		}else if(parameters.get(Keys.method)[0].equals(Values.methodOfUpdateLikeUserOrder)){
 			result = updateInfoToJSON.updateLikeUserOrder(parameters);
-		}
+		}else if (parameters.get(Keys.method)[0].equals(Values.methodOfExit)) {
+			result = updateInfoToJSON.userExitInfoToJSON(parameters);
+		} 
+		
+		
 		else {
 			result = new JSONObject();
 			JSONObject statusJSON = new JSONObject();

@@ -4,8 +4,10 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.qiangu.keyu.api.QiNiuYunApi;
 import com.qiangu.keyu.controller.Keys;
 import com.qiangu.keyu.controller.Values;
+import com.qiangu.keyu.service.PictureService;
 import com.qiangu.keyu.service.UserUpdateService;
 
 import net.sf.json.JSONObject;
@@ -14,6 +16,12 @@ public class UpdateInfoToJSON {
 
 	@Autowired
 	private UserUpdateService userUpdateService;
+	
+	@Autowired
+	private QiNiuYunApi qiNiuYunApi;
+	
+	@Autowired
+	private PictureService pictureService;
 	
 	private JSONObject returnJSON;
 	
@@ -40,14 +48,22 @@ public class UpdateInfoToJSON {
 	public JSONObject updateAvatarInfoToJSON(Map<String,String> parameters,Map<String,byte[]> fileContents){
 		returnJSON = new JSONObject();
 		statusJSON = new JSONObject();
+		resultJSON = new JSONObject();
 		Integer userId = Integer.valueOf(parameters.get(Keys.userId));
 		byte[] avatarContent = fileContents.get(Keys.avatar);
 		if(userUpdateService.updateAvatar(userId, avatarContent)){
 			statusJSON.accumulate(Keys.status, Values.statusOfSuccess);
+			String avatarName = pictureService.getAvatar(userId).getPictureName();
+			String avatarUrl = qiNiuYunApi.getDownloadUrl(avatarName);
+			resultJSON.accumulate(Keys.avatar, avatarUrl);
+			String avatarLittleUrl = qiNiuYunApi.getDownloadUrl(avatarName, Values.littleSizeWidth, Values.littleSizeHeight);
+			resultJSON.accumulate(Keys.AvatarLittleSizePicUrl, avatarLittleUrl);
+			
 		}else{
 			statusJSON.accumulate(Keys.status, Values.statusOfServiceError);
 			statusJSON.accumulate(Keys.message, Values.messageOfServiceError);
 		}
+		returnJSON.put(Keys.result, resultJSON);
 		returnJSON.put(Keys.status,statusJSON);
  		return returnJSON;
 	}
@@ -142,6 +158,19 @@ public class UpdateInfoToJSON {
 		return returnJSON;
 	}
 	
+	public JSONObject userExitInfoToJSON(Map<String,String[]> parameters){
+		returnJSON = new JSONObject();
+		statusJSON = new JSONObject();
+		Integer userId = Integer.valueOf(parameters.get(Keys.userId)[0]);
+		if (userUpdateService.updateUserState(userId, Values.logout)) {
+			statusJSON.accumulate(Keys.status, Values.statusOfSuccess);
+		}else{
+			statusJSON.accumulate(Keys.status, Values.statusOfServiceError);
+			statusJSON.accumulate(Keys.message, Values.messageOfServiceError);
+		}
+		returnJSON.put(Keys.status, statusJSON);
+		return returnJSON;
+	}
 	public JSONObject updateLabelsInfoToJSON(Map<String,String[]> parameters){
 		returnJSON = new JSONObject();
 		statusJSON = new JSONObject();

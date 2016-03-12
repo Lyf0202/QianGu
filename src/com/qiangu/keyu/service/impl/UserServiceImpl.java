@@ -22,6 +22,7 @@ import com.qiangu.keyu.dao.PictureDao;
 import com.qiangu.keyu.dao.UserDao;
 import com.qiangu.keyu.po.AvatarPo;
 import com.qiangu.keyu.po.ChatPo;
+import com.qiangu.keyu.po.FeedbackPo;
 import com.qiangu.keyu.po.LikePo;
 import com.qiangu.keyu.po.PicturePo;
 import com.qiangu.keyu.po.UserPo;
@@ -112,7 +113,7 @@ public class UserServiceImpl implements UserService {
 		// 如果头像上传七牛云成功,则返回yes,否则抛出异常事务回滚
 		if (qiniuYunApi.pictureUpload(avatarName, avatarContent)) {
 			//将地理位置写入mongodb数据库
-			mongodbDao.updateOrInsert(user.getUserId(), user.getLng(), user.getLat());
+			mongodbDao.updateOrInsert(user.getId(), user.getLng(), user.getLat());
 			return Values.yes;
 		} else {
 			int a = 10 / 0;
@@ -124,7 +125,6 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public Map<Integer, Map<String, Object>> getUserLoc(Integer userId) {
-
 		return mongodbDao.findByUserId(userId);
 	}
 
@@ -342,6 +342,7 @@ public class UserServiceImpl implements UserService {
 			if (map == null) {
 				result = Values.yes;
 			}else {
+				chatDao.updateChatStartTime((Integer)map.get(Keys.chatId));
 				return map;
 			}
 			result = Values.yes;
@@ -355,15 +356,46 @@ public class UserServiceImpl implements UserService {
 	public Map getNewChatUserInfo(Integer userId){
 		List<Map> chatUserList = chatDao.getNewChatUserById(userId);
 		if (chatUserList.size() > 0) {
-			return chatUserList.get(0);
+			while(true){
+				//结束条件
+				if (chatUserList.size() == 0) {
+					return null;
+				}
+				Map map = chatUserList.get(0);
+				for (int i = 1; i < chatUserList.size(); i++) {
+					if ((Integer)chatUserList.get(i).get(Keys.chatId) < (Integer)map.get(Keys.chatId)) {
+						map = chatUserList.get(i);
+					}
+				}
+				//获取对方目前正在聊天的人数
+				List<Map> chatUsers = chatDao.getChatUsersById((Integer)map.get(Keys.userId));
+				//如果人数少于最多能够同时聊天的人数,则返回map
+				if (chatUsers.size() < Values.chatNum) {
+					return map;
+				//否则将该map从队列中饭移除
+				}else {
+					chatUserList.remove(map);
+				}
+			}
 		}else {
 			return null;
 		}
 	}
+	
 
 	@Override
 	public Integer updateLastOnlineTime(Integer userId) {
 		return userDao.updateLastOnlineTime(userId);
+	}
+
+	
+	@Override
+	public void addUserFeedback(Integer userId, String feedbackContent) {
+		FeedbackPo feedbackPo = new FeedbackPo();
+		feedbackPo.setUserId(userId);
+		feedbackPo.setContent(feedbackContent);
+		feedbackPo.setFeedbackTime(new Date());
+		userDao.addUserFeedback(feedbackPo);
 	}
 
 }

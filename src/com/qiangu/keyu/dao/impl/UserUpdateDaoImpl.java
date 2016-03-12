@@ -3,6 +3,7 @@ package com.qiangu.keyu.dao.impl;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.hibernate.Query;
 import org.springframework.stereotype.Repository;
 
 import com.qiangu.keyu.dao.UserUpdateDao;
@@ -63,6 +64,17 @@ public class UserUpdateDaoImpl extends BaseDaoImpl<UserPo> implements UserUpdate
 		params.put("likeUserOrder", likeUserOrder);
 		params.put("userId", userId);
 		return update(updateLikeUserOrderHql, params);
+	}
+	
+	String updateUserStateHql = "update UserPo "
+							+ "set isLogin = :state "
+							+ "where id = :userId";
+	@Override
+	public Integer updateUserState(Integer userId, Integer state) {
+		Query query = getSession().createQuery(updateUserStateHql);
+		query.setParameter("state", state);
+		query.setParameter("userId", userId);
+		return query.executeUpdate();
 	}
 	
 	

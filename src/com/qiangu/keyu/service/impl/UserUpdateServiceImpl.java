@@ -183,4 +183,14 @@ public class UserUpdateServiceImpl implements UserUpdateService {
 		}
 	}
 
+	@Override
+	public Boolean updateUserState(Integer userId, Integer state) {
+		Integer daoResult = userUpdateDao.updateUserState(userId, state);
+		if (daoResult == 1) {
+			return true;
+		}else{
+			return false;
+		}
+	}
+
 }

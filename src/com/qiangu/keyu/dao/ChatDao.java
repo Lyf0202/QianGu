@@ -19,6 +19,8 @@ public interface ChatDao extends BaseDao<ChatPo>{
 	 * @return
 	 */
 	public List<Map> getNewChatUserById(Integer userId);
+	
+	public Integer updateChatStartTime(Integer chatId);
 	/**
 	 * 根据userId获取该用户当前正在聊天的ChatPo
 	 * @param userId

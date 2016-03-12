@@ -26,6 +26,7 @@ import com.qiangu.keyu.service.LoveManifestoService;
 import com.qiangu.keyu.service.PictureService;
 import com.qiangu.keyu.service.SchoolService;
 import com.qiangu.keyu.service.UserService;
+import com.qiangu.keyu.service.UserUpdateService;
 
 import net.sf.json.JSONObject;
 
@@ -53,6 +54,8 @@ public class LoginAndRegisterInfoToJSON {
 	private HuanXinApi huanXinApi;
 	@Autowired
 	private UtilsApi utilsApi;
+	@Autowired
+	private UserUpdateService userUpdateService;
 
 	public JSONObject sendMessageInfoToJSON(Map<String, String[]> parameters, String verificationCode) {
 		JSONObject returnJSON = new JSONObject();
@@ -100,10 +103,8 @@ public class LoginAndRegisterInfoToJSON {
 			JSONObject me = keYuApi.userPoToJSON(user);
 			String avatarPicName = pictureService.getAvatar(user.getId()).getPictureName();
 			String meAvatarPicDownloadUrl = qiniuYunApi.getDownloadUrl(avatarPicName);
-			// me.accumulate(Keys.avatar,meAvatarPicDownloadUrl);
 			String meLittlePicDownloadUrl = qiniuYunApi.getDownloadUrl(avatarPicName, QiNiuYunApi.width,
 					QiNiuYunApi.height);
-			// me.accumulate(Keys.AvatarLittleSizePicUrl,meLittlePicDownloadUrl);
 			resultJSON.put(Keys.me, me);
 			List<Map> chatMapList = chatService.getChatInfo(user.getId());
 			List<JSONObject> chatUserList = new ArrayList<>();
@@ -123,6 +124,7 @@ public class LoginAndRegisterInfoToJSON {
 				}
 			}
 			userService.updateLastOnlineTime(user.getId());
+			userUpdateService.updateUserState(user.getId(), Values.login);
 			resultJSON.put(Keys.chatUser, chatUserList);
 			returnJSON.put(Keys.result, resultJSON);
 		}
@@ -135,7 +137,7 @@ public class LoginAndRegisterInfoToJSON {
 			throws Exception {
 		JSONObject returnJSON = new JSONObject();
 		JSONObject statusJSON = new JSONObject();
-		JSONObject resultJSON;
+		JSONObject resultJSON = new JSONObject();
 		String str = utilsApi.getUUID();
 		String chatId = str.substring(0, 16);
 		String chatPassword = str.substring(16, 32);
@@ -161,12 +163,18 @@ public class LoginAndRegisterInfoToJSON {
 		user.setLat(lat);
 		if (userService.addUserToRegister(user, fileContents.get(Keys.avatar)).equals(Values.yes)) {
 			statusJSON.accumulate(Keys.status, Values.statusOfSuccess);
+			JSONObject me = keYuApi.userPoToJSON(user);
+			resultJSON.put(Keys.me, me);
+			List<JSONObject> chatUserList = new ArrayList<>();
+			resultJSON.put(Keys.chatUser, chatUserList);
+			userService.updateLastOnlineTime(user.getId());
+			userUpdateService.updateUserState(user.getId(), Values.login);
 		} else {
 			statusJSON.accumulate(Keys.status, Values.statusOfServiceError);
 			statusJSON.accumulate(Keys.message, Values.messageOfServiceError);
 		}
 		returnJSON.put(Keys.status, statusJSON);
-
+		returnJSON.put(Keys.result, resultJSON);
 		return returnJSON;
 	}
 
