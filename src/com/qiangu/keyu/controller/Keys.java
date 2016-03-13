@@ -1,5 +1,7 @@
 package com.qiangu.keyu.controller;
 
+import antlr.Token;
+
 public class Keys {
 
 	/**
@@ -67,6 +69,9 @@ public class Keys {
 	//
 	public static String informContent = "informContent";
 	//
+	public static final String systemTime = "systemTime";
+	//
+	public static final String token = "token"; 
 	/**
 	 * 用户基本信息key
 	 */
@@ -103,8 +108,10 @@ public class Keys {
 	public static final String likeUserOrder = "likeUserOrder";
 	public static final String AvatarLittleSizePicUrl = "littleSizePicUrl"; 
 	public static final String AvatarDimPicUrl = "dimPicUrl";
+	public static final String AvatarDimLittleSizePicUrl = "dimLittleSizePicUrl";
 	public static final String userIntimacy = "userIntimacy";
 	public static final String talkId = "talkId";
+	public static final String talkPassword = "talkPassword";
 	
 	
 	/**

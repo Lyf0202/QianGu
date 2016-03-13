@@ -18,6 +18,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.qiangu.keyu.api.KeYuApi;
 import com.qiangu.keyu.api.LoggerApi;
 import com.qiangu.keyu.api.UtilsApi;
 import com.qiangu.keyu.result.UpdateResult;
@@ -32,6 +33,8 @@ public class UpdateController {
 	@Autowired
 	private UpdateResult updateResult;
 
+	@Autowired
+	private KeYuApi keyuApi;
 	/**
 	 * 
 	 * @param request
@@ -48,7 +51,11 @@ public class UpdateController {
 		String resultStr = "123456789";
 		JSONObject resultJSON = utilsApi.parametersIsValid(contentType, parameters);
 		if (resultJSON == null) {
-			resultJSON = updateResult.getResult(parameters);
+			resultJSON = keyuApi.isValidUser(parameters);
+			if (resultJSON == null) {
+				resultJSON = updateResult.getResult(parameters);
+			}
+			
 		}
 		resultStr = resultJSON.toString();
 //		System.out.println("resultStr = " + resultStr);

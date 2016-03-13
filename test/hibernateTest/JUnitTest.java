@@ -3,6 +3,8 @@ package hibernateTest;
 import static org.junit.Assert.*;
 
 import java.net.UnknownHostException;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
@@ -26,6 +28,7 @@ import com.qiangu.keyu.api.MongodbApi;
 import com.qiangu.keyu.api.Sqlite;
 import com.qiangu.keyu.api.UtilsApi;
 import com.qiangu.keyu.controller.Keys;
+import com.qiangu.keyu.controller.Values;
 
 import net.sf.json.JSON;
 import net.sf.json.JSONArray;
@@ -79,14 +82,12 @@ public class JUnitTest {
 
 	public void sortListT(List<Map> list1) {
 		List<Map> list2 = new ArrayList<>();
-		
-	}
 
-	
+	}
 
 	@Test
 	public void test2() {
-		System.out.println(Double.valueOf("0.001234"));
+		System.out.println(Double.valueOf("-12.12") == Values.noLocLng);
 	}
 
 	@Test
@@ -237,4 +238,5 @@ public class JUnitTest {
 		d = 2 * R * Math.asin(Math.sqrt(sa2 * sa2 + Math.cos(lat1) * Math.cos(lat2) * sb2 * sb2));
 		return d;
 	}
+
 }

@@ -46,6 +46,9 @@ public class KeYuApi {
 	
 	@Autowired
 	private PictureService pictureService;
+	
+	@Autowired
+	private UtilsApi utilsApi;
 
 	// 到百分百所需的总聊天句数（单个人）
 	public static final double totalChatNum = 180;
@@ -93,6 +96,7 @@ public class KeYuApi {
 		json.accumulate(Keys.birthday, user.getBirthday());
 		json.accumulate(Keys.hometown, user.getCountyId());
 		json.accumulate(Keys.talkId, user.getTalkId());
+		json.accumulate(Keys.talkPassword, user.getTalkPassword());
 		json.accumulate(Keys.lastLoginTime, user.getLastOnlineTime());
 		Integer verifyState = user.getVerifyType();
 		if(verifyState == Values.notVerify){
@@ -109,6 +113,9 @@ public class KeYuApi {
 		String avatarName = pictureService.getAvatar(user.getId()).getPictureName();
 		json.accumulate(Keys.avatar, qiniuYunApi.getDownloadUrl(avatarName));
 		json.accumulate(Keys.AvatarLittleSizePicUrl, qiniuYunApi.getDownloadUrl(avatarName, Values.littleSizeWidth, Values.littleSizeHeight));
+		json.accumulate(Keys.AvatarDimPicUrl, qiniuYunApi.getDownloadUrl(avatarName, Values.maxDimRadius, 30.0));
+//		json.accumulate(Keys.AvatarDimPicUrl, "http://7tsxtm.com1.z0.glb.clouddn.com/15757116895_1?imageMogr2/blur/50.0x30.0");
+		json.accumulate(Keys.AvatarDimLittleSizePicUrl,qiniuYunApi.getDownloadUrl(avatarName, Values.littleSizeWidth, Values.littleSizeHeight, Values.maxDimRadius, 1.0));
 		//判断是否填了家乡信息
 		if(user.getCountyId() != null){
 			Map<String,String> hometown = areaService.getHometownByAreaId(user.getCountyId() + "");
@@ -198,5 +205,25 @@ public class KeYuApi {
 //		}
 //		return schoolUserJSONList;
 		return null;
+	}
+	
+	public JSONObject isValidUser(Map<String, String[]> parameters){
+		Integer userId = Integer.valueOf(parameters.get(Keys.userId)[0]);
+		String token = parameters.get(Keys.token)[0];
+		
+		String nowtime = utilsApi.getCurrentTime().substring(0, 10);
+		String string = nowtime + userId + Values.md5Value;
+		String str = MD5Api.GetMD5Code(string);
+		LoggerApi.info(this, str);
+		if(str.equals(token)){
+			return null;
+		}else {
+			JSONObject statusJSON = new JSONObject();
+			JSONObject returnJOSN = new JSONObject();
+			statusJSON.accumulate(Keys.status, Values.statusOfInvalidToken);
+			statusJSON.accumulate(Keys.message, Values.messageOfInvalidToken);
+			returnJOSN.put(Keys.status, statusJSON);
+			return returnJOSN;
+		}
 	}
 }

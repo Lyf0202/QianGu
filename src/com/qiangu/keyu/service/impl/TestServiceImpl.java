@@ -255,12 +255,8 @@ public class TestServiceImpl implements TestService {
 				lng = Double.valueOf("120.006685");
 				lat = Double.valueOf("30.29"+utilsApi.getRandomNum(4));
 			}
-			if(j == 5){
-				lng = 120.006685;
-				lat = Double.valueOf("30.2"+utilsApi.getRandomNum(5));
-			}
-//			String avatar = "/root/test/photo/"+utilsApi.getRandomNum(1)+".jpg";
-			String avatar = "G:/photo/" + utilsApi.getRandomNum(1) + ".jpg";
+			String avatar = "/root/test/photo/"+utilsApi.getRandomNum(1)+".jpg";
+//			String avatar = "G:/photo/" + utilsApi.getRandomNum(1) + ".jpg";
 			File file = new File(avatar);
 			byte[] b = null;
 			try {

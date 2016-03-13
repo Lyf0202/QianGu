@@ -8,6 +8,8 @@ public class Values {
 	public static final String IDVerifyPicture = "_IDVerifyPicture_";
 	public static final String informPicture = "_informPicture_";
 	
+	public static final String md5Value = "14e1b600b1fd579f47433b88e8d85291";
+
 	//小图大小
 	public static final Integer littleSizeWidth = 200;
 	public static final Integer littleSizeHeight = 200;
@@ -30,7 +32,7 @@ public class Values {
 	//请求验证失败
 	public static final Integer statusOfInvalidToken = 102;
 	//
-	public static final String messageOfInvalidToken = "请求验证失败";
+	public static final String messageOfInvalidToken = "无效token";
 	
 	//服务器内部错误
 	public static final Integer statusOfServiceError = 103;
@@ -71,8 +73,8 @@ public class Values {
 	public static final Integer postMsgExtDeleteUser = 1;
 	//
 	public static final String messageOfDeleteUser = " 已经无情把你踢了";
-	//
 	
+	//
 	
 	/**
 	 * 基本参数值
@@ -130,9 +132,9 @@ public class Values {
 	//未开始聊天
 	public static final Integer notStartChat = 0;
 	//没给定位时存储的经度
-	public static final Double noLocLng = -12.12;
+	public static final double noLocLng = -12.12;
 	//没给定位时存储的纬度
-	public static final Double noLocLat = -12.12;
+	public static final double noLocLat = -12.12;
 	//一次获取的最多用户量
 	public static final Integer onceUserNum = 5;
 	//一次获取的最多喜欢用户量
@@ -144,7 +146,7 @@ public class Values {
 	//最大与当前时间的时间差
 	public static final long OnlineTime = 3 * 3600 * 1000;
 	//最大匹配用户距离
-	public static final long Distance = 2500;
+	public static final long Distance = 3000;
 	//每次减少的在线时间
 	public static final long halfHour = 1800 * 1000;
 	//每次增加的距离
@@ -173,6 +175,8 @@ public class Values {
 	public static final Integer canChat = 1;
 	//不能开始聊天
 	public static final Integer canNotChat = 0;
+	//最大模糊半径
+	public static final double maxDimRadius = 50;
 	/**
 	 * 请求参数值
 	 */
@@ -224,5 +228,7 @@ public class Values {
 	public static final String methodOfUserFeedback = "userFeedback";
 	//
 	public static final String methodOfUserInform = "userInform";
+	//
+	public static final String methodOfGetSystemTime = "getSystemTime";
 	
 }

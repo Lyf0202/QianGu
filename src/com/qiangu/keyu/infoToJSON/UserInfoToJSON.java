@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.qiangu.keyu.api.KeYuApi;
+import com.qiangu.keyu.api.LoggerApi;
 import com.qiangu.keyu.api.MongodbApi;
 import com.qiangu.keyu.controller.Keys;
 import com.qiangu.keyu.controller.Values;
@@ -56,16 +57,18 @@ public class UserInfoToJSON {
 		List<Map> chatMapList = chatService.getChatInfo(user.getId());
 		List<JSONObject> chatUserList = new ArrayList<>();
 		for (int i = 1; i <= chatMapList.size(); i++) {
-			Integer chatId = (Integer) chatMapList.get(i - 1).get(Keys.chatId);
-			Date startChatTime = (Date) chatMapList.get(i - 1).get(Keys.startChatDate);
-			long startChatTimestamp = startChatTime.getTime();
-			Integer isStartChat = (Integer) chatMapList.get(i - 1).get(Keys.hasChat);
-			if (isStartChat == Values.startChat || System.currentTimeMillis() - startChatTimestamp < Values.maxTimeForNotStartChat) {
-				JSONObject chatUser = keYuApi.chatUserInfoToJSON(chatMapList.get(i - 1));
-				chatUserList.add(chatUser);
-			}else{
-				chatService.deleteChatForNotStartChat(chatId);
-			}
+//			Integer chatId = (Integer) chatMapList.get(i - 1).get(Keys.chatId);
+//			Date startChatTime = (Date) chatMapList.get(i - 1).get(Keys.startChatDate);
+//			long startChatTimestamp = startChatTime.getTime();
+//			Integer isStartChat = (Integer) chatMapList.get(i - 1).get(Keys.hasChat);
+//			if (isStartChat == Values.startChat || System.currentTimeMillis() - startChatTimestamp < Values.maxTimeForNotStartChat) {
+//				JSONObject chatUser = keYuApi.chatUserInfoToJSON(chatMapList.get(i - 1));
+//				chatUserList.add(chatUser);
+//			}else{
+//				chatService.deleteChatForNotStartChat(chatId);
+//			}
+			JSONObject chatUser = keYuApi.chatUserInfoToJSON(chatMapList.get(i - 1));
+			chatUserList.add(chatUser);
 		}
 		userService.updateLastOnlineTime(userId);
 		resultJSON.put(Keys.chatUser, chatUserList);
@@ -147,8 +150,9 @@ public class UserInfoToJSON {
 			List<UserPo> schoolUserList = (List<UserPo>) schoolResult.get(Keys.school);
 			if (schoolUserList != null) {
 				distanceUserList.addAll(schoolUserList);
+				noLocUserNum = schoolUserList.size();
 			}
-			noLocUserNum = Values.onceSchoolUserNum;
+			
 
 			distanceUserJSONList = keYuApi.getDistanceUserJSONList(distanceUserList, userId);
 			resultJSON.accumulate(Keys.onlineTime, distanceResult.get(Keys.onlineTime));
@@ -166,6 +170,8 @@ public class UserInfoToJSON {
 		// 判断返回的用户是否已经是全部用户
 		Integer distanceNum = distanceUserJSONList.size();
 		Integer likeNum = likeUserJSONList.size();
+		LoggerApi.info(this, "Values.onceUserNum ="+Values.onceUserNum
+				+"  noLocUserNum = "+noLocUserNum+"  distanceNum= "+distanceNum);
 		if (distanceNum < Values.onceUserNum + noLocUserNum && likeNum < Values.onceLikeUserNum) {
 			resultJSON.accumulate(Keys.isAllUser, Values.isAll);
 		} else {

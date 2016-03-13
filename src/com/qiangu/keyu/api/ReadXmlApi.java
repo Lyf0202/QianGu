@@ -38,7 +38,7 @@ public class ReadXmlApi {
 	public ReadXmlApi() {
 		// TODO Auto-generated constructor stub
 		reader = new SAXReader();
-		file = new File(WindowsPath);
+		file = new File(UbuntuPath);
 		try {
 			document = reader.read(file);
 		} catch (DocumentException e) {

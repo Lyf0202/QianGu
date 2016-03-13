@@ -11,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.qiangu.keyu.api.KeYuApi;
 import com.qiangu.keyu.api.LoggerApi;
 import com.qiangu.keyu.api.UtilsApi;
 import com.qiangu.keyu.result.UserResult;
@@ -26,6 +27,10 @@ public class UserController {
 	@Autowired
 	private UserResult userResult;
 	
+	@Autowired
+	private KeYuApi keyuApi;
+	
+	
 	@RequestMapping(value = "userService.do", produces = "text/json;charset=UTF-8")
 	@ResponseBody
 	public String userController(HttpServletRequest request, HttpServletResponse response){
@@ -34,7 +39,11 @@ public class UserController {
 		String resultStr = "123456789";
 		JSONObject resultJSON = utilsApi.parametersIsValid("", parameters);
 		if (resultJSON == null) {
-			resultJSON = userResult.getResult(parameters); 
+			resultJSON = keyuApi.isValidUser(parameters);
+			if (resultJSON == null) {
+				resultJSON = userResult.getResult(parameters); 
+			} 
+			
 		}
 		resultStr = resultJSON.toString();
 		LoggerApi.info(this, "resultStr = " + resultStr);
@@ -49,7 +58,11 @@ public class UserController {
 		String resultStr = "123456789";
 		JSONObject resultJSON = utilsApi.parametersIsValid("", parameters);
 		if (resultJSON == null) {
-			resultJSON = userResult.getResult(parameters); 
+			resultJSON = keyuApi.isValidUser(parameters);
+			if (resultJSON == null) {
+				resultJSON = userResult.getResult(parameters);
+			}
+			 
 		}
 		resultStr = resultJSON.toString();
 		LoggerApi.info(this, "resultStr = " + resultStr);

@@ -110,17 +110,19 @@ public class LoginAndRegisterInfoToJSON {
 			List<JSONObject> chatUserList = new ArrayList<>();
 			if (chatMapList != null) {
 				for (int i = 1; i <= chatMapList.size(); i++) {
-					Integer chatId = (Integer) chatMapList.get(i - 1).get(Keys.chatId);
-					Date startChatTime = (Date) chatMapList.get(i - 1).get(Keys.startChatDate);
-					long startChatTimestamp = startChatTime.getTime();
-					Integer isStartChat = (Integer) chatMapList.get(i - 1).get(Keys.hasChat);
-					if (isStartChat == Values.startChat
-							|| System.currentTimeMillis() - startChatTimestamp < Values.maxTimeForNotStartChat) {
-						JSONObject chatUser = keYuApi.chatUserInfoToJSON(chatMapList.get(i - 1));
-						chatUserList.add(chatUser);
-					} else {
-						chatService.deleteChatForNotStartChat(chatId);
-					}
+//					Integer chatId = (Integer) chatMapList.get(i - 1).get(Keys.chatId);
+//					Date startChatTime = (Date) chatMapList.get(i - 1).get(Keys.startChatDate);
+//					long startChatTimestamp = startChatTime.getTime();
+//					Integer isStartChat = (Integer) chatMapList.get(i - 1).get(Keys.hasChat);
+//					if (isStartChat == Values.startChat
+//							|| System.currentTimeMillis() - startChatTimestamp < Values.maxTimeForNotStartChat) {
+//						JSONObject chatUser = keYuApi.chatUserInfoToJSON(chatMapList.get(i - 1));
+//						chatUserList.add(chatUser);
+//					} else {
+//						chatService.deleteChatForNotStartChat(chatId);
+//					}
+					JSONObject chatUser = keYuApi.chatUserInfoToJSON(chatMapList.get(i - 1));
+					chatUserList.add(chatUser);
 				}
 			}
 			userService.updateLastOnlineTime(user.getId());

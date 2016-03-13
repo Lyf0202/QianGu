@@ -90,6 +90,7 @@ public class UserServiceImpl implements UserService {
 	public String addUserToRegister(UserPo user, byte[] avatarContent) throws Exception {
 		//判断地理位置是否认证
 		if(user.getLng() == Values.noLocLng){
+			
 			user.setVerifyType(Values.notVerify);
 		}else {
 			user.setVerifyType(Values.verifyed);
@@ -206,7 +207,7 @@ public class UserServiceImpl implements UserService {
 			selectNum = Values.onceUserNum - listU.size();
 		}
 		mainUser.put(Keys.mainUser, listU);
-		mainUser.put(Keys.distance, minDistance);
+		mainUser.put(Keys.distance, maxDistance);
 		if (listU.size() > 0) {
 			mainUser.put(Keys.onlineTime, listU.get(listU.size() - 1).getLastOnlineTime());
 		} else {
